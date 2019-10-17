@@ -11,6 +11,7 @@ import Home from './pages/home';
 import Blog from './pages/blog';
 import Portfolio from './pages/portfolio';
 import Photography from './pages/photography';
+import NotFound from './pages/not-found';
 
 // Although the page does not ever refresh, notice how
 // React Router keeps the URL up to date as you navigate
@@ -43,6 +44,9 @@ export default function App() {
         </Route>
         <Route path="/photography">
           <Photography />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </Router>
