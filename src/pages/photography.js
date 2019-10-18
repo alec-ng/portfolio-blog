@@ -12,7 +12,10 @@ export default class Photography extends React.Component {
 
   constructor(props) {
     super(props);
-    let pageList = this.getTestData_Pages();
+
+    let pageTestData = this.getTestData_Pages();
+
+    let pageList = pageTestData.pageList;
 
     this.state = {
       renderedPage: null,
@@ -28,21 +31,45 @@ export default class Photography extends React.Component {
       });
   }
 
+
+
   getTestData_Pages() {
-    return [
+    let data = [
       {
         label: 'Test Page 1',
-        id: 'test-page-1'
+        id: 'test-page-1',
+        data: 'Test Data'
       },
       {
         label: 'Test Page 2',
-        id: 'test-page-2'
+        id: 'test-page-2',
+        data: 'Test Data'
       },
       {
         label: 'Test Page 3',
-        id: 'test-page-3'
+        id: 'test-page-3',
+        data: 'Test Data'
       },
     ];
+
+    // put into hash and an array (without data)
+    let dataMap = {};
+    let pageList = [];
+    data.forEach((page) => {
+      dataMap[page.id] = {
+        data: page.data,
+        label: page.label
+      }
+      pageList.push({
+        label: page.label,
+        id: page.id
+      });
+    });
+
+    return {
+      pageList: pageList,
+      dataMap: dataMap
+    }
   }
 
   render() {

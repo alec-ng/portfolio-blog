@@ -1,8 +1,10 @@
 import React from "react";
 import {
   useRouteMatch,
-  Link
+  NavLink
 } from "react-router-dom";
+
+import './sidebar-links.css';
 
 export default function SidebarLinks(props) {
   let { path, url } = useRouteMatch();
@@ -10,11 +12,12 @@ export default function SidebarLinks(props) {
   const listElements = props.pageList
     ? props.pageList.map((page) => 
         <li>
-          <Link id={page.id} 
+          <NavLink id={page.id} 
                 onClick={props.pageLinkClickCb} 
+                activeClassName="activeNavLink"
                 to={`${url}/${page.id}`}>
             {page.label}
-          </Link>
+          </NavLink>
         </li>
       )
     : [];
