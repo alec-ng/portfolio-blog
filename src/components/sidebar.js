@@ -3,9 +3,10 @@ import React from "react";
 import ReactSidebar from "react-sidebar";
 import SidebarLinks from './sidebar-links';
 
-// TODO: http://balloob.github.io/react-sidebar/example/
-// TODO: https://github.com/balloob/react-sidebar
-
+/**
+ * Responsive mobile-friendly Sidebar container utilizing the 
+ * npm package react-sidebar
+ */
 export default class Sidebar extends React.Component {
   
   constructor(props) {

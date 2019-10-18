@@ -5,6 +5,12 @@ import {
 
 import ElementSingleImg from './element-single-img';
 
+/**
+ * On render, parses the current URL, looks for the page to render, and 
+ * renders all of its data
+ * 
+ * @param props.data
+ */
 export default function ContentRenderer(props) {
   // determine initial chosen page
   let location = useLocation();

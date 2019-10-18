@@ -7,7 +7,9 @@ import {
 import './sidebar-links.css';
 
 /**
- * Renders a list of NavLinks based off of props.pageList
+ * Renders a list of NavLinks 
+ * 
+ * @param props.pageList - uses the id property of each list element objects
  */
 export default function SidebarLinks(props) {
   // create list of navlinks out of pages
