@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  useRouteMatch,
-  Link
-} from "react-router-dom";
 
+import ReactSidebar from "react-sidebar";
 import SidebarLinks from './sidebar-links';
 
 // TODO: http://balloob.github.io/react-sidebar/example/
@@ -17,8 +14,14 @@ export default class Sidebar extends React.Component {
 
   render() {
     return (
-      <SidebarLinks pageList={this.props.pageList} 
-                    pageLinkClickCb={(e) => this.props.pageLinkClickCb(e)} />
+      <div>
+        <ReactSidebar sidebar={
+            <SidebarLinks pageList={this.props.pageList} />
+          }
+            open={true}
+            docked={true}>
+        </ReactSidebar>
+      </div>
     );
   }
 }

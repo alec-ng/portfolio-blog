@@ -6,6 +6,9 @@ import {
 
 import './sidebar-links.css';
 
+/**
+ * Renders a list of NavLinks based off of props.pageList
+ */
 export default function SidebarLinks(props) {
   // create list of navlinks out of pages
   let { path, url } = useRouteMatch();
@@ -13,7 +16,6 @@ export default function SidebarLinks(props) {
     ? props.pageList.map((page) => 
         <li key={page.id}>
           <NavLink id={page.id} 
-                onClick={props.pageLinkClickCb} 
                 activeClassName="activeNavLink"
                 to={`${url}/${page.id}`}>
             {page.label}

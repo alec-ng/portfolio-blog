@@ -13,7 +13,6 @@ export default class Photography extends React.Component {
     let firstId = pageTestData.pageList[0].id;
 
     this.state = {
-      chosenPage: pageTestData.dataMap[firstId],
       pageList : pageTestData.pageList,
       dataMap : pageTestData.dataMap,
     };
@@ -23,15 +22,6 @@ export default class Photography extends React.Component {
     this.setState({
       chosenPageId: pageId
     });
-  }
-
-  // on click, update rendered page
-  handleLink = function(e) {
-      let chosenId = e.currentTarget.id;
-      let dataToRender = this.state.dataMap[chosenId];
-      this.setState({
-        chosenPage: dataToRender
-      });
   }
 
   getTestData_Pages() {
@@ -92,8 +82,7 @@ export default class Photography extends React.Component {
     return(
       <div>
         <h1>Photography Page</h1>
-        <Sidebar pageList={this.state.pageList}
-                 pageLinkClickCb={(e) => this.handleLink(e)} />
+        <Sidebar pageList={this.state.pageList} />
 
         <ContentRenderer pageList={this.state.pageList}
                          dataMap={this.state.dataMap} />
