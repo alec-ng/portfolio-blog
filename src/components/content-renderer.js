@@ -49,7 +49,7 @@ export default function ContentRenderer(props) {
           : <h1>Page not found</h1>
       }
       {
-        doRedirect && <Redirect to={`/photography/${props.contentData.id}`} />
+        doRedirect && <Redirect to={`/photography/${initialPath}`} />
       }
     </section>
   );

@@ -11,7 +11,7 @@ export default function SidebarLinks(props) {
   let { path, url } = useRouteMatch();
   const listElements = props.pageList
     ? props.pageList.map((page) => 
-        <li>
+        <li key={page.id}>
           <NavLink id={page.id} 
                 onClick={props.pageLinkClickCb} 
                 activeClassName="activeNavLink"
