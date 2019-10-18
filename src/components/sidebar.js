@@ -11,6 +11,7 @@ export default class Sidebar extends React.Component {
   
   constructor(props) {
     super(props);
+    
   }
 
   render() {
@@ -20,8 +21,8 @@ export default class Sidebar extends React.Component {
             <SidebarLinks pageList={this.props.pageList} />
           }
             open={true}
-            docked={true}
-            children={<div></div>}>
+            children={<div></div>}
+            styles={{ sidebar: { background: "white" } }}>
         </ReactSidebar>
       </div>
     );

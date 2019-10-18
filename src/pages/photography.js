@@ -2,6 +2,7 @@ import React from "react";
 
 import Sidebar from '../components/sidebar';
 import ContentRenderer from '../components/content-renderer';
+import ContentHeader from '../components/content-header';
 
 export default class Photography extends React.Component {
 
@@ -78,7 +79,7 @@ export default class Photography extends React.Component {
   render() {
     return(
       <div>
-        <h1>Photography Page</h1>
+        <ContentHeader />
         <Sidebar pageList={this.state.pageList} />
 
         <ContentRenderer pageList={this.state.pageList}
