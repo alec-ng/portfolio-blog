@@ -4,7 +4,7 @@ import {
   NavLink
 } from "react-router-dom";
 
-import './sidebar-links.css';
+import styles from './sidebar-links.module.css';
 
 /**
  * Renders a list of NavLinks 
@@ -16,7 +16,7 @@ export default function SidebarLinks(props) {
   let { path, url } = useRouteMatch();
   const listElements = props.pageList
     ? props.pageList.map((page) => 
-        <li key={page.id}>
+        <li key={page.id} className={styles.timelineItem}>
           <NavLink id={page.id} 
                 activeClassName="activeNavLink"
                 to={`${url}/${page.id}`}>
@@ -28,9 +28,9 @@ export default function SidebarLinks(props) {
 
   return (
     <div>
-      <ul>
+      <ol className={styles.timeline}>
         {listElements}
-      </ul>
+      </ol>
     </div>
   );
 }
