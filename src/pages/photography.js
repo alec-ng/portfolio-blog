@@ -1,19 +1,46 @@
 import React from "react";
 
-import Sidebar from '../components/sidebar';
-import ContentRenderer from '../components/content-renderer';
-import ContentHeader from '../components/content-header';
+import Layout from '../components/photography-layout';
 
-export default class Photography extends React.Component {
+const mql = window.matchMedia(`(min-width: 800px)`);
+
+/**
+ * Page level component for photography section
+ * Data layer component
+ */
+class Photography extends React.Component {
 
   constructor(props) {
     super(props);
     let pageTestData = this.getTestData_Pages();
 
     this.state = {
-      pageList : pageTestData.pageList,
-      dataMap : pageTestData.dataMap,
+      isSidebarDocked : mql.matches, // if on desktop, auto open sidebar
+      isSidebarOpen: false, 
+      pageList: pageTestData.pageList,
+      dataMap: pageTestData.dataMap,
     };
+
+    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
+  }
+
+  componentDidMount() {
+    mql.addListener(this.mediaQueryChanged);
+  }
+
+  componentWillUnmount() {
+    mql.addListener(this.mediaQueryChanged);
+  }
+
+  onSetSidebarOpen(open) {
+    this.setState({ sidebarOpen: open });
+  }
+
+  mediaQueryChanged() {
+    this.setState({ 
+      isSidebarDocked: mql.matches, 
+      isSidebarOpen: false 
+    });
   }
 
   updateChosenPage = function(pageId) {
@@ -79,13 +106,15 @@ export default class Photography extends React.Component {
   render() {
     return(
       <div>
-        <ContentHeader />
-        <Sidebar pageList={this.state.pageList} />
-
-        <ContentRenderer pageList={this.state.pageList}
-                         dataMap={this.state.dataMap} />
+        <Layout pageList={this.state.pageList}
+                dataMap={this.state.dataMap}
+                isSidebarOpen={this.state.isSidebarOpen}
+                isSidebarDocked={this.state.isSidebarDocked}
+                onSetSidebarOpen={() => this.onSetSidebarOpen} />
       </div>
     )
   }
 
 }
+
+export default Photography;

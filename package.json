@@ -9,7 +9,6 @@
     "prettier": "^1.18.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-headroom": "^3.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-sidebar": "^3.0.2"
