@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 import './home.css';
 
 import headshot from './../assets/home/headshot.jpg';
@@ -14,21 +13,12 @@ export default class Home extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = {
-      currBackground: null,
-    }
   }
 
   componentDidMount() {
     this.ele_backgroundImgArr = document.querySelectorAll('img.background-img');
   }
 
-  // routes to appropriate section
-  goToSection(e) {
-    let section = e.currentTarget.getAttribute('data-bg');
-    // TODO: navigate
-  }
-  
   // on btn hover change bg 
   changeBgToSection(e) {
     let section = e.currentTarget.getAttribute('data-bg');
@@ -84,40 +74,44 @@ export default class Home extends React.Component {
               </div>
               <div className="row">
                 <div className="col-sm-4 col-xs-12 text-center p-0">
-                  <button className="section-btn" 
-                          type="button" 
-                          data-bg="portfolio"
-                          onClick={(e) => this.goToSection(e)} 
-                          onMouseOver={(e) => this.changeBgToSection(e)}
-                          onTouchStart={(e) => this.changeBgToSection(e)}
-                          onMouseOut={(e) => this.changeBgOriginal(e)}
-                          onTouchEnd={(e) => this.changeBgOriginal(e)}>
-                    <Link to="/portfolio">Portfolio</Link>
-                  </button>
+                  <Link data-bg="portfolio"
+                        onMouseOver={(e) => this.changeBgToSection(e)}
+                        onTouchStart={(e) => this.changeBgToSection(e)}
+                        onMouseOut={(e) => this.changeBgOriginal(e)}
+                        onTouchEnd={(e) => this.changeBgOriginal(e)}
+                        to="/portfolio">
+                      <button type="button" 
+                              className="section-btn clear">
+                        Portfolio
+                      </button>
+                  </Link>
+                  
                 </div>
                 <div className="col-sm-4 col-xs-12 text-center p-0">
-                <button className="section-btn" 
-                          type="button" 
-                          data-bg="photography"
-                          onClick={(e) => this.goToSection(e)} 
-                          onMouseOver={(e) => this.changeBgToSection(e)}
-                          onTouchStart={(e) => this.changeBgToSection(e)}
-                          onMouseOut={(e) => this.changeBgOriginal(e)}
-                          onTouchEnd={(e) => this.changeBgOriginal(e)}>
-                    <Link to="/photography">Photography</Link>
-                  </button>
+                  <Link data-bg="photography"
+                        onMouseOver={(e) => this.changeBgToSection(e)}
+                        onTouchStart={(e) => this.changeBgToSection(e)}
+                        onMouseOut={(e) => this.changeBgOriginal(e)}
+                        onTouchEnd={(e) => this.changeBgOriginal(e)}
+                        to="/photography">
+                      <button type="button" 
+                              className="section-btn clear">
+                        Photography
+                      </button>
+                  </Link>
                 </div>
                 <div className="col-sm-4 col-xs-12 text-center p-0">
-                <button className="section-btn" 
-                          type="button" 
-                          data-bg="tripreports"
-                          onClick={(e) => this.goToSection(e)} 
-                          onMouseOver={(e) => this.changeBgToSection(e)}
-                          onTouchStart={(e) => this.changeBgToSection(e)}
-                          onMouseOut={(e) => this.changeBgOriginal(e)}
-                          onTouchEnd={(e) => this.changeBgOriginal(e)}>
-                    <Link to="/blog">Blog</Link>
-                  </button>
+                  <Link data-bg="tripreports"
+                        onMouseOver={(e) => this.changeBgToSection(e)}
+                        onTouchStart={(e) => this.changeBgToSection(e)}
+                        onMouseOut={(e) => this.changeBgOriginal(e)}
+                        onTouchEnd={(e) => this.changeBgOriginal(e)}
+                        to="/blog">
+                      <button type="button" 
+                              className="section-btn clear">
+                        Blog
+                      </button>
+                  </Link>
                 </div>
               </div>
             </div>
