@@ -7,8 +7,8 @@ import {
 import './sidebar-links.css';
 
 export default function SidebarLinks(props) {
+  // create list of navlinks out of pages
   let { path, url } = useRouteMatch();
-
   const listElements = props.pageList
     ? props.pageList.map((page) => 
         <li>
@@ -23,8 +23,10 @@ export default function SidebarLinks(props) {
     : [];
 
   return (
-    <ul>
-      {listElements}
-    </ul>
+    <div>
+      <ul>
+        {listElements}
+      </ul>
+    </div>
   );
 }

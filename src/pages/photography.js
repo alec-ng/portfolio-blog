@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  useRouteMatch,
-  Link
-} from "react-router-dom";
 
 import Sidebar from '../components/sidebar';
 import ContentRenderer from '../components/content-renderer';
 
 export default class Photography extends React.Component {
-
-  // TODO: where to store pageList? How to efficiently pass it down?
 
   constructor(props) {
     super(props);
@@ -25,8 +19,14 @@ export default class Photography extends React.Component {
     };
   }
 
+  updateChosenPage = function(pageId) {
+    this.setState({
+      chosenPageId: pageId
+    });
+  }
+
   // on click, update rendered page
-  handleLink = (e) => {
+  handleLink = function(e) {
       let chosenId = e.currentTarget.id;
       let dataToRender = this.state.dataMap[chosenId];
       this.setState({
@@ -95,7 +95,8 @@ export default class Photography extends React.Component {
         <Sidebar pageList={this.state.pageList}
                  pageLinkClickCb={(e) => this.handleLink(e)} />
 
-        <ContentRenderer contentData={this.state.chosenPage} />
+        <ContentRenderer pageList={this.state.pageList}
+                         dataMap={this.state.dataMap} />
       </div>
     )
   }
