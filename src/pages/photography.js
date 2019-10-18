@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import Sidebar from '../components/sidebar';
+import ContentRenderer from '../components/content-renderer';
 
 export default class Photography extends React.Component {
 
@@ -12,43 +13,61 @@ export default class Photography extends React.Component {
 
   constructor(props) {
     super(props);
-
     let pageTestData = this.getTestData_Pages();
 
-    let pageList = pageTestData.pageList;
+    // get initial chosen page
+    let firstId = pageTestData.pageList[0].id;
 
     this.state = {
-      renderedPage: null,
-      pageList : pageList,
+      chosenPage: pageTestData.dataMap[firstId],
+      pageList : pageTestData.pageList,
+      dataMap : pageTestData.dataMap,
     };
   }
 
   // on click, update rendered page
   handleLink = (e) => {
       let chosenId = e.currentTarget.id;
+      let dataToRender = this.state.dataMap[chosenId];
       this.setState({
-        renderedPage: chosenId
+        chosenPage: dataToRender
       });
   }
-
-
 
   getTestData_Pages() {
     let data = [
       {
         label: 'Test Page 1',
         id: 'test-page-1',
-        data: 'Test Data'
+        data: [
+          {
+            type: 'FULL_WIDTH_IMG',
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/1200px-2010-kodiak-bear-1.jpg',
+            text: 'I am BEAR'
+          }
+        ]
       },
       {
         label: 'Test Page 2',
         id: 'test-page-2',
-        data: 'Test Data'
+        data: [
+          {
+            type: 'FULL_WIDTH_IMG',
+            src: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?ixlib=rb-1.2.1&w=1000&q=80',
+            text: 'Lazy Baer'
+          }
+        ]
       },
       {
         label: 'Test Page 3',
         id: 'test-page-3',
-        data: 'Test Data'
+        data: [
+          {
+            type: 'FULL_WIDTH_IMG',
+            src: 'https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/bears_16x9.jpg?itok=Xt60oxlc',
+            text: 'Arf'
+          }
+        ]
       },
     ];
 
@@ -56,10 +75,7 @@ export default class Photography extends React.Component {
     let dataMap = {};
     let pageList = [];
     data.forEach((page) => {
-      dataMap[page.id] = {
-        data: page.data,
-        label: page.label
-      }
+      dataMap[page.id] = page;
       pageList.push({
         label: page.label,
         id: page.id
@@ -78,6 +94,8 @@ export default class Photography extends React.Component {
         <h1>Photography Page</h1>
         <Sidebar pageList={this.state.pageList}
                  pageLinkClickCb={(e) => this.handleLink(e)} />
+
+        <ContentRenderer contentData={this.state.chosenPage} />
       </div>
     )
   }
