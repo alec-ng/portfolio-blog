@@ -20,7 +20,8 @@ export default class Sidebar extends React.Component {
             <SidebarLinks pageList={this.props.pageList} />
           }
             open={true}
-            docked={true}>
+            docked={true}
+            children={<div></div>}>
         </ReactSidebar>
       </div>
     );

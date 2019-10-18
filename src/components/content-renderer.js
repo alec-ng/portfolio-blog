@@ -30,11 +30,12 @@ export default function ContentRenderer(props) {
   let eleArr = [];
   let chosenPage = props.dataMap[initialPath];
   if (chosenPage) {
-    chosenPage.data.forEach((ele) => {
+    chosenPage.data.forEach((ele, i) => {
       if (ele.type === 'FULL_WIDTH_IMG') {
         eleArr.push(
           <ElementSingleImg src={ele.src}
-                            text={ele.text} />
+                            text={ele.text}
+                            key={i} />
         ); 
       } else {
         console.log('Unknown element type: ' + ele.type);

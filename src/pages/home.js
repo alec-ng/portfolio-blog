@@ -45,27 +45,47 @@ export default class Home extends React.Component {
   render() {
     return (
       <div id="home-theme" className="aligner-container">
-        <img data-bg="main" className="background-img" src={bg_main} />
-        <img data-bg="portfolio" style={{opacity:0}} className="background-img" src={bg_portfolio} />
-        <img data-bg="photography" style={{opacity:0}} className="background-img" src={bg_photography} />
-        <img data-bg="tripreports" style={{opacity:0}} className="background-img" src={bg_tripreport} />
+        <img data-bg="main" 
+             className="background-img" 
+             src={bg_main} 
+             alt="Main background" />
+        <img data-bg="portfolio" 
+             style={{opacity:0}} 
+             className="background-img" 
+             src={bg_portfolio} 
+             alt="Portfolio Background" />
+        <img data-bg="photography" 
+             style={{opacity:0}} 
+             className="background-img" 
+             src={bg_photography}
+             alt="Photography Background" />
+        <img data-bg="tripreports" 
+             style={{opacity:0}} 
+             className="background-img" 
+             src={bg_tripreport} 
+             alt="Blog Background"/>
         <div className="row">
           <div className="col-md-offset-4"></div>
           <div className="col-md-4">
             <div className="contact-card card">
               <div className="row">
                 <div className="col-md-6 py-2">
-                  <img className="img-fluid headshot d-block mx-auto" src={headshot} />
+                  <img className="img-fluid headshot d-block mx-auto" src={headshot} alt="Headshot" />
                 </div>
                 <div className="col-md-6 aligner-container custom-justify py-2">
                   <div>
                     <span className="name-style">alec ng</span>
                     <br/>
-                    <i className="orange fas fa-location-arrow"></i>&nbsp;&nbsp;Vancouver, Canada 
+                    <i className="orange fas fa-location-arrow"></i>
+                    &nbsp;&nbsp;Vancouver, Canada 
                     <br/>
-                    <i className="orange fas fa-envelope"></i><a href="mailto:alecng94@gmail.com">&nbsp;&nbsp;alecng94@gmail.com</a>
+                    <i className="orange fas fa-envelope"></i>
+                    <a href="mailto:alecng94@gmail.com">&nbsp;&nbsp;alecng94@gmail.com</a>
                     <br/>
-                    <i className="orange fas fa-briefcase"></i><a target="_blank" href="https://www.linkedin.com/in/alecng">&nbsp;&nbsp;LinkedIn</a>
+                    <i className="orange fas fa-briefcase"></i>
+                    <a target="_blank"  rel="noopener noreferrer" href="https://www.linkedin.com/in/alecng">
+                      &nbsp;&nbsp;LinkedIn
+                    </a>
                   </div>
                 </div>
               </div>

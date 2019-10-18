@@ -9,9 +9,6 @@ export default class Photography extends React.Component {
     super(props);
     let pageTestData = this.getTestData_Pages();
 
-    // get initial chosen page
-    let firstId = pageTestData.pageList[0].id;
-
     this.state = {
       pageList : pageTestData.pageList,
       dataMap : pageTestData.dataMap,
