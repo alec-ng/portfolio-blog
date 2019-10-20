@@ -21,6 +21,7 @@ class PhotographyLayout extends React.Component {
       isSidebarDocked : mql.matches, // if on desktop, auto open sidebar
       isSidebarOpen: false, 
     }
+    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
   }
 
@@ -33,7 +34,7 @@ class PhotographyLayout extends React.Component {
   }
 
   onSetSidebarOpen(open) {
-    this.setState({ sidebarOpen: open });
+    this.setState({ isSidebarOpen: open });
   }
 
   mediaQueryChanged() {
