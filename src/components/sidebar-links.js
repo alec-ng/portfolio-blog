@@ -18,7 +18,7 @@ export default function SidebarLinks(props) {
     ? props.pageList.map((page) => 
         <li key={page.id} className={styles.timelineItem}>
           <NavLink id={page.id} 
-                activeClassName="activeNavLink"
+                activeClassName={styles.activeNavLink}
                 to={`${url}/${page.id}`}>
             {page.label}
           </NavLink>

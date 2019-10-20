@@ -2,8 +2,6 @@ import React from "react";
 
 import Layout from '../components/photography-layout';
 
-const mql = window.matchMedia(`(min-width: 800px)`);
-
 /**
  * Page level component for photography section
  * Data layer component
@@ -15,40 +13,11 @@ class Photography extends React.Component {
     let pageTestData = this.getTestData_Pages();
 
     this.state = {
-      isSidebarDocked : mql.matches, // if on desktop, auto open sidebar
-      isSidebarOpen: false, 
       pageList: pageTestData.pageList,
       dataMap: pageTestData.dataMap,
     };
-
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
   }
-
-  componentDidMount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
-
-  componentWillUnmount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
-
-  onSetSidebarOpen(open) {
-    this.setState({ sidebarOpen: open });
-  }
-
-  mediaQueryChanged() {
-    this.setState({ 
-      isSidebarDocked: mql.matches, 
-      isSidebarOpen: false 
-    });
-  }
-
-  updateChosenPage = function(pageId) {
-    this.setState({
-      chosenPageId: pageId
-    });
-  }
-
+  
   getTestData_Pages() {
     let data = [
       {
@@ -107,10 +76,7 @@ class Photography extends React.Component {
     return(
       <div>
         <Layout pageList={this.state.pageList}
-                dataMap={this.state.dataMap}
-                isSidebarOpen={this.state.isSidebarOpen}
-                isSidebarDocked={this.state.isSidebarDocked}
-                onSetSidebarOpen={() => this.onSetSidebarOpen} />
+                dataMap={this.state.dataMap} />
       </div>
     )
   }

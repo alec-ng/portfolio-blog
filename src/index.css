@@ -15,8 +15,8 @@ code {
 } 
 
 /* Site Colours */
-.orange {
-  color: rgba(255, 100, 0, 0.75)
+.primary-color {
+  color: rgb(255, 69, 0)
 }
 
 /* Util */
@@ -41,16 +41,16 @@ button[type="button"]:hover {
 
 /* Anchors */
 a {
-  color: initial;
+  color: rgb(255, 69, 0);
 }
 a:hover {
   text-decoration: none;
-  color: rgba(255, 100, 0, 0.75);
+  color: rgb(255, 125, 0);
 }
 
-/* Horizontal Rule */
+/* hr */
 hr {
-  width: 80%;
-  border-color: black;
-  opacity: 0.2;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
