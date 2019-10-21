@@ -53,7 +53,8 @@ class PhotographyLayout extends React.Component {
                       onSetOpen={this.onSetSidebarOpen}
                       styles={{ 
                         sidebar: { 
-                          width: '250px' 
+                          width: '250px',
+                          'background-color': '#eeeeee' 
                         } 
                       }}>
 
