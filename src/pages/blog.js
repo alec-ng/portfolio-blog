@@ -1,17 +1,11 @@
 import React from "react";
+import { withAuthorization } from '../components/session';
 
-export default class Blog extends React.Component {
+const Blog = () => (
+  <div>
+    <h1>Blog Page</h1>
+  </div>
+);
 
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return(
-      <div>
-        <h1>Blog Page</h1>
-      </div>
-    )
-  }
-
-}
+const condition = authUser => !!authUser;
+export default withAuthorization(condition)(Blog);
