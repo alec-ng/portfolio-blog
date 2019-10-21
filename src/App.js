@@ -1,4 +1,5 @@
 import React from "react";
+import { withAuthentication } from './components/session';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,7 +16,7 @@ import Admin from './pages/admin';
 import Login from './pages/login';
 import NotFound from './pages/not-found';
 
-export default function App() {
+const BaseApp = function(props) {
   return (
     <Router>
       <Switch>
@@ -37,9 +38,12 @@ export default function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/admin">
-          <Admin />
-        </Route>
+        { /* sections only available with authentication */
+          props.authUser &&
+          <Route path="/admin">
+            <Admin />
+          </Route>
+        }     
         <Route path="*">
           <NotFound />
         </Route>
@@ -47,3 +51,4 @@ export default function App() {
     </Router>
   );
 }
+export default withAuthentication(BaseApp);
