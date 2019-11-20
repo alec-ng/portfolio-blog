@@ -1,4 +1,5 @@
 import React from 'react';
+import SignoutButton from '../components/signout-button';
 import { withAuthorization } from '../components/session';
 
 /**
@@ -7,6 +8,7 @@ import { withAuthorization } from '../components/session';
 const Admin = () => (
   <div>
     Admin Page
+    <SignoutButton />
   </div>
 )
 

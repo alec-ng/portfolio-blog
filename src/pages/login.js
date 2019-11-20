@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {withFirebase} from '../components/firebase';
 import {withAuthUser} from '../components/session';
+import SignoutButton from '../components/signout-button';
 
 /**
  * Page level component for admin section
@@ -14,8 +15,12 @@ const BaseLogin = function(props) {
   if (!props.authDataFetched) {
     return (<h1>Loading...</h1>);
   }
-  /* Do need to re-direct? */
-  return (<h1>Signed in as {props.authUser.email}</h1>)
+  return (
+    <div>
+      <h1>Signed in as {props.authUser.email}</h1>
+      <SignoutButton />
+    </div>
+  )
 }
 
 const Login = withAuthUser(withFirebase(BaseLogin));
