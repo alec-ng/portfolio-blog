@@ -1,22 +1,14 @@
-import React from "react";
+import React from 'react';
+import { withAuthorization } from '../components/session';
 
 /**
  * Page level component for admin section
  */
-class Admin extends React.Component {
+const Admin = () => (
+  <div>
+    Admin Page
+  </div>
+)
 
-  constructor(props) {
-    super(props);
-    
-  }
-  
-  render() {
-    return(
-      <div>
-      </div>
-    )
-  }
-
-}
-
-export default Admin;
+const condition = authUser => authUser && authUser.email === process.env.REACT_APP_ADMIN_EMAIL;
+export default withAuthorization(condition)(Admin);

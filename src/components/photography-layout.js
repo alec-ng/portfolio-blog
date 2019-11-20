@@ -54,12 +54,12 @@ class PhotographyLayout extends React.Component {
                       styles={{ 
                         sidebar: { 
                           width: '250px',
-                          'background-color': '#eeeeee' 
+                          'backgroundColor': '#eeeeee' 
                         } 
                       }}>
 
           <ContentHeader />
-          <div class="container">
+          <div className="container">
             <ContentRenderer pageList={this.props.pageList}
                              dataMap={this.props.dataMap} />
           </div>

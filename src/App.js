@@ -38,12 +38,9 @@ const BaseApp = function(props) {
         <Route path="/login">
           <Login />
         </Route>
-        { /* sections only available with authentication */
-          props.authUser &&
-          <Route path="/admin">
-            <Admin />
-          </Route>
-        }     
+        <Route path="/admin">
+          <Admin />
+        </Route>
         <Route path="*">
           <NotFound />
         </Route>
@@ -51,4 +48,6 @@ const BaseApp = function(props) {
     </Router>
   );
 }
-export default withAuthentication(BaseApp);
+
+const App = withAuthentication(BaseApp);
+export default App;

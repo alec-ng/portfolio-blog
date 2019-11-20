@@ -3,7 +3,7 @@ import React from "react";
 export default function ElementSingleImage(props) {  
   return (
     <div>
-      <img class="img-fluid"
+      <img className="img-fluid"
            alt={props.text}
            src={props.src}>
       </img>

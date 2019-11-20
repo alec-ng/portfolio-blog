@@ -6,7 +6,7 @@ import React from "react";
 export default function ContentHeader(props) {
   
   return (
-    <div style={{ height: '50px', 'background-color': 'orange'}}>
+    <div style={{ height: '50px', 'backgroundColor': 'orange'}}>
       <h1>My Header</h1>
     </div>
   );

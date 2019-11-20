@@ -13,17 +13,17 @@ export default function Sidebar(props) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div class="col">
-          <img class="img-fluid" src={logo} />
+        <div className="col">
+          <img className="img-fluid" src={logo} />
         </div>
       </div>
       <div className="row py-5">
-        <div class="col">
+        <div className="col">
         <SidebarLinks pageList={props.pageList} />
         </div>
       </div>
       <div className="row py-3">
-        <div class="col">
+        <div className="col">
           <hr />
           <ul>
             <li><Link to="/">About</Link></li>
