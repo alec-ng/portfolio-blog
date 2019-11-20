@@ -1,8 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { withFirebase } from '../firebase';
-import AuthUserContext from './context';
+import {withRouter} from 'react-router-dom';
+import {withFirebase} from '../firebase';
+import {withAuthUser} from './context';
 
+/**
+ * higher order component to provide authorization of components using the authUser
+ */
 const withAuthorization = condition => Component =>  {
   class WithAuthorization extends React.Component {
     componentDidMount() {
@@ -19,16 +22,13 @@ const withAuthorization = condition => Component =>  {
 
     render() {
       return (
-        <AuthUserContext.Consumer>
-          {authUser => condition(authUser) 
-            ? <Component {...this.props} /> 
-            : null}
-        </AuthUserContext.Consumer>
+        condition(this.props.authUser) 
+          ? <Component {...this.props} /> 
+          : null
       );   
     }
 
   }
-  let enhanced = withRouter(WithAuthorization);
-  return withFirebase(enhanced);
+  return withFirebase(withAuthUser(withRouter(WithAuthorization)));
 }
 export default withAuthorization;
