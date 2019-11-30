@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import ReactSidebar from "react-sidebar";
 import Sidebar from './sidebar';
@@ -9,64 +9,51 @@ import ContentHeader from '../components/content-header';
 /**
  * UI composition component for photography section
  */
+const mql = window.matchMedia(`(min-width: 992px)`); // Large devices using Bootstrap responsive breakpoint
 
-// Large devices using Bootstrap responsive breakpoint
-const mql = window.matchMedia(`(min-width: 992px)`);
-
-class PhotographyLayout extends React.Component {
+export default function PhotographyLayout(props) {
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSidebarDocked : mql.matches, // if on desktop, auto open sidebar
-      isSidebarOpen: false, 
-    }
-    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
-  }
+  const [isSidebarDocked, setIsSidebarDocked] = useState(mql.matches); // if on desktop, auto open sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  componentDidMount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
-
-  componentWillUnmount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
-
-  onSetSidebarOpen(open) {
-    this.setState({ isSidebarOpen: open });
-  }
-
-  mediaQueryChanged() {
-    this.setState({ 
-      isSidebarDocked: mql.matches, 
-      isSidebarOpen: false 
+  useEffect(() =>  {
+    mql.addListener(mediaQueryChanged);
+    return(() => {
+      mql.addListener(mediaQueryChanged);
     });
+  })
+
+  // Callback for react-side setopen event
+  function onSetSidebarOpen(open) {
+    setIsSidebarOpen(open);
   }
 
-  render() {
-    return (
-      <div>
-        <ReactSidebar sidebar={<Sidebar pageList={this.props.pageList} />}
-                      open={this.state.isSidebarOpen}
-                      docked={this.state.isSidebarDocked}
-                      onSetOpen={this.onSetSidebarOpen}
-                      styles={{ 
-                        sidebar: { 
-                          width: '250px',
-                          'backgroundColor': '#eeeeee' 
-                        } 
-                      }}>
-
-          <ContentHeader />
-          <div className="container">
-            <ContentRenderer pageList={this.props.pageList}
-                             dataMap={this.props.dataMap} />
-          </div>
-        </ReactSidebar>
-      </div>
-    );
+  // Callback for media query change
+  function mediaQueryChanged() {
+    setIsSidebarDocked(mql.matches);
+    setIsSidebarOpen(false);
   }
+
+  return (
+    <div>
+      <ReactSidebar sidebar={<Sidebar pageList={props.pageList} />}
+                    open={isSidebarOpen}
+                    docked={isSidebarDocked}
+                    onSetOpen={onSetSidebarOpen}
+                    styles={{ 
+                      sidebar: { 
+                        width: '250px',
+                        'backgroundColor': '#eeeeee' 
+                      } 
+                    }}>
+
+        <ContentHeader />
+        <div className="container">
+          <ContentRenderer pageList={props.pageList}
+                            dataMap={props.dataMap} />
+        </div>
+      </ReactSidebar>
+    </div>
+  );
 }
 
-export default PhotographyLayout;
