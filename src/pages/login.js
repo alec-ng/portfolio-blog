@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {withFirebase} from '../components/firebase';
 import {withAuthUser} from '../components/session';
 import SignoutButton from '../components/signout-button';

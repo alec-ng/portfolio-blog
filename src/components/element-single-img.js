@@ -4,8 +4,8 @@ import TextOverlay from './text-overlay';
 import styled from 'styled-components';
 
 export default function ElementSingleImage(props) {  
-  if (!props || !props.text) {
-    return (<img class="width-100 img-fluid" src={img_placeholder} />);
+  if (!props || !props.src) {
+    return (<img className="width-100 img-fluid" src={img_placeholder} />);
   }
   return (
     <>

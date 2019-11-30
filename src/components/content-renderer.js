@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { 
   useLocation, Redirect 
 } from "react-router-dom";
 
+import Enums from '../util/enums';
 import ElementSingleImg from './element-single-img';
+import ElementFullVideo from './element-fullwidth-video';
 import SingleRow from './single-row';
 
 /**
  * On render, parses the current URL, looks for the page to render, and 
  * renders all of its data
- * 
- * @param props.data
  */
 export default function ContentRenderer(props) {
   // determine initial chosen page
@@ -32,15 +32,18 @@ export default function ContentRenderer(props) {
   let chosenPage = props.dataMap[initialPath];
   if (chosenPage) {
     chosenPage.data.forEach((ele, i) => {
-      if (ele.type === 'FULL_WIDTH_IMG') {
+      if (ele.type === Enums.ELE_FULLWIDTH_IMG) {
         eleArr.push(
-          <SingleRow content={
-            <ElementSingleImg src={ele.src}
-                            text={ele.text}
-                            key={i} />
+          <SingleRow key={i} content={
+            <ElementSingleImg src={ele.src} text={ele.text} />
           }></SingleRow>
-          
         ); 
+      } else if (ele.type === Enums.ELE_FULLWIDTH_VIDEO) {
+        eleArr.push(
+          <SingleRow key={i} content={
+            <ElementFullVideo src={ele.src} text={ele.text} />
+          }></SingleRow>
+        );
       } else {
         console.log('Unknown element type: ' + ele.type);
       }  
