@@ -39,6 +39,7 @@ export default function ContentRenderer(props) {
                             text={ele.text}
                             key={i} />
           }></SingleRow>
+          
         ); 
       } else {
         console.log('Unknown element type: ' + ele.type);
@@ -47,14 +48,14 @@ export default function ContentRenderer(props) {
   }
   
   return (
-    <section>
+    <section className="mt-1 mb-3">
       { /* HTML to render */
         chosenPage
           ? (
-            <div>
+            <>
               <h1>{chosenPage.label}</h1>
               {eleArr}
-            </div>
+            </>
           )
           : <h1>Page not found</h1>
       }

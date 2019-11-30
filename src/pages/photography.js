@@ -31,6 +31,9 @@ class Photography extends React.Component {
               content: 'I AM BEAR',
               style: {top: '3px'}                
             }
+          },
+          {
+            type: 'FULL_WIDTH_IMG'
           }
         ]
       },
