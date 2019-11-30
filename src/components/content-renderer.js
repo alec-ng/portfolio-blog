@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 
 import ElementSingleImg from './element-single-img';
+import SingleRow from './single-row';
 
 /**
  * On render, parses the current URL, looks for the page to render, and 
@@ -33,9 +34,11 @@ export default function ContentRenderer(props) {
     chosenPage.data.forEach((ele, i) => {
       if (ele.type === 'FULL_WIDTH_IMG') {
         eleArr.push(
-          <ElementSingleImg src={ele.src}
+          <SingleRow content={
+            <ElementSingleImg src={ele.src}
                             text={ele.text}
                             key={i} />
+          }></SingleRow>
         ); 
       } else {
         console.log('Unknown element type: ' + ele.type);
@@ -45,7 +48,7 @@ export default function ContentRenderer(props) {
   
   return (
     <section>
-      {
+      { /* HTML to render */
         chosenPage
           ? (
             <div>
@@ -55,7 +58,7 @@ export default function ContentRenderer(props) {
           )
           : <h1>Page not found</h1>
       }
-      {
+      { /* Adjust URL path to reflect initial content */
         doRedirect && <Redirect to={`/photography/${initialPath}`} />
       }
     </section>

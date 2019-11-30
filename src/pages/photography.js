@@ -27,7 +27,10 @@ class Photography extends React.Component {
           {
             type: 'FULL_WIDTH_IMG',
             src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/1200px-2010-kodiak-bear-1.jpg',
-            text: 'I am BEAR'
+            text: {
+              content: 'I AM BEAR',
+              style: {top: '3px'}                
+            }
           }
         ]
       },
@@ -38,7 +41,11 @@ class Photography extends React.Component {
           {
             type: 'FULL_WIDTH_IMG',
             src: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?ixlib=rb-1.2.1&w=1000&q=80',
-            text: 'Lazy Baer'
+            content: 'Lazy Baer',
+            text: {
+              content: 'Lazy ass bear',
+              style: {top: '3px'}                
+            }
           }
         ]
       },
@@ -49,7 +56,10 @@ class Photography extends React.Component {
           {
             type: 'FULL_WIDTH_IMG',
             src: 'https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/bears_16x9.jpg?itok=Xt60oxlc',
-            text: 'Arf'
+            text: {
+              content: 'Arf',
+              style: {top: '3px'}                
+            }
           }
         ]
       },
