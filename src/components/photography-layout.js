@@ -16,39 +16,14 @@ export default function PhotographyLayout(props) {
   
   const [isSidebarDocked, setIsSidebarDocked] = useState(mql.matches); // if on desktop, auto open sidebar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [videoList, setVideoList] = useState([]);
-  const [reactSidebarContent, setReactSidebarContent] = useState(null);
 
-  // Scroll listener on content to autoplay and pause videos
   // Media query listener to auto expand/collapse sidebar
   useEffect(() =>  {
-    let sidebarContent = document.getElementById('react-sidebar-content');
-    setReactSidebarContent(sidebarContent);
-    setVideoList(document.querySelectorAll('video'));
-    document.getElementById('react-sidebar-content').addEventListener('scroll', setupAutoVideoPlay);
     mql.addListener(mediaQueryChanged);
     return(() => {
       mql.addListener(mediaQueryChanged);
-      sidebarContent.removeEventListener('scroll', setupAutoVideoPlay);
     });
-  }, [props])
-
-  // Listener function to play/pause videos if they are in view
-  function setupAutoVideoPlay() {
-    // Get current browser top and bottom
-    const scrollTop = reactSidebarContent.offsetHeight + tolerancePixel;
-    const scrollBottom = reactSidebarContent.offsetHeight + window.outerHeight - tolerancePixel;
-    // play video if it is in view, else, pause it
-    videoList.forEach((video, index) => {
-      let yTopVideo = video.getBoundingClientRect().top + reactSidebarContent.offsetHeight;
-      let yBottomVideo = video.videoHeight + yTopVideo;
-      if (scrollTop < yBottomVideo && scrollBottom > yTopVideo) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    });
-  }
+  });
   
   // Callback for react-side setopen event
   function onSetSidebarOpen(open) {
