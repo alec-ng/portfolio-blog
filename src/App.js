@@ -1,20 +1,15 @@
 import React from "react";
-import { withAuthentication } from './components/session';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { withAuthentication } from "./components/session";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Game from './pages/react-tut';
-import Home from './pages/home';
-import Blog from './pages/blog';
-import Portfolio from './pages/portfolio';
-import Photography from './pages/photography';
-import Admin from './pages/admin';
-import Login from './pages/login';
-import NotFound from './pages/not-found';
+import Game from "./pages/react-tut";
+import Home from "./pages/home";
+import Blog from "./pages/blog";
+import Portfolio from "./pages/portfolio";
+import Photography from "./pages/photography";
+import Admin from "./pages/admin";
+import Login from "./pages/login";
+import NotFound from "./pages/not-found";
 
 const BaseApp = function(props) {
   return (
@@ -47,7 +42,7 @@ const BaseApp = function(props) {
       </Switch>
     </Router>
   );
-}
+};
 
 const App = withAuthentication(BaseApp);
 export default App;

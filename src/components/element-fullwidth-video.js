@@ -1,8 +1,8 @@
-import React from 'react';
-import VisibilitySensor from 'react-visibility-sensor';
+import React from "react";
+import VisibilitySensor from "react-visibility-sensor";
 
-import img_placeholder from '../assets/blog/placeholder.jpg';
-import TextOverlay from './text-overlay';
+import img_placeholder from "../assets/blog/placeholder.jpg";
+import TextOverlay from "./text-overlay";
 
 /**
  * Represents a full width video with the following specs:
@@ -10,10 +10,11 @@ import TextOverlay from './text-overlay';
  * - auto muted and looping
  * - 16by9 aspect ratio
  * - optional text overlay
+ * - autoplay when scrolled into view, paused if not
  */
 export default function FullWidthVideo(props) {
   if (!props || !props.src) {
-    return (<img className="width-100 img-fluid" src={img_placeholder} />);
+    return <img className="width-100 img-fluid" src={img_placeholder} />;
   }
 
   let vidRef = React.createRef();
@@ -39,4 +40,3 @@ export default function FullWidthVideo(props) {
     }
   }
 }
-
