@@ -1,12 +1,14 @@
 import React from "react";
 import moment from "moment";
 import styled from "styled-components";
-import { StateProvider } from "./context";
+import { StateProvider } from "./state";
 import MainReducer from "./reducers/index";
+import Toolbar from "./toolbar";
 
 const BASE_PAGE_DATA = {
   pageMetadata: {
     title: undefined,
+    subTitle: undefined,
     createdDate: null,
     lastModified: null,
     tags: [],
@@ -84,30 +86,32 @@ export function ScrapbookEditor(props) {
     );
   }
 
-  const initialState = {};
-
-  const EditorContainer = props.readOnly
-    ? styled.div`
-        max-width: 992px;
-        margin-left: auto;
-        margin-right: auto;
-      `
-    : styled.div`
-        margin-left: auto;
-        margin-right: auto;
-      `;
+  const BaseContainer = styled.div`
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    height: 100%;
+    min-width: ${props => (props.readOnly ? "inherit" : "992px")};
+  `;
+  const ToolbarContainer = styled.div`
+    flex: 0 0 25%;
+  `;
+  const CanvasContainer = styled.div`
+    flex: ${props => (props.readOnly ? "100%" : "75%")};
+  `;
 
   return (
-    <StateProvider initialState={initialState} reducer={MainReducer}>
-      <EditorContainer className="row">
-        <h1>Test Editor</h1>
-        {/* toolbar */}
-        {/* Page metadata */}
-        {/* Plugin List */}
-        {/* Block metadata */}
-        {/* Canvas */}
-        {/* [plugins] */}
-      </EditorContainer>
+    <StateProvider initialState={props.pageData} reducer={MainReducer}>
+      <BaseContainer>
+        {!props.readOnly && (
+          <ToolbarContainer>
+            <Toolbar />
+          </ToolbarContainer>
+        )}
+        <CanvasContainer>
+          <h1>Canvas</h1>
+        </CanvasContainer>
+      </BaseContainer>
     </StateProvider>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SignoutButton from "../components/signout-button";
 import { withAuthorization } from "../components/session";
 import {
   ScrapbookEditor,
@@ -18,13 +17,12 @@ const Admin = function(props) {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <ScrapbookEditor
         pageData={editorData}
         onChange={onEditorChange}
         plugins={plugins}
       />
-      <SignoutButton />
     </div>
   );
 };
