@@ -1,13 +1,13 @@
 const ACTION_TYPES = {
   // Set page metadata
-  UPDATE_TITLE: "UPDATE_TITLE",
+  UPDATE_INPUT: "UPDATE_INPUT",
   // update block attributes
   SET_BLOCK_ATTRIBUTES: "SET_BLOCK_ATTRIBUTES"
 };
 
 const MainReducer = function(state, action) {
   switch (action.type) {
-    case ACTION_TYPES.UPDATE_TITLE:
+    case ACTION_TYPES.UPDATE_INPUT:
       return Object.assign({}, state, {
         pageMetadata: pageMetadataReducer(state.pageMetadata, action)
       });
@@ -18,7 +18,7 @@ const MainReducer = function(state, action) {
 
 const pageMetadataReducer = function(state, action) {
   switch (action.type) {
-    case ACTION_TYPES.UPDATE_TITLE:
+    case ACTION_TYPES.UPDATE_INPUT:
       return Object.assign({}, state, {
         [action.payload.inputKey]: action.payload.value
       });

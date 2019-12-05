@@ -1,51 +1,10 @@
 import React from "react";
 import moment from "moment";
 import styled from "styled-components";
-import { StateProvider } from "./state";
+import { StateProvider, DefaultState } from "./state";
 import MainReducer from "./reducers/index";
 import Toolbar from "./toolbar";
-
-const BASE_PAGE_DATA = {
-  pageMetadata: {
-    title: undefined,
-    subTitle: undefined,
-    createdDate: null,
-    lastModified: null,
-    tags: [],
-    location: undefined
-  },
-  blocks: []
-};
-
-// SAMPLE DATA
-////////////////////////////////////////////////////////////////////
-// const BASE_EDITOR_STATE = {
-//   title: 'Title',
-//   createdDate: 'YYYY-MM-DDTHH:mm:ss. sssZ',
-//   lastModified: 'YYYY-MM-DDTHH:mm:ss. sssZ',
-//   tags: ['tag-1', 'tag-2'],
-//   location: 'location',
-//   blocks: [
-//     {
-// blockType: "blockType",
-// baseProps: [
-//   {
-//     name: 'myName',
-//     label: 'My Label',
-//     value: true
-//   }
-// ],
-// variation: "variation2",
-// variationProps: [
-//   {
-//     name: 'myName',
-//     label: 'My Label',
-//     value: test
-//   }
-// ]
-//     }
-//   ]
-// }
+import Canvas from "./canvas";
 
 /**
  * Inits an object to be used as the pageData prop for ScrapbookEditor
@@ -54,7 +13,7 @@ const BASE_PAGE_DATA = {
  */
 export function createPageData(data) {
   if (!data) {
-    let baseDataCpy = Object.assign({}, BASE_PAGE_DATA);
+    let baseDataCpy = Object.assign({}, DefaultState);
     baseDataCpy.pageMetadata.createdDate = moment();
     return baseDataCpy;
   } else {
@@ -109,7 +68,7 @@ export function ScrapbookEditor(props) {
           </ToolbarContainer>
         )}
         <CanvasContainer>
-          <h1>Canvas</h1>
+          <Canvas />
         </CanvasContainer>
       </BaseContainer>
     </StateProvider>

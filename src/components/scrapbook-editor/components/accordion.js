@@ -7,8 +7,10 @@ import Button from "react-bootstrap/Button";
  * Wraps its children in a collapsible accordion
  */
 export default function Accordion(props) {
+  let openOnDefault = props.openOnDefault === true ? "0" : "1";
+
   return (
-    <BootstrapAccordion defaultActiveKey="0">
+    <BootstrapAccordion defaultActiveKey={openOnDefault}>
       <Card>
         <Card.Header>
           <BootstrapAccordion.Toggle as={Button} variant="link" eventKey="0">
