@@ -43,30 +43,47 @@ export const useStateValue = () => useContext(StateContext);
 
 // SAMPLE DATA
 ////////////////////////////////////////////////////////////////////
-// const BASE_EDITOR_STATE = {
-//   title: 'Title',
-//   createdDate: 'YYYY-MM-DDTHH:mm:ss. sssZ',
-//   lastModified: 'YYYY-MM-DDTHH:mm:ss. sssZ',
-//   tags: ['tag-1', 'tag-2'],
-//   location: 'location',
-//   blocks: [
-//     {
-// blockType: "blockType",
-// baseProps: [
-//   {
-//     name: 'myName',
-//     label: 'My Label',
-//     value: true
-//   }
-// ],
-// variation: "variation2",
-// variationProps: [
-//   {
-//     name: 'myName',
-//     label: 'My Label',
-//     value: test
-//   }
-// ]
-//     }
-//   ]
-// }
+const BASE_EDITOR_STATE = {
+  title: "Title",
+  createdDate: "YYYY-MM-DDTHH:mm:ss. sssZ",
+  lastModified: "YYYY-MM-DDTHH:mm:ss. sssZ",
+  tags: ["tag-1", "tag-2"],
+  location: "location",
+  blocks: [
+    {
+      blockType: "blockType",
+      baseProps: {
+        name1: "value1",
+        name2: "value2"
+      },
+      variation: "variation2",
+      variationProps: {
+        name1: "name2",
+        name2: "name3"
+      }
+    }
+  ]
+};
+
+const BLOCK_DEFINITION = {
+  name: "Image",
+  label: "Image",
+  description: "An image rendered from a URL source",
+  icon: null,
+  baseAttrs: [
+    {
+      name: "urlSource",
+      label: "URL",
+      type: "text"
+      // could also add validation rules here
+    }
+  ],
+  variations: [
+    {
+      stretch: {
+        label: "Full Width",
+        attrs: [] // no additional variational attributes
+      }
+    }
+  ]
+};

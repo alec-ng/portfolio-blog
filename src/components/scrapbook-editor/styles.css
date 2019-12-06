@@ -1,0 +1,9 @@
+/**
+ * scrapbook-editor.js specific styles
+ * works on top of bootstrap and bootstrap-react
+ */
+
+Row {
+  margin-left: 0;
+  margin-right: 0;
+}

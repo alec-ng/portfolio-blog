@@ -1,50 +1,34 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import img_placeholder from "../assets/blog/placeholder.jpg"; // TODO: move into this directory
-// TODO: small icon image here
+import PlaceholderImg from "./placeholder.jpg"; // TODO: move into this directory
+import { Stretch, VARIATION_STRETCH_NAME } from "./variation-stretch";
 
-import { PHOTOESSAY_DEFN, Photoessay } from "./variation-photoessay";
+export const VariationNames = {
+  STRETCH: VARIATION_STRETCH_NAME
+};
 
-export function Image(props) {
+export function ImageElement(props) {
   const [baseAttributes, setBaseAttributes] = useState(props.baseAttributes);
   const [variationAttributes, setVariationAttributes] = useState(
     props.variationAttributes
   );
 
-  function renderVariation() {
+  function Variation() {
     if (!props.urlSource) {
       // default placeholder
       const PlaeholderImg = styled.img`
         width: 100%;
       `;
-      return <PlaceholderImg className="img-fluid" src={img_placeholder} />;
+      return <img className="img-fluid" src={PlaceholderImg} />;
     }
 
-    if (props.variation === PHOTOESSAY_DEFN.name) {
-      return <Photoessay baseAttributes={baseAttributes} />;
+    switch (props.variation) {
+      case VariationNames.STRETCH:
+        return <Stretch urlSource={props.urlSource} />;
+      default:
+        throw new Error(`Unknown Image variation: ${props.variation}`);
     }
   }
 
-  render({ renderVariation });
-}
-
-export function Controls(props) {
-  const [baseAttributes, setBaseAttributes] = useState(props.baseAttributes);
-  const [variationAttributes, setVariationAttributes] = useState(
-    props.variationAttributes
-  );
-
-  function renderControl() {}
-
-  return (
-    // base controls here
-    <section>
-      <input
-        type="text"
-        data-name="urlSource"
-        onInput={updateAttribute}
-        placeholder="URL Source"
-      />
-    </section>
-  );
+  return <Variation />;
 }

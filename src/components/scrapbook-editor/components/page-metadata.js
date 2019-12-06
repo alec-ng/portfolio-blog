@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useStateValue } from "../state";
+import { ACTION_TYPES } from "./../reducers/index";
 
 export function PageMetadata(props) {
   const [{ pageMetadata }, dispatch] = useStateValue();
@@ -22,7 +23,7 @@ export function PageMetadataControls(props) {
 
   function handleOnChange(e) {
     dispatch({
-      type: "UPDATE_INPUT",
+      type: ACTION_TYPES.UPDATE_INPUT,
       payload: {
         inputKey: e.target.dataset.key,
         value: e.target.value
@@ -32,34 +33,34 @@ export function PageMetadataControls(props) {
 
   return (
     <form>
-      <div class="form-group">
+      <div className="form-group">
         <label>
           Title
           <input
             type="text"
             data-key="title"
-            class="form-control"
+            className="form-control"
             onInput={handleOnChange}
           />
         </label>
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label>
           Subtitle
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             data-key="subTitle"
             onInput={handleOnChange}
           />
         </label>
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label>
           Display Date
           <input
             type="date"
-            class="form-control"
+            className="form-control"
             data-key="displayDate"
             onInput={handleOnChange}
           />

@@ -17,7 +17,8 @@
     "react-sidebar": "^3.0.2",
     "react-transition-group": "^4.3.0",
     "react-visibility-sensor": "^5.1.1",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "uuid": "^3.3.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

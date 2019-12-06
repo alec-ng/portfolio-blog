@@ -5,12 +5,14 @@ import {
   createPageData
 } from "../components/scrapbook-editor/scrapbook-editor";
 
+import Image from "../components/scrapbook-editor/plugins/image/index";
+
 /**
  * Page level component for admin section
  */
 const Admin = function(props) {
   const [editorData, setEditorData] = useState(createPageData());
-  const plugins = ["test-plugin"];
+  const plugins = [Image];
 
   function onEditorChange(pageData) {
     setEditorData(pageData);

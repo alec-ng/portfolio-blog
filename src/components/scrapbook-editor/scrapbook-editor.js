@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
 import styled from "styled-components";
+import "./styles.css";
+
 import { StateProvider, DefaultState } from "./state";
-import MainReducer from "./reducers/index";
+import { MainReducer } from "./reducers/index";
 import Toolbar from "./toolbar";
 import Canvas from "./canvas";
 
@@ -45,24 +47,32 @@ export function ScrapbookEditor(props) {
     );
   }
 
+  // add plugins and readOnly flag to global state
+  let globalState = Object.assign({}, props.pageData);
+  globalState.plugins = props.plugins;
+  if (typeof props.readOnly !== undefined) {
+    globalState.readOnly = props.readOnly;
+  }
+
+  // set styling based on readOnly flag
   const BaseContainer = styled.div`
     margin-left: auto;
     margin-right: auto;
     display: flex;
     height: 100%;
-    min-width: ${props => (props.readOnly ? "inherit" : "992px")};
+    min-width: ${globalState => (globalState.readOnly ? "inherit" : "992px")};
   `;
   const ToolbarContainer = styled.div`
     flex: 0 0 25%;
   `;
   const CanvasContainer = styled.div`
-    flex: ${props => (props.readOnly ? "100%" : "75%")};
+    flex: ${globalState => (globalState.readOnly ? "100%" : "75%")};
   `;
 
   return (
-    <StateProvider initialState={props.pageData} reducer={MainReducer}>
+    <StateProvider initialState={globalState} reducer={MainReducer}>
       <BaseContainer>
-        {!props.readOnly && (
+        {!globalState.readOnly && (
           <ToolbarContainer>
             <Toolbar />
           </ToolbarContainer>
