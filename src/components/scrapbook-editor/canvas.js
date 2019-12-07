@@ -4,6 +4,7 @@ import { PageMetadata } from "./components/page-metadata";
 import { useStateValue } from "./state";
 import DropZone from "./components/dropzone";
 import { ImageElement } from "./plugins/image/image";
+import BlockContainer from "./components//block-container";
 
 export default function Canvas(props) {
   const [{ blocks, plugins, readOnly }, dispatch] = useStateValue();
@@ -24,16 +25,27 @@ export default function Canvas(props) {
     let list = [];
     blocks.forEach(block => {
       let BlockElement = pluginMap[block.name];
-      list.push(<DropZone />);
       list.push(
-        <BlockElement
-          variation={block.variation}
-          baseAttrs={block.baseAttrs}
-          variationAttrs={block.variationAttrs}
-          isFocused={block.isFocused}
+        <DropZone
+          key={`dropzone-${block.uuid}`}
+          uuid={`dropzone-${block.uuid}`}
         />
       );
+      list.push(
+        <BlockContainer
+          key={block.uuid}
+          isFocused={block.isFocused}
+          uuid={block.uuid}
+        >
+          <BlockElement
+            variation={block.variation}
+            baseAttrs={block.baseAttrs}
+            variationAttrs={block.variationAttrs}
+          />
+        </BlockContainer>
+      );
     });
+
     return list;
   }
 

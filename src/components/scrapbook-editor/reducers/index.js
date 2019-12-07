@@ -7,7 +7,7 @@ export const ACTION_TYPES = {
   SET_BLOCK_ATTRIBUTES: "SET_BLOCK_ATTRIBUTES",
   // on drop event- add new block to canvas
   ADD_BLOCK: "ADD_BLOCK",
-  // on add block action or block click, switch focus to selected block
+  // on block click, switch focus to selected block
   SWITCH_BLOCK_FOCUS: "SWITCH_BLOCK_FOCUS"
 };
 
@@ -18,9 +18,7 @@ export const MainReducer = function(state, action) {
         pageMetadata: pageMetadataReducer(state.pageMetadata, action)
       });
     case ACTION_TYPES.ADD_BLOCK:
-      return Object.assign({}, state, {
-        blocks: blockReducer(state.blocks, action)
-      });
+      return Object.assign({}, state, blockReducer(state.blocks, action));
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }

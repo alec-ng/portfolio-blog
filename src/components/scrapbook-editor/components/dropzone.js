@@ -19,11 +19,13 @@ export default function DropZone(props) {
    */
   function onDrop(e) {
     const pluginName = e.dataTransfer.getData("pluginName");
+    // assumes dropzone uuid is of form dropzone-{uuid}, set in canvas.js
+    let uuid = props.uuid ? props.uuid.replace("dropzone-", "") : null;
     dispatch({
       type: ACTION_TYPES.ADD_BLOCK,
       payload: {
         pluginName: pluginName,
-        uuid: props.uuid
+        uuid: uuid
       }
     });
   }

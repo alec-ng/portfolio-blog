@@ -50,7 +50,7 @@ export function ScrapbookEditor(props) {
   // add plugins and readOnly flag to global state
   let globalState = Object.assign({}, props.pageData);
   globalState.plugins = props.plugins;
-  if (typeof props.readOnly !== undefined) {
+  if (typeof props.readOnly !== "undefined") {
     globalState.readOnly = props.readOnly;
   }
 
@@ -60,24 +60,25 @@ export function ScrapbookEditor(props) {
     margin-right: auto;
     display: flex;
     height: 100%;
-    min-width: ${globalState => (globalState.readOnly ? "inherit" : "992px")};
+    min-width: ${props => (props.readOnly ? "inherit" : "992px")};
   `;
   const ToolbarContainer = styled.div`
     flex: 0 0 25%;
   `;
   const CanvasContainer = styled.div`
-    flex: ${globalState => (globalState.readOnly ? "100%" : "75%")};
+    overflow-y: auto;
+    flex: ${props => (props.readOnly ? "100%" : "75%")};
   `;
 
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>
-      <BaseContainer>
+      <BaseContainer readOnly={globalState.readOnly}>
         {!globalState.readOnly && (
           <ToolbarContainer>
             <Toolbar />
           </ToolbarContainer>
         )}
-        <CanvasContainer>
+        <CanvasContainer readOnly={globalState.readOnly}>
           <Canvas />
         </CanvasContainer>
       </BaseContainer>

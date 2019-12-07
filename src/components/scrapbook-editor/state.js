@@ -14,7 +14,8 @@ export const DefaultState = {
     location: undefined
   },
   blocks: [],
-  readOnly: false
+  readOnly: false,
+  focusedBlock: undefined
 };
 
 /**
