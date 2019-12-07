@@ -18,6 +18,7 @@ export const MainReducer = function(state, action) {
         pageMetadata: pageMetadataReducer(state.pageMetadata, action)
       });
     case ACTION_TYPES.ADD_BLOCK:
+    case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
       return Object.assign({}, state, blockReducer(state.blocks, action));
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);

@@ -24,7 +24,6 @@ export default function BlockContainer(props) {
 
   return (
     <FocusDiv onClick={onClick} isFocused={props.isFocused}>
-      <h1>isFocused: {props.isFocused && "hi"}</h1>
       {props.children}
     </FocusDiv>
   );
