@@ -3,8 +3,8 @@ import blockReducer from "./block-reducer";
 export const ACTION_TYPES = {
   // Set page metadata
   UPDATE_INPUT: "UPDATE_INPUT",
-  // update block attributes
-  SET_BLOCK_ATTRIBUTES: "SET_BLOCK_ATTRIBUTES",
+  // updating focused block through toolbar
+  UPDATE_FOCUSED_BLOCK: "UPDATE_FOCUSED_BLOCK",
   // on drop event- add new block to canvas
   ADD_BLOCK: "ADD_BLOCK",
   // on block click, switch focus to selected block
@@ -19,7 +19,19 @@ export const MainReducer = function(state, action) {
       });
     case ACTION_TYPES.ADD_BLOCK:
     case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
-      return Object.assign({}, state, blockReducer(state.blocks, action));
+    case ACTION_TYPES.UPDATE_FOCUSED_BLOCK:
+      return Object.assign(
+        {},
+        state,
+        blockReducer(
+          {
+            blocks: state.blocks,
+            pluginMap: state.pluginMap,
+            focusedBlock: state.focusedBlock
+          },
+          action
+        )
+      );
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }

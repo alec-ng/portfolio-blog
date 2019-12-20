@@ -3,6 +3,8 @@ import { useStateValue } from "./state";
 import { PageMetadataControls } from "./components/page-metadata";
 import DraggablePlugin from "./components/draggable-plugin";
 import Accordion from "./components/accordion";
+import BlockAttributes from "./components/block-attributes";
+
 /**
  * Represents the editor's command bar for modifying page and block metadata
  */
@@ -20,8 +22,8 @@ export default function Toolbar(props) {
         <PageMetadataControls />
       </Accordion>
       <Accordion title="Add Block">{PluginList}</Accordion>
-      <Accordion title="Block Attributes">
-        <h1>TODO</h1>
+      <Accordion openOnDefault={true} title="Block Attributes">
+        <BlockAttributes />
       </Accordion>
       <hr />
       <button type="button">Save</button>

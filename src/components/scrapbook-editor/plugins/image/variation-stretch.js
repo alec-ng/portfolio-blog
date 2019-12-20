@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export const VARIATION_STRETCH_NAME = "image_stretch";
+export const VARIATION_STRETCH = "image_stretch";
 
 export function Stretch(props) {
   const FullWidthImg = styled.img`

@@ -7,15 +7,7 @@ import { ImageElement } from "./plugins/image/image";
 import BlockContainer from "./components//block-container";
 
 export default function Canvas(props) {
-  const [{ blocks, plugins, readOnly }, dispatch] = useStateValue();
-
-  /**
-   * Create mapping of block names to plugin React elements
-   */
-  const pluginMap = {};
-  plugins.forEach(plugin => {
-    pluginMap[plugin.name] = plugin.canvasElement;
-  });
+  const [{ blocks, pluginMap, readOnly }, dispatch] = useStateValue();
 
   /**
    * Each item in the global state 'blocks' props is displayed with a dropzone
@@ -24,7 +16,7 @@ export default function Canvas(props) {
   function renderContent() {
     let list = [];
     blocks.forEach(block => {
-      let BlockElement = pluginMap[block.name];
+      let BlockElement = pluginMap[block.name].canvasElement;
       list.push(
         <DropZone
           key={`dropzone-${block.uuid}`}

@@ -2,19 +2,39 @@ import uuidv1 from "uuid/v1";
 import { ACTION_TYPES } from "./index";
 
 export default function blockReducer(state, action) {
-  let deepCloneBlocks = JSON.parse(JSON.stringify(state));
+  let deepCloneBlocks = JSON.parse(JSON.stringify(state.blocks));
   switch (action.type) {
     case ACTION_TYPES.ADD_BLOCK:
       return addNewBlock(
         deepCloneBlocks,
-        action.payload.pluginName,
+        state.pluginMap[action.payload.pluginName],
         action.payload.uuid
       );
     case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
       return switchActiveBlock(deepCloneBlocks, action.payload.uuid);
+    case ACTION_TYPES.UPDATE_FOCUSED_BLOCK:
+      return updateFocusedBlock(
+        deepCloneBlocks,
+        state.focusedBlock.uuid,
+        action.payload
+      );
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }
+}
+
+/**
+ * Given a new value for an attribute, update the focused block and update its
+ * copy in blockArr
+ */
+function updateFocusedBlock(blockArr, uuid, newVal) {
+  debugger;
+  let focusedBlock = blockArr.find(block => block.uuid === uuid);
+  focusedBlock[newVal.name] = newVal.val;
+  return {
+    focusedBlock: focusedBlock,
+    blocks: blockArr
+  };
 }
 
 /**
@@ -38,11 +58,11 @@ function switchActiveBlock(blockArr, uuid) {
  * Given the name of the new block to add, creates a new block object to
  * add to blockArr at an index determined by uuid
  */
-function addNewBlock(blockArr, pluginName, uuid) {
+function addNewBlock(blockArr, plugin, uuid) {
   let newBlock = {
-    name: pluginName,
+    name: plugin.name,
     baseAttrs: {},
-    variation: "stretch", // TODO: add logic for default variation here
+    variation: plugin.defaultVariation,
     variationAttrs: {},
     uuid: uuidv1(),
     isFocused: true

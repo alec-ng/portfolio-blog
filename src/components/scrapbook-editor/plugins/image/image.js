@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PlaceholderImg from "./placeholder.jpg"; // TODO: move into this directory
-import { Stretch, VARIATION_STRETCH_NAME } from "./variation-stretch";
-
-export const VariationNames = {
-  STRETCH: VARIATION_STRETCH_NAME
-};
+import PlaceholderImg from "./placeholder.jpg";
+import { Stretch, VARIATION_STRETCH } from "./variation-stretch";
 
 export function ImageElement(props) {
   const [baseAttributes, setBaseAttributes] = useState(props.baseAttributes);
@@ -23,7 +19,7 @@ export function ImageElement(props) {
     }
 
     switch (props.variation) {
-      case VariationNames.STRETCH:
+      case VARIATION_STRETCH:
         return <Stretch urlSource={props.urlSource} />;
       default:
         throw new Error(`Unknown Image variation: ${props.variation}`);

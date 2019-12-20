@@ -54,6 +54,13 @@ export function ScrapbookEditor(props) {
     globalState.readOnly = props.readOnly;
   }
 
+  // add a mapping of names => plugins to state
+  let pluginMap = {};
+  globalState.plugins.forEach(plugin => {
+    pluginMap[plugin.name] = plugin;
+  });
+  globalState.pluginMap = pluginMap;
+
   // set styling based on readOnly flag
   const BaseContainer = styled.div`
     margin-left: auto;
@@ -64,6 +71,7 @@ export function ScrapbookEditor(props) {
   `;
   const ToolbarContainer = styled.div`
     flex: 0 0 25%;
+    overflow-y: auto;
   `;
   const CanvasContainer = styled.div`
     overflow-y: auto;

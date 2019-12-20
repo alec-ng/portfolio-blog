@@ -1,4 +1,5 @@
-import { ImageElement, VariationNames } from "./image";
+import { ImageElement } from "./image";
+import { VARIATION_STRETCH } from "./variation-stretch";
 // TOOD: some sort of icon
 
 /**
@@ -20,13 +21,14 @@ const Image = {
   ],
   variations: [
     {
-      stretch: {
+      VARIATION_STRETCH: {
         label: "Full Width",
         attrs: [] // no additional variational attributes
       }
     }
   ],
-  defaultVariation: "stretch"
+  defaultVariation: VARIATION_STRETCH,
+  useDefaultControls: true
 };
 
 export default Image;

@@ -4,6 +4,8 @@ import React, { createContext, useReducer, useContext } from "react";
  * Default editor state if none is provided
  */
 export const DefaultState = {
+  plugins: null,
+  pluginMap: null,
   pageMetadata: {
     title: undefined,
     subTitle: undefined,
