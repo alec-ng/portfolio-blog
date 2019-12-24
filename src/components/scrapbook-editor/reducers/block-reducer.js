@@ -27,10 +27,13 @@ export default function blockReducer(state, action) {
  * Given a new value for an attribute, update the focused block and update its
  * copy in blockArr
  */
-function updateFocusedBlock(blockArr, uuid, newVal) {
-  debugger;
+function updateFocusedBlock(blockArr, uuid, payload) {
   let focusedBlock = blockArr.find(block => block.uuid === uuid);
-  focusedBlock[newVal.name] = newVal.val;
+  if (payload.variation === "base") {
+    focusedBlock.baseAttrs[payload.name] = payload.val;
+  } else {
+    focusedBlock.variationAttrs[payload.variation][payload.name] = payload.val;
+  }
   return {
     focusedBlock: focusedBlock,
     blocks: blockArr

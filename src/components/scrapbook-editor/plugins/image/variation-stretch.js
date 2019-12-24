@@ -7,6 +7,7 @@ export function Stretch(props) {
   const FullWidthImg = styled.img`
     width: 100%;
   `;
-
-  return <FullWidthImg src={props.urlSource} className="image-fluid" />;
+  return (
+    <FullWidthImg src={props.baseAttrs.urlSource} className="image-fluid" />
+  );
 }

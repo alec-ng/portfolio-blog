@@ -17,6 +17,8 @@ export default function Canvas(props) {
     let list = [];
     blocks.forEach(block => {
       let BlockElement = pluginMap[block.name].canvasElement;
+      let variationAttrs = block.variationAttrs[block.variation] || {};
+
       list.push(
         <DropZone
           key={`dropzone-${block.uuid}`}

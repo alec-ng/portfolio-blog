@@ -23,34 +23,74 @@ export default function BlockAttributes(props) {
 
   // Selected block has defined its own controls
   if (focusedBlock.useDefaultControls) {
-    // TODO
+    // TODO: implement with doing custom controls
     return <h1>TODO!</h1>;
   }
 
   // Selected block relies on auto generated controls
   const onInput = function(e) {
+    debugger;
     dispatch({
       type: ACTION_TYPES.UPDATE_FOCUSED_BLOCK,
       payload: {
-        name: e.target.dataset.key,
-        val: e.target.value
+        name: e.target.dataset.name,
+        val: e.target.value,
+        variation: e.target.dataset.variation
       }
     });
   };
 
   const plugin = pluginMap[focusedBlock.name];
-  let inputList = [];
+
+  // Render base attributes
+  let baseAttrList = [];
   plugin.baseAttrs.forEach(attr => {
-    inputList.push(
+    let inputAttrs = {
+      "data-name": attr.name,
+      "data-variation": "base"
+    };
+    baseAttrList.push(
       <Input
         label={attr.label}
         type={attr.type}
         handleOnInput={onInput}
-        dataKey={attr.name}
+        key={attr.name}
+        attributes={inputAttrs}
+      />
+    );
+  });
+
+  // Render variation attributes
+  let variationAttrList = [];
+  let variationName = focusedBlock.variation;
+  let variation = plugin.variations.find(
+    variation => variation.name === variationName
+  );
+  variation.attrs.forEach(attr => {
+    let inputAttrs = {
+      "data-name": attr.name,
+      "data-variation": variationName
+    };
+    variationAttrList.push(
+      <Input
+        label={attr.label}
+        type={attr.type}
+        handleOnInput={onInput}
+        attributes={inputAttrs}
         key={attr.name}
       />
     );
   });
 
-  return <form>{inputList}</form>;
+  return (
+    <form>
+      {baseAttrList}
+      {variationAttrList.length > 0 && (
+        <>
+          <hr />
+          {variationAttrList}
+        </>
+      )}
+    </form>
+  );
 }

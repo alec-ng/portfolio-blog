@@ -21,10 +21,9 @@ const Image = {
   ],
   variations: [
     {
-      VARIATION_STRETCH: {
-        label: "Full Width",
-        attrs: [] // no additional variational attributes
-      }
+      name: VARIATION_STRETCH,
+      label: "Full Width",
+      attrs: [] // no additional variational attributes
     }
   ],
   defaultVariation: VARIATION_STRETCH,

@@ -5,6 +5,7 @@ import React from "react";
  * changes, and type to defined data type expected
  */
 export default function Input(props) {
+  let attributeObj = props.attributes || {};
   return (
     <div className="form-group">
       <label>
@@ -14,6 +15,7 @@ export default function Input(props) {
           data-key={props.dataKey}
           className="form-control"
           onInput={props.handleOnInput}
+          {...attributeObj}
         />
       </label>
     </div>
