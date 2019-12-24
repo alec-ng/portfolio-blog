@@ -83,7 +83,7 @@ function addNewBlock(blockArr, plugin, uuid) {
     blockArr.splice(indexToAdd, 0, newBlock);
   }
   return {
-    focusedBlock: newBlock,
+    focusedBlock: blockArr.find(block => block.uuid === newBlock.uuid),
     blocks: blockArr
   };
 }

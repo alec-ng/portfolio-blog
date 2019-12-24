@@ -14,6 +14,8 @@ Plugins are a blueprint for any sort of element that can exist on a page. Typica
 
 ### Attributes
 
+- Base Attributes and Variation attributes can share the same name (i.e. baseAttr.name1 + variationAttr.name1 is fine, as well as variation1Attr.name1 + variation2Attr.name1)
+
 ### Variations
 
 Since plugins are meant to represent a some sort of generic element, variations are used to specific versions of the element. For example, a plugin for an Image might have the variations for a Parallax image, a full-width responsive image, a centered caption image, etc...

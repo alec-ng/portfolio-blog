@@ -15,7 +15,6 @@ import Input from "./input";
  */
 export default function BlockAttributes(props) {
   const [{ focusedBlock, pluginMap }, dispatch] = useStateValue();
-
   // Base case: no block is selected
   if (!focusedBlock) {
     return <></>;
@@ -29,7 +28,6 @@ export default function BlockAttributes(props) {
 
   // Selected block relies on auto generated controls
   const onInput = function(e) {
-    debugger;
     dispatch({
       type: ACTION_TYPES.UPDATE_FOCUSED_BLOCK,
       payload: {
@@ -47,7 +45,8 @@ export default function BlockAttributes(props) {
   plugin.baseAttrs.forEach(attr => {
     let inputAttrs = {
       "data-name": attr.name,
-      "data-variation": "base"
+      "data-variation": "base",
+      value: focusedBlock.baseAttrs[attr.name] || ""
     };
     baseAttrList.push(
       <Input
@@ -69,7 +68,8 @@ export default function BlockAttributes(props) {
   variation.attrs.forEach(attr => {
     let inputAttrs = {
       "data-name": attr.name,
-      "data-variation": variationName
+      "data-variation": variationName,
+      value: focusedBlock.variationAttrs[attr.name] || ""
     };
     variationAttrList.push(
       <Input
