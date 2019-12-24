@@ -70,10 +70,13 @@ function addNewBlock(blockArr, plugin, uuid) {
     uuid: uuidv1(),
     isFocused: true
   };
+  newBlock.variationAttrs[plugin.defaultVariation] = {};
+
   // Set all other blocks focus to false
   blockArr.forEach(block => {
     block.isFocused = false;
   });
+
   // add new block into array at correct position
   if (!uuid) {
     blockArr.push(newBlock);
@@ -82,6 +85,7 @@ function addNewBlock(blockArr, plugin, uuid) {
     let indexToAdd = blockArr.findIndex(block => block.uuid === uuid);
     blockArr.splice(indexToAdd, 0, newBlock);
   }
+
   return {
     focusedBlock: blockArr.find(block => block.uuid === newBlock.uuid),
     blocks: blockArr

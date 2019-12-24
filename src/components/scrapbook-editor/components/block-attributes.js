@@ -28,11 +28,15 @@ export default function BlockAttributes(props) {
 
   // Selected block relies on auto generated controls
   const onInput = function(e) {
+    // TODO: handle checkbox and select cases
+    // TODO: for numbers, cast from string
+    let newVal =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     dispatch({
       type: ACTION_TYPES.UPDATE_FOCUSED_BLOCK,
       payload: {
         name: e.target.dataset.name,
-        val: e.target.value,
+        val: newVal,
         variation: e.target.dataset.variation
       }
     });
@@ -46,7 +50,8 @@ export default function BlockAttributes(props) {
     let inputAttrs = {
       "data-name": attr.name,
       "data-variation": "base",
-      value: focusedBlock.baseAttrs[attr.name] || ""
+      value: focusedBlock.baseAttrs[attr.name] || "",
+      checked: focusedBlock.baseAttrs[attr.name] === true
     };
     baseAttrList.push(
       <Input
@@ -69,7 +74,8 @@ export default function BlockAttributes(props) {
     let inputAttrs = {
       "data-name": attr.name,
       "data-variation": variationName,
-      value: focusedBlock.variationAttrs[attr.name] || ""
+      value: focusedBlock.variationAttrs[variationName][attr.name] || "",
+      checked: focusedBlock.variationAttrs[variationName][attr.name] === true
     };
     variationAttrList.push(
       <Input

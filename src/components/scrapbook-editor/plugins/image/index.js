@@ -23,7 +23,26 @@ const Image = {
     {
       name: VARIATION_STRETCH,
       label: "Full Width",
-      attrs: [] // no additional variational attributes
+      attrs: [
+        {
+          name: "testAttr",
+          label: "TestAttribute",
+          type: "checkbox"
+          // could also add validation rules here
+        },
+        {
+          name: "testAttr2",
+          label: "TestAttribute2",
+          type: "date"
+          // could also add validation rules here
+        },
+        {
+          name: "testAttr3",
+          label: "TestAttribute3",
+          type: "number"
+          // could also add validation rules here
+        }
+      ] // no additional variational attributes
     }
   ],
   defaultVariation: VARIATION_STRETCH,

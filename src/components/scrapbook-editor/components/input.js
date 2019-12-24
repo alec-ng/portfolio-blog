@@ -5,11 +5,38 @@ import React from "react";
  * changes, and type to defined data type expected
  */
 export default function Input(props) {
-  let attributeObj = props.attributes || {};
   return (
     <div className="form-group">
       <label>
         {props.label}
+        <BaseInputElement {...props} />
+      </label>
+    </div>
+  );
+}
+
+function BaseInputElement(props) {
+  let isCheckedCheckbox = false;
+  let attributeObj = props.attributes
+    ? Object.assign({}, props.attributes)
+    : {};
+  if (props.type === "checkbox" && attributeObj.checked) {
+    isCheckedCheckbox = true;
+  }
+  delete attributeObj.checked;
+
+  return (
+    <>
+      {isCheckedCheckbox ? (
+        <input
+          type={props.type}
+          data-key={props.dataKey}
+          className="form-control"
+          onInput={props.handleOnInput}
+          checked
+          {...attributeObj}
+        />
+      ) : (
         <input
           type={props.type}
           data-key={props.dataKey}
@@ -17,7 +44,7 @@ export default function Input(props) {
           onInput={props.handleOnInput}
           {...attributeObj}
         />
-      </label>
-    </div>
+      )}
+    </>
   );
 }
