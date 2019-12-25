@@ -18,9 +18,33 @@ export default function blockReducer(state, action) {
         state.focusedBlock.uuid,
         action.payload
       );
+    case ACTION_TYPES.UPDATE_VARIATION:
+      return updateVariation(
+        deepCloneBlocks,
+        state.focusedBlock.uuid,
+        action.payload
+      );
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }
+}
+
+/**
+ * Update the focused block's variation to the new value provided
+ */
+function updateVariation(blockArr, uuid, payload) {
+  let focusedBlock = blockArr.find(block => block.uuid === uuid);
+  if (focusedBlock.variation === payload.variation) {
+    return;
+  }
+  focusedBlock.variation = payload.variation;
+  if (!focusedBlock.variationAttrs[payload.variation]) {
+    focusedBlock.variationAttrs[payload.variation] = {};
+  }
+  return {
+    focusedBlock: focusedBlock,
+    blocks: blockArr
+  };
 }
 
 /**

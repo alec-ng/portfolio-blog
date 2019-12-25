@@ -12,8 +12,11 @@
 
 Plugins are a blueprint for any sort of element that can exist on a page. Typically, this element is a high level of abstraction, such as an image or a video. Scrapbook Editor comes with a set of default plugins that accommodate traditional elements found on most online writing. These include plugins and variations to represent images, video, and text.
 
-### Attributes
+### Attributes and Controls
 
+-
+
+- Type "file" is not supported
 - Base Attributes and Variation attributes can share the same name (i.e. baseAttr.name1 + variationAttr.name1 is fine, as well as variation1Attr.name1 + variation2Attr.name1)
 
 ### Variations

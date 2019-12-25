@@ -1,7 +1,7 @@
 import React from "react";
 import { useStateValue } from "./../state";
 import { ACTION_TYPES } from "./../reducers/index";
-import Input from "./input";
+import VariationSelect from "./variation-select";
 import AttributeGroup from "./block-attribute-group";
 
 /**
@@ -28,7 +28,7 @@ export default function BlockAttributes(props) {
   }
 
   // Selected block relies on auto generated controls
-  const onInput = function(e) {
+  const onChange = function(e) {
     let newVal = e.target.value;
     if (e.target.type === "checkbox") {
       newVal = e.target.checked;
@@ -49,7 +49,7 @@ export default function BlockAttributes(props) {
   let baseAttrProps = {
     attrs: plugin.baseAttrs,
     isBase: true,
-    onInput: onInput,
+    onChange: onChange,
     focusedBlock: focusedBlock
   };
   let variationName = focusedBlock.variation;
@@ -59,7 +59,7 @@ export default function BlockAttributes(props) {
   let variationAttrProps = {
     attrs: variation.attrs,
     isBase: false,
-    onInput: onInput,
+    onChange: onChange,
     variationName: variationName,
     focusedBlock: focusedBlock
   };
@@ -67,6 +67,7 @@ export default function BlockAttributes(props) {
   return (
     <form>
       <AttributeGroup {...baseAttrProps} />
+      <VariationSelect />
       <AttributeGroup {...variationAttrProps} />
     </form>
   );

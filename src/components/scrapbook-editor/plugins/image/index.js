@@ -42,7 +42,7 @@ const Image = {
           type: "number"
           // could also add validation rules here
         }
-      ] // no additional variational attributes
+      ]
     }
   ],
   defaultVariation: VARIATION_STRETCH,

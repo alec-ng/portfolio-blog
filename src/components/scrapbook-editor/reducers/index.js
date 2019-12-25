@@ -8,7 +8,9 @@ export const ACTION_TYPES = {
   // on drop event- add new block to canvas
   ADD_BLOCK: "ADD_BLOCK",
   // on block click, switch focus to selected block
-  SWITCH_BLOCK_FOCUS: "SWITCH_BLOCK_FOCUS"
+  SWITCH_BLOCK_FOCUS: "SWITCH_BLOCK_FOCUS",
+  // focused block variation switch
+  UPDATE_VARIATION: "UPDATE_VARIATION"
 };
 
 export const MainReducer = function(state, action) {
@@ -20,6 +22,7 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.ADD_BLOCK:
     case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
     case ACTION_TYPES.UPDATE_FOCUSED_BLOCK:
+    case ACTION_TYPES.UPDATE_VARIATION:
       return Object.assign(
         {},
         state,

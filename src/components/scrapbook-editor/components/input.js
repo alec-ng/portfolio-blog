@@ -9,42 +9,35 @@ export default function Input(props) {
     <div className="form-group">
       <label>
         {props.label}
-        <BaseInputElement {...props} />
+        {props.type === "checkbox" ? (
+          <CheckboxInput {...props} />
+        ) : (
+          <BaseInput {...props} />
+        )}
       </label>
     </div>
   );
 }
 
-function BaseInputElement(props) {
-  let isCheckedCheckbox = false;
+function BaseInput(props) {
+  return (
+    <input
+      type={props.type}
+      data-key={props.dataKey}
+      className="form-control"
+      onChange={props.handleOnChange}
+      {...props.attributes}
+    />
+  );
+}
+
+// Encapsulates checked logic specific to checkboxes
+function CheckboxInput(props) {
+  // Convert value to checked property
   let attributeObj = props.attributes
     ? Object.assign({}, props.attributes)
     : {};
-  if (props.type === "checkbox" && attributeObj.checked) {
-    isCheckedCheckbox = true;
-  }
-  delete attributeObj.checked;
-
-  return (
-    <>
-      {isCheckedCheckbox ? (
-        <input
-          type={props.type}
-          data-key={props.dataKey}
-          className="form-control"
-          onInput={props.handleOnInput}
-          checked
-          {...attributeObj}
-        />
-      ) : (
-        <input
-          type={props.type}
-          data-key={props.dataKey}
-          className="form-control"
-          onInput={props.handleOnInput}
-          {...attributeObj}
-        />
-      )}
-    </>
-  );
+  attributeObj.checked = attributeObj.value;
+  let newProps = Object.assign({}, props, { attributes: attributeObj });
+  return <BaseInput {...newProps} />;
 }

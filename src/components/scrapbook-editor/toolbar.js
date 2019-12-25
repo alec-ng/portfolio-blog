@@ -25,7 +25,6 @@ export default function Toolbar(props) {
       <Accordion openOnDefault={true} title="Block Attributes">
         <BlockAttributes />
       </Accordion>
-      <hr />
       <button type="button">Save</button>
     </div>
   );

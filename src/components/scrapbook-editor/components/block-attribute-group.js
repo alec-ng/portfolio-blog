@@ -28,7 +28,7 @@ export default function BlockAttributeGroup(props) {
       <Input
         label={attr.label}
         type={attr.type}
-        handleOnInput={props.onInput}
+        handleOnChange={props.onChange}
         key={attr.name}
         attributes={inputAttrs}
       />
