@@ -1,11 +1,7 @@
 import React from "react";
-import styled from "styled-components";
-import "./styles.css";
-
 import { StateProvider, DefaultState } from "./state";
 import { MainReducer } from "./reducers/index";
-import Toolbar from "./toolbar";
-import Canvas from "./canvas";
+import App from "./app";
 
 /**
  * Inits an object to be used as the pageData prop for ScrapbookEditor
@@ -30,10 +26,9 @@ export function createPageData(data) {
  * @param plugins list of render props of blocks to be used by the editor and page
  * @param pageData JSON representation of page and all child blocks
  * @param readOnly if true, sidebar does not render and blocks cannot be edited
- * @param onChange cb that receives the new editor data as an arugment whenever a block has been modified, added or deleted
+ * @param onSave executes a cb that receives the new editor data as an arugment
  */
 export function ScrapbookEditor(props) {
-  // check props
   if (!props.plugins || props.plugins.length < 1) {
     console.error("You must supply at least one plugin through props.plugins.");
   }
@@ -65,35 +60,9 @@ export function ScrapbookEditor(props) {
   // Add save cb to global state
   globalState.onSave = props.onSave;
 
-  // set styling based on readOnly flag
-  const BaseContainer = styled.div`
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    height: 100%;
-    min-width: ${props => (props.readOnly ? "inherit" : "992px")};
-  `;
-  const ToolbarContainer = styled.div`
-    flex: 0 0 25%;
-    overflow-y: auto;
-  `;
-  const CanvasContainer = styled.div`
-    overflow-y: auto;
-    flex: ${props => (props.readOnly ? "100%" : "75%")};
-  `;
-
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>
-      <BaseContainer readOnly={globalState.readOnly}>
-        {!globalState.readOnly && (
-          <ToolbarContainer>
-            <Toolbar />
-          </ToolbarContainer>
-        )}
-        <CanvasContainer readOnly={globalState.readOnly}>
-          <Canvas />
-        </CanvasContainer>
-      </BaseContainer>
+      <App />
     </StateProvider>
   );
 }

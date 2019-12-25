@@ -5,6 +5,7 @@ import { ACTION_TYPES } from "./reducers/index";
 import DraggablePlugin from "./components/draggable-plugin";
 import Accordion from "./components/accordion";
 import BlockAttributes from "./components/block-attributes";
+import PreviewButton from "./components/preview-button";
 
 /**
  * Represents the editor's command bar for modifying page and block metadata
@@ -38,13 +39,13 @@ export default function Toolbar(props) {
   }
 
   return (
-    <div style={{ height: "100%", border: "1px solid black" }}>
-      <section className="mb-3">
+    <div style={{ minHeight: "100%", border: "1px solid black" }}>
+      <section className="m-1">
         <Accordion title="Page Metadata">
           <PageMetadataControls />
         </Accordion>
         <Accordion title="Add Block">{PluginList}</Accordion>
-        <Accordion title="Block Attributes">
+        <Accordion title="Block Attributes" openOnDefault={true}>
           <BlockAttributes />
         </Accordion>
       </section>
@@ -56,13 +57,7 @@ export default function Toolbar(props) {
         >
           Save
         </button>
-        <button
-          type="button"
-          className="btn btn-block btn-primary"
-          onClick={initPreview}
-        >
-          Preview
-        </button>
+        <PreviewButton />
       </section>
     </div>
   );

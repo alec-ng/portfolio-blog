@@ -18,7 +18,11 @@ export default function BlockAttributes(props) {
   const [{ focusedBlock, pluginMap }, dispatch] = useStateValue();
   // Base case: no block is selected
   if (!focusedBlock) {
-    return <></>;
+    return (
+      <div className="text-center">
+        <p>Select a block on the canvas to view its attributes.</p>
+      </div>
+    );
   }
 
   // Selected block has defined its own controls

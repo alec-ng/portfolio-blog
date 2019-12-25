@@ -10,11 +10,15 @@ export const ACTION_TYPES = {
   // on block click, switch focus to selected block
   SWITCH_BLOCK_FOCUS: "SWITCH_BLOCK_FOCUS",
   // focused block variation switch
-  UPDATE_VARIATION: "UPDATE_VARIATION"
+  UPDATE_VARIATION: "UPDATE_VARIATION",
+  // hides toolbar and shows preview button
+  TOGGLE_PREVIEW_MODE: "TOGGLE_PREVIEW_MODE"
 };
 
 export const MainReducer = function(state, action) {
   switch (action.type) {
+    case ACTION_TYPES.TOGGLE_PREVIEW_MODE:
+      return Object.assign({}, state, { inPreviewMode: !state.inPreviewMode });
     case ACTION_TYPES.UPDATE_INPUT:
       return Object.assign({}, state, {
         pageMetadata: pageMetadataReducer(state.pageMetadata, action)

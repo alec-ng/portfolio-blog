@@ -17,7 +17,8 @@ export const DefaultState = {
   },
   blocks: [],
   readOnly: false,
-  focusedBlock: undefined
+  focusedBlock: undefined,
+  inPreviewMode: false
 };
 
 /**

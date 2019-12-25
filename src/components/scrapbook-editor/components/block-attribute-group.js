@@ -34,16 +34,5 @@ export default function BlockAttributeGroup(props) {
       />
     );
   });
-  return (
-    <>
-      {props.isBase
-        ? attrList
-        : attrList.length > 0 && (
-            <>
-              {" "}
-              <hr /> {attrList}{" "}
-            </>
-          )}
-    </>
-  );
+  return <>{props.isBase ? attrList : attrList.length > 0 && attrList}</>;
 }

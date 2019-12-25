@@ -7,7 +7,11 @@ import { ImageElement } from "./plugins/image/image";
 import BlockContainer from "./components//block-container";
 
 export default function Canvas(props) {
-  const [{ blocks, pluginMap, readOnly }, dispatch] = useStateValue();
+  const [
+    { blocks, pluginMap, readOnly, inPreviewMode },
+    dispatch
+  ] = useStateValue();
+  const renderDropzones = !readOnly && !inPreviewMode;
 
   /**
    * Each item in the global state 'blocks' props is displayed with a dropzone
@@ -19,12 +23,14 @@ export default function Canvas(props) {
       let BlockElement = pluginMap[block.name].canvasElement;
       let variationAttrs = block.variationAttrs[block.variation] || {};
 
-      list.push(
-        <DropZone
-          key={`dropzone-${block.uuid}`}
-          uuid={`dropzone-${block.uuid}`}
-        />
-      );
+      if (renderDropzones) {
+        list.push(
+          <DropZone
+            key={`dropzone-${block.uuid}`}
+            uuid={`dropzone-${block.uuid}`}
+          />
+        );
+      }
       list.push(
         <BlockContainer
           key={block.uuid}
@@ -47,7 +53,7 @@ export default function Canvas(props) {
     <>
       <PageMetadata />
       {renderContent()}
-      <DropZone />
+      {renderDropzones && <DropZone />}
     </>
   );
 }
