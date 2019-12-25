@@ -10,8 +10,6 @@ import PreviewButton from "./components/preview-button";
  * Highest level rendering component
  */
 export default function App(props) {
-  const [{ inPreviewMode, readOnly }, dispatch] = useStateValue();
-
   const BaseContainer = styled.div`
     margin-left: auto;
     margin-right: auto;
@@ -29,16 +27,15 @@ export default function App(props) {
   `;
 
   return (
-    <BaseContainer readOnly={readOnly}>
-      {!readOnly && !inPreviewMode && (
-        <ToolbarContainer>
-          <Toolbar />
-        </ToolbarContainer>
-      )}
-      <CanvasContainer readOnly={readOnly}>
+    <BaseContainer>
+      <ToolbarContainer>
+        <Toolbar />
+      </ToolbarContainer>
+
+      <CanvasContainer>
         <Canvas />
       </CanvasContainer>
-      {inPreviewMode && <PreviewButton />}
+      <PreviewButton />
     </BaseContainer>
   );
 }
