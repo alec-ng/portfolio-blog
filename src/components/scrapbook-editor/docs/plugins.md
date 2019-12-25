@@ -14,10 +14,14 @@ Plugins are a blueprint for any sort of element that can exist on a page. Typica
 
 ### Attributes and Controls
 
--
+- If using auto generated controls, attribute types supported:
+  - date
+  - text
+  - number
+  - checkbox
 
-- Type "file" is not supported
-- Base Attributes and Variation attributes can share the same name (i.e. baseAttr.name1 + variationAttr.name1 is fine, as well as variation1Attr.name1 + variation2Attr.name1)
+* Type "file" is not supported
+* Base Attributes and Variation attributes can share the same name (i.e. baseAttr.name1 + variationAttr.name1 is fine, as well as variation1Attr.name1 + variation2Attr.name1)
 
 ### Variations
 

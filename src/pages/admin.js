@@ -14,15 +14,17 @@ const Admin = function(props) {
   const [editorData, setEditorData] = useState(createPageData());
   const plugins = [Image];
 
-  function onEditorChange(pageData) {
-    setEditorData(pageData);
+  function onEditorSave(pageMetadata, blocks) {
+    console.log("SAVING ---- \n\n");
+    console.log(pageMetadata);
+    console.log(blocks);
   }
 
   return (
     <div className="container-fluid p-0">
       <ScrapbookEditor
         pageData={editorData}
-        onChange={onEditorChange}
+        onSave={onEditorSave}
         plugins={plugins}
       />
     </div>

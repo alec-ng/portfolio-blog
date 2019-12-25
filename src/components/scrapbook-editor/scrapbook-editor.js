@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import styled from "styled-components";
 import "./styles.css";
 
@@ -16,7 +15,9 @@ import Canvas from "./canvas";
 export function createPageData(data) {
   if (!data) {
     let baseDataCpy = Object.assign({}, DefaultState);
-    baseDataCpy.pageMetadata.createdDate = moment();
+    let currDay = new Date();
+    baseDataCpy.pageMetadata.createdDate = `${currDay.getFullYear()}-${currDay.getMonth() +
+      1}-${currDay.getDate()}`;
     return baseDataCpy;
   } else {
     // Any processing to do here?
@@ -41,9 +42,9 @@ export function ScrapbookEditor(props) {
       "You must supply page data to load. Try using createPageData()."
     );
   }
-  if (!props.onChange) {
+  if (!props.onSave) {
     console.warn(
-      "No onChange prop found - you will not be able to see up to date page data."
+      "No onSave prop found - you will not be able to access editor data."
     );
   }
 
@@ -60,6 +61,9 @@ export function ScrapbookEditor(props) {
     pluginMap[plugin.name] = plugin;
   });
   globalState.pluginMap = pluginMap;
+
+  // Add save cb to global state
+  globalState.onSave = props.onSave;
 
   // set styling based on readOnly flag
   const BaseContainer = styled.div`

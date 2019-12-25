@@ -22,7 +22,7 @@ export function PageMetadata(props) {
 export function PageMetadataControls(props) {
   const [{ pageMetadata }, dispatch] = useStateValue();
 
-  function handleOnInput(e) {
+  function handleOnChange(e) {
     dispatch({
       type: ACTION_TYPES.UPDATE_INPUT,
       payload: {
@@ -38,19 +38,19 @@ export function PageMetadataControls(props) {
         label="Title"
         type="text"
         dataKey="title"
-        handleOnInput={handleOnInput}
+        handleOnChange={handleOnChange}
       />
       <Input
         label="Subtitle"
         type="text"
         dataKey="subTitle"
-        handleOnInput={handleOnInput}
+        handleOnChange={handleOnChange}
       />
       <Input
         label="Display Date"
         type="date"
         dataKey="displayDate"
-        handleOnInput={handleOnInput}
+        handleOnChange={handleOnChange}
       />
     </form>
   );

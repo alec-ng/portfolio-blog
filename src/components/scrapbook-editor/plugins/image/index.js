@@ -41,6 +41,12 @@ const Image = {
           label: "TestAttribute3",
           type: "number"
           // could also add validation rules here
+        },
+        {
+          name: "testAttr4",
+          label: "TestAttribute4",
+          type: "text"
+          // could also add validation rules here
         }
       ]
     }

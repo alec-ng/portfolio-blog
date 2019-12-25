@@ -1,6 +1,7 @@
 import React from "react";
 import { useStateValue } from "./state";
 import { PageMetadataControls } from "./components/page-metadata";
+import { ACTION_TYPES } from "./reducers/index";
 import DraggablePlugin from "./components/draggable-plugin";
 import Accordion from "./components/accordion";
 import BlockAttributes from "./components/block-attributes";
@@ -9,23 +10,60 @@ import BlockAttributes from "./components/block-attributes";
  * Represents the editor's command bar for modifying page and block metadata
  */
 export default function Toolbar(props) {
-  const [{ plugins }, dispatch] = useStateValue();
+  const [{ plugins, pageMetadata, blocks, onSave }, dispatch] = useStateValue();
 
   const PluginList = plugins.map(plugin => (
     <DraggablePlugin key={plugin.name} plugin={plugin}></DraggablePlugin>
   ));
 
+  function exportEditorData(e) {
+    alert("Data exported - check console.");
+    // Update last-updated date
+    let nowStr = new Date().toISOString();
+    dispatch({
+      type: ACTION_TYPES.UPDATE_INPUT,
+      payload: {
+        inputKey: "lastModified",
+        value: nowStr
+      }
+    });
+    let localPageMetadata = Object.assign({}, pageMetadata, {
+      lastModified: nowStr
+    });
+    onSave(localPageMetadata, blocks);
+  }
+
+  function initPreview(e) {
+    alert("TODO!");
+  }
+
   return (
     <div style={{ height: "100%", border: "1px solid black" }}>
-      <h1>This is my toolbar.</h1>
-      <Accordion title="Page Metadata">
-        <PageMetadataControls />
-      </Accordion>
-      <Accordion title="Add Block">{PluginList}</Accordion>
-      <Accordion openOnDefault={true} title="Block Attributes">
-        <BlockAttributes />
-      </Accordion>
-      <button type="button">Save</button>
+      <section className="mb-3">
+        <Accordion title="Page Metadata">
+          <PageMetadataControls />
+        </Accordion>
+        <Accordion title="Add Block">{PluginList}</Accordion>
+        <Accordion title="Block Attributes">
+          <BlockAttributes />
+        </Accordion>
+      </section>
+      <section className="my-3 mx-3">
+        <button
+          type="button"
+          className="btn btn-block btn-success"
+          onClick={exportEditorData}
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          className="btn btn-block btn-primary"
+          onClick={initPreview}
+        >
+          Preview
+        </button>
+      </section>
     </div>
   );
 }
