@@ -1,11 +1,7 @@
-import React from "react";
-import { StateProvider, DefaultState } from "./state";
+import React, { useState } from "react";
+import { StateProvider, DefaultState, useStateValue } from "./state";
 import { MainReducer } from "./reducers/index";
-
-import styled from "styled-components";
-import Toolbar from "./toolbar";
-import Canvas from "./canvas";
-import PreviewButton from "./components/preview-button";
+import AppContainer from "./app";
 
 /**
  * Inits an object to be used as the pageData prop for ScrapbookEditor
@@ -64,55 +60,9 @@ export function ScrapbookEditor(props) {
   // Add save cb to global state
   globalState.onSave = props.onSave;
 
-  const BaseContainer = styled.div`
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    height: 100%;
-    min-width: ${props =>
-      !props.readOnly && !props.inPreviewMode ? "inherit" : "992px"};
-  `;
-  const ToolbarContainer = styled.div`
-    flex: 0 0 25%;
-    overflow-y: auto;
-    margin-right: 5px;
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
-    &::-webkit-scrollbar-track {
-      opacity: 0;
-      margin: 3px 0;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-    }
-  `;
-  const CanvasContainer = styled.div`
-    overflow-y: auto;
-    flex: ${props =>
-      !props.readOnly && !props.inPreviewMode ? "100%" : "75%"};
-  `;
-
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>
-      <BaseContainer
-        readOnly={globalState.readOnly}
-        inPreviewMode={globalState.inPreviewMode}
-      >
-        {!globalState.inPreviewMode && !globalState.readOnly && (
-          <ToolbarContainer>
-            <Toolbar />
-          </ToolbarContainer>
-        )}
-        <CanvasContainer
-          readOnly={globalState.readOnly}
-          inPreviewMode={globalState.inPreviewMode}
-        >
-          <Canvas />
-        </CanvasContainer>
-        {/* {globalState.inPreviewMode && (<PreviewButton />)} */}
-      </BaseContainer>
+      <AppContainer />
     </StateProvider>
   );
 }

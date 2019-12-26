@@ -10,7 +10,7 @@ export default function PreviewButton(props) {
   const [{ inPreviewMode }, dispatch] = useStateValue();
 
   const InPreviewModeButton = styled.button`
-    position: absolute;
+    position: fixed;
     width: 150px;
     height: 40px;
     bottom: 5%;
