@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useStateValue } from "./../state";
 import { ACTION_TYPES } from "./../reducers/index";
 
 export default function DropZone(props) {
   const [{}, dispatch] = useStateValue();
+  // local state value
+  const [dragEnter, setDragEnter] = useState(false);
 
   /**
    * Overwrite browser default behaviour to allow drag n' drop
    */
   function onDragOver(e) {
     e.preventDefault();
+  }
+
+  function setDragLeft(e) {
+    setDragEnter(false);
+  }
+  function setDrag(e) {
+    setDragEnter(true);
   }
 
   /**
@@ -31,12 +40,22 @@ export default function DropZone(props) {
   }
 
   const DropZoneDiv = styled.div`
-    height: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    height: 15px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border: ${props =>
+      props.dragEnter
+        ? "1px dashed rgba(0,0,0,0.5)"
+        : "1px dashed rgba(0,0,0,0.15)"};
+    color: rgba(0, 0, 0, 0.5);
   `;
   return (
-    <DropZoneDiv onDragOver={onDragOver} onDrop={onDrop}>
-      <p>DropZone</p>
-    </DropZoneDiv>
+    <DropZoneDiv
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onDragLeave={setDragLeft}
+      onDragEnter={setDrag}
+      dragEnter={dragEnter}
+    />
   );
 }

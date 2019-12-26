@@ -69,7 +69,8 @@ export function ScrapbookEditor(props) {
     margin-right: auto;
     display: flex;
     height: 100%;
-    min-width: ${props => (props.readOnly ? "inherit" : "992px")};
+    min-width: ${props =>
+      !props.readOnly && !props.inPreviewMode ? "inherit" : "992px"};
   `;
   const ToolbarContainer = styled.div`
     flex: 0 0 25%;
@@ -77,21 +78,28 @@ export function ScrapbookEditor(props) {
   `;
   const CanvasContainer = styled.div`
     overflow-y: auto;
-    flex: ${props => (props.readOnly ? "100%" : "75%")};
+    flex: ${props =>
+      !props.readOnly && !props.inPreviewMode ? "100%" : "75%"};
   `;
 
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>
-      <BaseContainer readOnly={globalState.readOnly}>
-        {!globalState.readOnly && !globalState.inPreviewMode && (
+      <BaseContainer
+        readOnly={globalState.readOnly}
+        inPreviewMode={globalState.inPreviewMode}
+      >
+        {!globalState.inPreviewMode && !globalState.readOnly && (
           <ToolbarContainer>
             <Toolbar />
           </ToolbarContainer>
         )}
-        <CanvasContainer readOnly={globalState.readOnly}>
+        <CanvasContainer
+          readOnly={globalState.readOnly}
+          inPreviewMode={globalState.inPreviewMode}
+        >
           <Canvas />
         </CanvasContainer>
-        {globalState.inPreviewMode && <PreviewButton />}
+        {/* {globalState.inPreviewMode && (<PreviewButton />)} */}
       </BaseContainer>
     </StateProvider>
   );

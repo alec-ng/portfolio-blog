@@ -5,14 +5,21 @@ import Input from "./../components/input";
 
 export function PageMetadata(props) {
   const [{ pageMetadata }, dispatch] = useStateValue();
+  const metadataExists =
+    pageMetadata.title || pageMetadata.subTitle || pageMetadata.displayDate;
 
   return (
-    <>
-      <h1>{pageMetadata.title}</h1>
-      <h2>{pageMetadata.subTitle}</h2>
-      <h3>{pageMetadata.displayDate}</h3>
-      <hr />
-    </>
+    <div className="text-center mx-3 my-5">
+      {metadataExists ? (
+        <>
+          <h1 className="py-1">{pageMetadata.title}</h1>
+          <h4 className="py-1">{pageMetadata.subTitle}</h4>
+          <h5 className="py-1">{pageMetadata.displayDate}</h5>
+        </>
+      ) : (
+        <h1>Page metadata is shown here</h1>
+      )}
+    </div>
   );
 }
 

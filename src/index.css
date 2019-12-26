@@ -54,6 +54,15 @@ button[type="button"]:hover {
   cursor: pointer;
 }
 
+/* Inputs */
+input.form-control[type="checkbox"] {
+  height: 15px;
+}
+input.form-control[type="checkbox"]:focus {
+  border: none;
+  box-shadow: none;
+}
+
 /* Anchors */
 a {
   color: rgb(255, 69, 0);

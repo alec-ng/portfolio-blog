@@ -7,7 +7,7 @@ import React from "react";
 export default function Input(props) {
   return (
     <div className="form-group">
-      <label>
+      <label style={{ width: "100%" }}>
         {props.label}
         {props.type === "checkbox" ? (
           <CheckboxInput {...props} />

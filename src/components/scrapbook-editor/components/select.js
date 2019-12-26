@@ -10,7 +10,7 @@ export default function Select(props) {
 
   return (
     <div className="form-group">
-      <label>
+      <label style={{ width: "100%" }}>
         {props.label}
         {multiSelectionEnabled ? (
           <select

@@ -8,9 +8,12 @@ import { ACTION_TYPES } from "./../reducers/index";
  * via CSS class and dispatch action
  */
 export default function BlockContainer(props) {
-  const [{}, dispatch] = useStateValue();
+  const [{ readOnly, inPreviewMode }, dispatch] = useStateValue();
   const FocusDiv = styled.div`
-    border: ${props => (props.isFocused ? "2px solid blue" : "none")};
+    border: ${props =>
+      props.isFocused && !readOnly && !inPreviewMode
+        ? "2pt solid rgba(0,0,0,0.5)"
+        : "none"};
   `;
 
   function onClick(e) {
