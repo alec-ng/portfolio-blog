@@ -24,9 +24,20 @@ export default function blockReducer(state, action) {
         state.focusedBlock.uuid,
         action.payload
       );
+    case ACTION_TYPES.DELETE_FOCUSED_BLOCK:
+      return deleteFocusedBlock(deepCloneBlocks, state.focusedBlock.uuid);
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }
+}
+
+function deleteFocusedBlock(blockArr, uuid) {
+  let focusedInd = blockArr.findIndex(block => block.uuid === uuid);
+  blockArr.splice(focusedInd, 1);
+  return {
+    focusedBlock: null,
+    blocks: blockArr
+  };
 }
 
 /**

@@ -11,7 +11,10 @@ import PreviewButton from "./components/preview-button";
  * Represents the editor's command bar for modifying page and block metadata
  */
 export default function Toolbar(props) {
-  const [{ plugins, pageMetadata, blocks, onSave }, dispatch] = useStateValue();
+  const [
+    { plugins, pageMetadata, blocks, onSave, focusedBlock },
+    dispatch
+  ] = useStateValue();
 
   const PluginList = plugins.map(plugin => (
     <DraggablePlugin key={plugin.name} plugin={plugin}></DraggablePlugin>
@@ -32,6 +35,12 @@ export default function Toolbar(props) {
       lastModified: nowStr
     });
     onSave(localPageMetadata, blocks);
+  }
+
+  function deleteFocusedBlock(e) {
+    dispatch({
+      type: ACTION_TYPES.DELETE_FOCUSED_BLOCK
+    });
   }
 
   function initPreview(e) {
@@ -58,6 +67,15 @@ export default function Toolbar(props) {
           Save
         </button>
         <PreviewButton />
+        {focusedBlock != null && (
+          <button
+            type="button"
+            className="btn btn-block btn-danger"
+            onClick={deleteFocusedBlock}
+          >
+            Delete Current Block
+          </button>
+        )}
       </section>
     </div>
   );

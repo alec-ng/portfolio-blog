@@ -20,6 +20,19 @@ const BaseContainer = styled.div`
 const ToolbarContainer = styled.div`
   flex: 0 0 25%;
   overflow-y: auto;
+  margin-right: 5px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    opacity: 0;
+    margin: 3px 0;
+  }
 `;
 const CanvasContainer = styled.div`
   overflow-y: auto;

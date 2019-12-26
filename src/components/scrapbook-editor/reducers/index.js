@@ -12,7 +12,9 @@ export const ACTION_TYPES = {
   // focused block variation switch
   UPDATE_VARIATION: "UPDATE_VARIATION",
   // hides toolbar and shows preview button
-  TOGGLE_PREVIEW_MODE: "TOGGLE_PREVIEW_MODE"
+  TOGGLE_PREVIEW_MODE: "TOGGLE_PREVIEW_MODE",
+  // removes the focused block from the global state
+  DELETE_FOCUSED_BLOCK: "DELETE_FOCUSED_BLOCK"
 };
 
 export const MainReducer = function(state, action) {
@@ -27,6 +29,7 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
     case ACTION_TYPES.UPDATE_FOCUSED_BLOCK:
     case ACTION_TYPES.UPDATE_VARIATION:
+    case ACTION_TYPES.DELETE_FOCUSED_BLOCK:
       return Object.assign(
         {},
         state,
