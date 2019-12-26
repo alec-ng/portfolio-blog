@@ -11,7 +11,8 @@ export const DefaultState = {
     subTitle: undefined,
     createdDate: null,
     lastModified: null,
-    displayDate: null,
+    displayDate1: null,
+    displayDate2: null,
     tags: [],
     location: undefined
   },

@@ -6,15 +6,30 @@ import Input from "./../components/input";
 export function PageMetadata(props) {
   const [{ pageMetadata }, dispatch] = useStateValue();
   const metadataExists =
-    pageMetadata.title || pageMetadata.subTitle || pageMetadata.displayDate;
+    pageMetadata.title ||
+    pageMetadata.subTitle ||
+    pageMetadata.displayDate1 ||
+    pageMetadata.displayDate2;
+
+  let displayDate;
+  if (pageMetadata.displayDate1 && pageMetadata.displayDate2) {
+    displayDate = `${pageMetadata.displayDate1.replace(
+      "-",
+      "/"
+    )}  - ${pageMetadata.displayDate2.replace("-", "/")}`;
+  } else {
+    displayDate = pageMetadata.displayDate1 || pageMetadata.displayDate2;
+  }
 
   return (
     <div className="text-center mx-3 my-5">
       {metadataExists ? (
         <>
-          <h1 className="py-1">{pageMetadata.title}</h1>
-          <h4 className="py-1">{pageMetadata.subTitle}</h4>
-          <h5 className="py-1">{pageMetadata.displayDate}</h5>
+          {pageMetadata.title && <h1 className="py-1">{pageMetadata.title}</h1>}
+          {pageMetadata.subTitle && (
+            <h4 className="py-1">{pageMetadata.subTitle}</h4>
+          )}
+          {displayDate && <h5 className="py-1">{displayDate}</h5>}
         </>
       ) : (
         <h1>Page metadata is shown here</h1>
@@ -53,12 +68,24 @@ export function PageMetadataControls(props) {
         dataKey="subTitle"
         handleOnChange={handleOnChange}
       />
-      <Input
-        label="Display Date"
-        type="date"
-        dataKey="displayDate"
-        handleOnChange={handleOnChange}
-      />
+      <div class="form-row">
+        <div class="col-md-6">
+          <Input
+            label="Start Date"
+            type="date"
+            dataKey="displayDate1"
+            handleOnChange={handleOnChange}
+          />
+        </div>
+        <div class="col-md-6">
+          <Input
+            label="End Date"
+            type="date"
+            dataKey="displayDate2"
+            handleOnChange={handleOnChange}
+          />
+        </div>
+      </div>
     </form>
   );
 }
