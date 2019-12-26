@@ -39,8 +39,8 @@ export default function Toolbar(props) {
   }
 
   return (
-    <div style={{ minHeight: "100%", border: "1px solid black" }}>
-      <section className="m-1">
+    <div style={{ minHeight: "100%" }}>
+      <section className="p-1">
         <Accordion title="Page Metadata">
           <PageMetadataControls />
         </Accordion>
@@ -49,7 +49,7 @@ export default function Toolbar(props) {
           <BlockAttributes />
         </Accordion>
       </section>
-      <section className="my-3 mx-3">
+      <section className="p-3">
         <button
           type="button"
           className="btn btn-block btn-success"
