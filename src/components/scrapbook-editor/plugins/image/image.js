@@ -1,23 +1,23 @@
 import React from "react";
-import styled from "styled-components";
 import PlaceholderImgURL from "./placeholder.jpg";
-import { Stretch, VARIATION_STRETCH } from "./variation-stretch";
+import "./style.css";
+
+const DEFAULT_SIZE = "medium";
+export const VARIATION_DEFAULT = "image_default";
 
 export function ImageElement(props) {
+  const imgSize = props.baseAttrs.size || DEFAULT_SIZE;
+  const sizeClassName = `${VARIATION_DEFAULT}-${imgSize}`;
+
   function Variation() {
-    if (!props.baseAttrs || !props.baseAttrs.urlSource) {
-      const PlaceholderImg = styled.img`
-        width: 100%;
-      `;
-      return <PlaceholderImg className="img-fluid" src={PlaceholderImgURL} />;
-    }
+    let urlSource = props.baseAttrs.urlSource || PlaceholderImgURL;
 
     switch (props.variation) {
-      case VARIATION_STRETCH:
+      case VARIATION_DEFAULT:
         return (
-          <Stretch
-            baseAttrs={props.baseAttrs}
-            variationAttrs={props.variationAttrs}
+          <img
+            src={urlSource}
+            className={`${sizeClassName} img-fluid d-block mx-auto`}
           />
         );
       default:

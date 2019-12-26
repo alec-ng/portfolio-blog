@@ -97,6 +97,7 @@ function switchActiveBlock(blockArr, uuid) {
  * add to blockArr at an index determined by uuid
  */
 function addNewBlock(blockArr, plugin, uuid) {
+  // Create new block with any default values
   let newBlock = {
     name: plugin.name,
     baseAttrs: {},
@@ -105,7 +106,21 @@ function addNewBlock(blockArr, plugin, uuid) {
     uuid: uuidv1(),
     isFocused: true
   };
+  plugin.baseAttrs.forEach(attr => {
+    if (attr.defaultValue) {
+      newBlock.baseAttrs[attr.name] = attr.defaultValue;
+    }
+  });
   newBlock.variationAttrs[plugin.defaultVariation] = {};
+  let defaultVariation = plugin.variations.find(
+    variation => variation.name === plugin.defaultVariation
+  );
+  defaultVariation.attrs.forEach(attr => {
+    if (attr.defaultValue) {
+      newBlock.variationAttrs[plugin.defaultVariation][attr.name] =
+        attr.defaultValue;
+    }
+  });
 
   // Set all other blocks focus to false
   blockArr.forEach(block => {

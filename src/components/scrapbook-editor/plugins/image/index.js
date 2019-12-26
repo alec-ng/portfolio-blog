@@ -1,6 +1,4 @@
-import { ImageElement } from "./image";
-import { VARIATION_STRETCH } from "./variation-stretch";
-// TOOD: some sort of icon
+import { ImageElement, VARIATION_DEFAULT } from "./image";
 
 /**
  * Plugin definition for Image
@@ -17,58 +15,41 @@ const Image = {
       label: "URL",
       element: "input",
       type: "text"
-      // could also add validation rules here
-    }
-  ],
-  variations: [
+    },
     {
-      name: VARIATION_STRETCH,
-      label: "Full Width",
-      attrs: [
+      name: "size",
+      label: "Size",
+      element: "select",
+      defaultRequired: true,
+      defaultValue: "stretch",
+      options: [
         {
-          name: "testAttr",
-          label: "TestAttribute",
-          element: "input",
-          type: "checkbox"
+          name: "stretch",
+          label: "Stretch"
         },
         {
-          name: "testAttr2",
-          label: "TestAttribute2",
-          element: "input",
-          type: "date"
+          name: "large",
+          label: "Large"
         },
         {
-          name: "testAttr3",
-          label: "TestAttribute3",
-          element: "input",
-          type: "number"
+          name: "medium",
+          label: "Medium"
         },
         {
-          name: "testAttr4",
-          label: "TestAttribute4",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "testAttr5",
-          label: "TestAttribute5",
-          element: "select",
-          defaultRequired: false,
-          options: [
-            {
-              label: "Label 1",
-              name: "label1"
-            },
-            {
-              label: "Label 2",
-              name: "label2"
-            }
-          ]
+          name: "small",
+          label: "Small"
         }
       ]
     }
   ],
-  defaultVariation: VARIATION_STRETCH,
+  variations: [
+    {
+      name: VARIATION_DEFAULT,
+      label: "Base Image",
+      attrs: []
+    }
+  ],
+  defaultVariation: VARIATION_DEFAULT,
   useDefaultControls: true
 };
 

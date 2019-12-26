@@ -1,0 +1,50 @@
+.image_default-stretch {
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .image_default-large,
+  .image_default-medium,
+  .image_default-small {
+    width: 100%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .image_default-large {
+    width: 80%;
+  }
+  .image_default-medium {
+    width: 65%;
+  }
+  .image_default-small {
+    width: 50%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .image_default-large {
+    width: 65%;
+  }
+  .image_default-medium {
+    width: 50%;
+  }
+  .image_default-small {
+    width: 40%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .image_default-large {
+    width: 60%;
+  }
+  .image_default-medium {
+    width: 40%;
+  }
+  .image_default-small {
+    width: 30%;
+  }
+}
