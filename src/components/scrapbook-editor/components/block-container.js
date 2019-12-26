@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useStateValue } from "./../state";
 import { ACTION_TYPES } from "./../reducers/index";
@@ -15,6 +15,17 @@ export default function BlockContainer(props) {
         ? "2pt solid rgba(0,0,0,0.5)"
         : "none"};
   `;
+  let containerDivRef = React.createRef();
+
+  // Scroll into view whenever the block is in focus
+  useEffect(() => {
+    if (props.isFocused) {
+      containerDivRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
+  });
 
   function onClick(e) {
     dispatch({
@@ -26,7 +37,11 @@ export default function BlockContainer(props) {
   }
 
   return (
-    <FocusDiv onClick={onClick} isFocused={props.isFocused}>
+    <FocusDiv
+      onClick={onClick}
+      isFocused={props.isFocused}
+      ref={containerDivRef}
+    >
       {props.children}
     </FocusDiv>
   );

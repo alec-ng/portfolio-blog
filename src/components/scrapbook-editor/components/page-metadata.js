@@ -68,8 +68,8 @@ export function PageMetadataControls(props) {
         dataKey="subTitle"
         handleOnChange={handleOnChange}
       />
-      <div class="form-row">
-        <div class="col-md-6">
+      <div className="form-row">
+        <div className="col-md-6">
           <Input
             label="Start Date"
             type="date"
@@ -77,7 +77,7 @@ export function PageMetadataControls(props) {
             handleOnChange={handleOnChange}
           />
         </div>
-        <div class="col-md-6">
+        <div className="col-md-6">
           <Input
             label="End Date"
             type="date"
