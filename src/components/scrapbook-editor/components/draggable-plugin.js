@@ -13,11 +13,13 @@ export default function DraggablePlugin(props) {
   }
 
   return (
-    <Row draggable="true" onDragStart={onDragStart}>
-      <Col md={4}>{props.plugin.icon}</Col>
-      <Col md={8}>
-        <h3>{props.plugin.label}</h3>
-        <p>{props.plugin.description}</p>
+    <Row draggable="true" onDragStart={onDragStart} className="mb-2">
+      <Col
+        className="mx-3"
+        style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: "5px" }}
+      >
+        <h5 className="mt-2">{props.plugin.label}</h5>
+        <p className="mb-2">{props.plugin.description}</p>
       </Col>
     </Row>
   );

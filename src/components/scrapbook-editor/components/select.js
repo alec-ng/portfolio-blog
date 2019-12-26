@@ -5,31 +5,38 @@ import React from "react";
  */
 export default function Select(props) {
   let attributes = props.attributes ? Object.assign({}, props.attributes) : {};
-  let multiSelectionEnabled = attributes.multiple === true;
-  delete attributes.multiple;
+  let optionsList = props.defaultRequired
+    ? []
+    : [
+        <option key="nullKey" value="">
+          -- Select an option --
+        </option>
+      ];
+
+  // assume options are list of objects with label/value properties
+  let children = props.options.map(option => (
+    <option key={option.name} value={option.name}>
+      {option.label}
+    </option>
+  ));
+
+  if (children.length === 1 && props.defaultRequired) {
+    // only one default is used
+    attributes.disabled = true;
+  }
+  optionsList.push(children);
 
   return (
     <div className="form-group">
       <label style={{ width: "100%" }}>
         {props.label}
-        {multiSelectionEnabled ? (
-          <select
-            className="form-control"
-            onChange={props.onChange}
-            multiple
-            {...props.attributes}
-          >
-            {props.options}
-          </select>
-        ) : (
-          <select
-            className="form-control"
-            onChange={props.onChange}
-            {...props.attributes}
-          >
-            {props.options}
-          </select>
-        )}
+        <select
+          className="form-control"
+          onChange={props.onChange}
+          {...attributes}
+        >
+          {optionsList}
+        </select>
       </label>
     </div>
   );

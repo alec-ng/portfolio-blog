@@ -6,13 +6,14 @@ import {
 } from "../components/scrapbook-editor/scrapbook-editor";
 
 import Image from "../components/scrapbook-editor/plugins/image/index";
+import Markdown from "../components/scrapbook-editor/plugins/markdown/index";
 
 /**
  * Page level component for admin section
  */
 const Admin = function(props) {
   const [editorData, setEditorData] = useState(createPageData());
-  const plugins = [Image];
+  const plugins = [Image, Markdown];
 
   function onEditorSave(pageMetadata, blocks) {
     console.log("SAVING ---- \n\n");

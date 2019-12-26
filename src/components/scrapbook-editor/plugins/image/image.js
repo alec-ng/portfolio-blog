@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PlaceholderImgURL from "./placeholder.jpg";
 import { Stretch, VARIATION_STRETCH } from "./variation-stretch";

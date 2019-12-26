@@ -25,17 +25,20 @@ export default function VariationSelect(props) {
   // Generate options for each variation of focused block type, with selected option being
   // current variation being used
   let currPlugin = pluginMap[focusedBlock.name];
-  const optionsList = currPlugin.variations.map(variation => (
-    <option key={variation.name} value={variation.name}>
-      {variation.label}
-    </option>
-  ));
+  const optionsList = currPlugin.variations.map(variation => {
+    return {
+      name: variation.name,
+      label: variation.label
+    };
+  });
+
   let attributes = {
     value: focusedBlock.variation
   };
 
   return (
     <Select
+      defaultRequired={true}
       multiple={false}
       attributes={attributes}
       label="Variation"

@@ -19,7 +19,7 @@ export default function BlockContainer(props) {
 
   // Scroll into view whenever the block is in focus
   useEffect(() => {
-    if (props.isFocused) {
+    if (props.isFocused && !readOnly && !inPreviewMode) {
       containerDivRef.current.scrollIntoView({
         behavior: "smooth",
         block: "center"
@@ -28,6 +28,9 @@ export default function BlockContainer(props) {
   });
 
   function onClick(e) {
+    if (readOnly || inPreviewMode) {
+      return;
+    }
     dispatch({
       type: ACTION_TYPES.SWITCH_BLOCK_FOCUS,
       payload: {

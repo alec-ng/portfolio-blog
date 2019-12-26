@@ -15,6 +15,7 @@ const Image = {
     {
       name: "urlSource",
       label: "URL",
+      element: "input",
       type: "text"
       // could also add validation rules here
     }
@@ -27,26 +28,42 @@ const Image = {
         {
           name: "testAttr",
           label: "TestAttribute",
+          element: "input",
           type: "checkbox"
-          // could also add validation rules here
         },
         {
           name: "testAttr2",
           label: "TestAttribute2",
+          element: "input",
           type: "date"
-          // could also add validation rules here
         },
         {
           name: "testAttr3",
           label: "TestAttribute3",
+          element: "input",
           type: "number"
-          // could also add validation rules here
         },
         {
           name: "testAttr4",
           label: "TestAttribute4",
+          element: "input",
           type: "text"
-          // could also add validation rules here
+        },
+        {
+          name: "testAttr5",
+          label: "TestAttribute5",
+          element: "select",
+          defaultRequired: false,
+          options: [
+            {
+              label: "Label 1",
+              name: "label1"
+            },
+            {
+              label: "Label 2",
+              name: "label2"
+            }
+          ]
         }
       ]
     }
