@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useStateValue } from "./../state";
-import { ACTION_TYPES } from "./../reducers/index";
 
-export default function DropZone(props) {
-  const [{}, dispatch] = useStateValue();
-  // local state value
+const isEqual = function(oldProps, newProps) {
+  return oldProps.uuid === newProps.uuid;
+};
+
+const DropZone = function(props) {
   const [dragEnter, setDragEnter] = useState(false);
 
   /**
@@ -15,28 +15,14 @@ export default function DropZone(props) {
     e.preventDefault();
   }
 
+  /**
+   * Track if an item is dragged over, for CSS
+   */
   function setDragLeft(e) {
     setDragEnter(false);
   }
   function setDrag(e) {
     setDragEnter(true);
-  }
-
-  /**
-   * Extract the plugin name from dataTransfer
-   * Dispatch add_block action
-   */
-  function onDrop(e) {
-    const pluginName = e.dataTransfer.getData("pluginName");
-    // assumes dropzone uuid is of form dropzone-{uuid}, set in canvas.js
-    let uuid = props.uuid ? props.uuid.replace("dropzone-", "") : null;
-    dispatch({
-      type: ACTION_TYPES.ADD_BLOCK,
-      payload: {
-        pluginName: pluginName,
-        uuid: uuid
-      }
-    });
   }
 
   const DropZoneDiv = styled.div`
@@ -49,13 +35,17 @@ export default function DropZone(props) {
         : "1px dashed rgba(0,0,0,0.15)"};
     color: rgba(0, 0, 0, 0.5);
   `;
+
   return (
     <DropZoneDiv
+      data-uuid={props.uuid}
       onDragOver={onDragOver}
-      onDrop={onDrop}
+      onDrop={props.onDrop}
       onDragLeave={setDragLeft}
       onDragEnter={setDrag}
       dragEnter={dragEnter}
     />
   );
-}
+};
+
+export default React.memo(DropZone, isEqual);

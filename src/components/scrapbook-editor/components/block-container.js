@@ -18,8 +18,6 @@ const isPropsEqual = function(oldProps, newProps) {
 };
 
 function BlockContainer(props) {
-  console.log("rendering");
-
   const FocusDiv = styled.div`
     border: ${props =>
       props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
