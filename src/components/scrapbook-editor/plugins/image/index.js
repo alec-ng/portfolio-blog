@@ -1,7 +1,8 @@
 import {
   ImageElement,
   VARIATION_DEFAULT,
-  VARIATION_TEXT_OVERLAY
+  VARIATION_TEXT_OVERLAY,
+  VARIATION_CAPTION
 } from "./image";
 
 /**
@@ -51,6 +52,24 @@ const Image = {
       name: VARIATION_DEFAULT,
       label: "Base Image",
       attrs: []
+    },
+    {
+      name: VARIATION_CAPTION,
+      label: "Captioned Image",
+      attrs: [
+        {
+          name: "primaryText",
+          label: "Primary Text",
+          element: "input",
+          type: "text"
+        },
+        {
+          name: "secondaryText",
+          label: "Secondary Text",
+          element: "input",
+          type: "text"
+        }
+      ]
     },
     {
       name: VARIATION_TEXT_OVERLAY,
