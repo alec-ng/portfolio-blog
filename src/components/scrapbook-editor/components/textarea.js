@@ -7,12 +7,12 @@ export default function TextArea(props) {
   let numRows = props.attributes.rows || 5;
 
   return (
-    <div class="form-group">
+    <div className="form-group">
       <label style={{ width: "100%" }}>
         {props.label}
         <textarea
           onChange={props.handleOnChange}
-          class="form-control"
+          className="form-control"
           rows={numRows}
           {...props.attributes}
         >

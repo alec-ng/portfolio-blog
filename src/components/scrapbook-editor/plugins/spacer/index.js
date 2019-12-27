@@ -75,7 +75,9 @@ function SpacerElement(props) {
   }
 
   let spaceSize = parseInt(props.baseAttrs.factor) * DEFAULT_SPACE_SIZE;
-  return <div style={{ marginTop: `${spaceSize}${DEFAULT_SPACE_UNIT}` }}></div>;
+  return (
+    <div style={{ paddingTop: `${spaceSize}${DEFAULT_SPACE_UNIT}` }}></div>
+  );
 }
 
 export default Spacer;

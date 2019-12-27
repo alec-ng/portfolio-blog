@@ -9,13 +9,14 @@ import Image from "../components/scrapbook-editor/plugins/image/index";
 import Markdown from "../components/scrapbook-editor/plugins/markdown/index";
 import CoverPhoto from "../components/scrapbook-editor/plugins/cover-photo/index";
 import Spacer from "../components/scrapbook-editor/plugins/spacer/index";
+import Carousel from "../components/scrapbook-editor/plugins/carousel/index";
 
 /**
  * Page level component for admin section
  */
 const Admin = function(props) {
   const [editorData, setEditorData] = useState(createPageData());
-  const plugins = [Image, Markdown, CoverPhoto, Spacer];
+  const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel];
 
   function onEditorSave(pageMetadata, blocks) {
     console.log("SAVING ---- \n\n");
