@@ -131,7 +131,6 @@ function addNewBlock(blockArr, plugin, uuid) {
   if (!uuid) {
     blockArr.push(newBlock);
   } else {
-    let i = 0;
     let indexToAdd = blockArr.findIndex(block => block.uuid === uuid);
     blockArr.splice(indexToAdd, 0, newBlock);
   }

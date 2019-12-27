@@ -36,7 +36,12 @@ export function CoverPhotoElement(props) {
 export function BaseImage(props) {
   let urlSource = props.urlSource || PlaceholderImgURL;
   return (
-    <img src={urlSource} className="img-fluid" style={{ width: "100%" }} />
+    <img
+      src={urlSource}
+      className="img-fluid"
+      style={{ width: "100%" }}
+      alt=""
+    />
   );
 }
 

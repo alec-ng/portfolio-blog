@@ -28,7 +28,7 @@ export default function BlockAttributes(props) {
   // Selected block has defined its own controls
   const plugin = pluginMap[focusedBlock.name];
   if (!plugin.useDefaultControls) {
-    return <h1>//TODO: Rendering and value updating!</h1>;
+    return <h1>TODO: Rendering and value updating!</h1>;
   }
 
   // Selected block relies on auto generated controls

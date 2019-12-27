@@ -8,7 +8,7 @@ import BlockAttributes from "./components/block-attributes";
 import PreviewButton from "./components/preview-button";
 
 /**
- * Represents the editor's command bar for modifying page and block metadata
+ * Represents the editor's left hand command bar for modifying page and block metadata
  */
 export default function Toolbar(props) {
   const [
@@ -16,13 +16,13 @@ export default function Toolbar(props) {
     dispatch
   ] = useStateValue();
 
-  const PluginList = plugins.map(plugin => (
-    <DraggablePlugin key={plugin.name} plugin={plugin}></DraggablePlugin>
-  ));
-
+  /**
+   * On button click,
+   * // TODO: block validation
+   * updates the last modified timestamp on page metadata
+   * executes the onSave cb with the page metadata and block information passed as args
+   */
   function exportEditorData(e) {
-    alert("Data exported - check console.");
-    // Update last-updated date
     let nowStr = new Date().toISOString();
     dispatch({
       type: ACTION_TYPES.UPDATE_INPUT,
@@ -37,15 +37,22 @@ export default function Toolbar(props) {
     onSave(localPageMetadata, blocks);
   }
 
+  /**
+   * On button click,
+   * Remove focused block from global state
+   */
   function deleteFocusedBlock(e) {
     dispatch({
       type: ACTION_TYPES.DELETE_FOCUSED_BLOCK
     });
   }
 
-  function initPreview(e) {
-    alert("TODO!");
-  }
+  /**
+   * Render all plugins passed into scrapbook-editor as draggable onto the canvas
+   */
+  const PluginList = plugins.map(plugin => (
+    <DraggablePlugin key={plugin.name} plugin={plugin}></DraggablePlugin>
+  ));
 
   return (
     <div style={{ minHeight: "100%" }}>

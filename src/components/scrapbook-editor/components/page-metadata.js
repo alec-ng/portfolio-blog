@@ -4,7 +4,7 @@ import { ACTION_TYPES } from "./../reducers/index";
 import Input from "./../components/input";
 
 export function PageMetadata(props) {
-  const [{ pageMetadata }, dispatch] = useStateValue();
+  const [{ pageMetadata }] = useStateValue();
   const metadataExists =
     pageMetadata.title ||
     pageMetadata.subTitle ||
@@ -44,7 +44,7 @@ export function PageMetadata(props) {
  * Set of inputs to edit current page metadata
  */
 export function PageMetadataControls(props) {
-  const [{ pageMetadata }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   function handleOnChange(e) {
     dispatch({

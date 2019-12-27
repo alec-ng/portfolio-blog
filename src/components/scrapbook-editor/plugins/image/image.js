@@ -47,6 +47,7 @@ export function BaseImage(props) {
   let urlSource = props.urlSource || PlaceholderImgURL;
   return (
     <img
+      alt=""
       src={urlSource}
       className={`${props.sizeClassName} img-fluid d-block mx-auto`}
     />
