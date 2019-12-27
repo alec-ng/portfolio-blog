@@ -14,13 +14,20 @@ Plugins are a blueprint for any sort of element that can exist on a page. Typica
 
 ### Attributes and Controls
 
+Plugin instances get the following in props:
+
+- isEditable={!readOnly && !inPreviewMode} // determine styling or behaviour when in edit/read mode
+- variation={block.variation} // api name of the variation of the plugin used
+- baseAttrs={block.baseAttrs} // name/value pairing of base attributes
+- variationAttrs={block.variationAttrs} // name/value pairing of variation attributes
+
 - If using auto generated controls, attribute types supported:
   - date
   - text
   - number
   - checkbox
+  - select
 
-* Type "file" is not supported
 * Base Attributes and Variation attributes can share the same name (i.e. baseAttr.name1 + variationAttr.name1 is fine, as well as variation1Attr.name1 + variation2Attr.name1)
 
 ### Variations

@@ -1,7 +1,13 @@
-import React, { useState } from "react";
-import { StateProvider, DefaultState, useStateValue } from "./state";
+import React from "react";
+import { StateProvider, DefaultState } from "./state";
 import { MainReducer } from "./reducers/index";
 import AppContainer from "./app";
+
+// CONFIG
+/////////////////////////////////////////////////
+
+// Vertical margin used on all canvas block elements during preview/read-only mode
+const DEFAULT_VERTICAL_BLOCK_MARGIN = "20px";
 
 /**
  * Inits an object to be used as the pageData prop for ScrapbookEditor
@@ -57,8 +63,10 @@ export function ScrapbookEditor(props) {
   });
   globalState.pluginMap = pluginMap;
 
-  // Add save cb to global state
+  // add other props to global state
   globalState.onSave = props.onSave;
+  globalState.verticalBlockMargin =
+    props.verticalBlockMargin || DEFAULT_VERTICAL_BLOCK_MARGIN;
 
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>

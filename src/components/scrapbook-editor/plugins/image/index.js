@@ -1,9 +1,4 @@
-import {
-  ImageElement,
-  VARIATION_DEFAULT,
-  VARIATION_TEXT_OVERLAY,
-  VARIATION_CAPTION
-} from "./image";
+import { ImageElement, VARIATION_DEFAULT, VARIATION_CAPTION } from "./image";
 
 /**
  * Plugin definition for Image
@@ -26,12 +21,8 @@ const Image = {
       label: "Size",
       element: "select",
       defaultRequired: true,
-      defaultValue: "stretch",
+      defaultValue: "large",
       options: [
-        {
-          name: "stretch",
-          label: "Stretch"
-        },
         {
           name: "large",
           label: "Large"
@@ -66,63 +57,6 @@ const Image = {
         {
           name: "secondaryText",
           label: "Secondary Text",
-          element: "input",
-          type: "text"
-        }
-      ]
-    },
-    {
-      name: VARIATION_TEXT_OVERLAY,
-      label: "Text Overlay",
-      attrs: [
-        {
-          name: "text",
-          label: "Caption",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "align",
-          label: "Text Alignment",
-          element: "select",
-          defaultRequired: true,
-          defaultValue: "left",
-          options: [
-            {
-              name: "left",
-              label: "Left"
-            },
-            {
-              name: "center",
-              label: "Center"
-            },
-            {
-              name: "right",
-              label: "Right"
-            }
-          ]
-        },
-        {
-          name: "top",
-          label: "Top - Absolute Position",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "right",
-          label: "Right - Absolute Position",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "bottom",
-          label: "Bottom - Absolute Position",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "left",
-          label: "Left - Absolute Position",
           element: "input",
           type: "text"
         }

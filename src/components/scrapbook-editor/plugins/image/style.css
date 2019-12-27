@@ -4,18 +4,12 @@
 .image_default-small {
   width: 100%;
 }
-.text-overlay {
-  font-size: 1rem;
-}
 
 @media (min-width: 576px) {
   .image_default-large,
   .image_default-medium,
   .image_default-small {
     width: 100%;
-  }
-  .text-overlay {
-    font-size: 1.2rem;
   }
 }
 
@@ -30,9 +24,6 @@
   .image_default-small {
     width: 50%;
   }
-  .text-overlay {
-    font-size: 1.6rem;
-  }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -46,9 +37,6 @@
   .image_default-small {
     width: 40%;
   }
-  .text-overlay {
-    font-size: 1.8rem;
-  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -61,8 +49,5 @@
   }
   .image_default-small {
     width: 30%;
-  }
-  .text-overlay {
-    font-size: 2rem;
   }
 }

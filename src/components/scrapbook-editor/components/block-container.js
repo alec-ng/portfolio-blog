@@ -8,12 +8,19 @@ import { ACTION_TYPES } from "./../reducers/index";
  * via CSS class and dispatch action
  */
 export default function BlockContainer(props) {
-  const [{ readOnly, inPreviewMode }, dispatch] = useStateValue();
+  const [
+    { readOnly, inPreviewMode, verticalBlockMargin },
+    dispatch
+  ] = useStateValue();
   const FocusDiv = styled.div`
     border: ${props =>
       props.isFocused && !readOnly && !inPreviewMode
         ? "2pt solid rgba(0,0,0,0.5)"
         : "none"};
+    margin-bottom: ${props =>
+      (props.readOnly || inPreviewMode) && verticalBlockMargin
+        ? verticalBlockMargin
+        : 0};
   `;
   let containerDivRef = React.createRef();
 

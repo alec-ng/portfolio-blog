@@ -1,11 +1,9 @@
 import React from "react";
 import PlaceholderImgURL from "./placeholder.jpg";
-import styled from "styled-components";
 import "./style.css";
 
 const DEFAULT_SIZE = "medium";
 export const VARIATION_DEFAULT = "image_default";
-export const VARIATION_TEXT_OVERLAY = "image_text_overlay";
 export const VARIATION_CAPTION = "image_caption";
 
 export function ImageElement(props) {
@@ -30,10 +28,6 @@ export function ImageElement(props) {
             sizeClassName={sizeClassName}
           />
         );
-      case VARIATION_TEXT_OVERLAY:
-        return (
-          <TextOverlayImage {...variationProps} sizeClassName={sizeClassName} />
-        );
       case VARIATION_CAPTION:
         return (
           <ImageCaption {...variationProps} sizeClassName={sizeClassName} />
@@ -56,45 +50,6 @@ export function BaseImage(props) {
       src={urlSource}
       className={`${props.sizeClassName} img-fluid d-block mx-auto`}
     />
-  );
-}
-
-// Text Overlay Variation
-//////////////////////////////////////////////////////////
-
-const OverlayContainer = styled.div`
-  position: absolute;
-  margin: 10px;
-  color: #ffffff;
-  top: ${props => props.top};
-  right: ${props => props.right};
-  bottom: ${props => props.bottom};
-  left: ${props => props.left};
-`;
-function TextOverlayImage(props) {
-  let [top, right, bottom, left] = [
-    props.variationAttrs.top || "0",
-    props.variationAttrs.right || "0",
-    props.variationAttrs.bottom || "0",
-    props.variationAttrs.left || "0"
-  ];
-  // expect alignment to be one of either left, right, or center to match with CSS class
-  let alignmentClass = `text-${props.variationAttrs.align}`;
-
-  return (
-    <div style={{ position: "relative" }}>
-      <BaseImage
-        urlSource={props.baseAttrs.urlSource}
-        sizeClassName={props.sizeClassName}
-      />
-      {(top !== "0" || right !== "0" || bottom !== "0" || left !== "0") && (
-        <OverlayContainer top={top} right={right} bottom={bottom} left={left}>
-          <h3 className={`${alignmentClass} text-overlay`}>
-            {props.variationAttrs.text}
-          </h3>
-        </OverlayContainer>
-      )}
-    </div>
   );
 }
 

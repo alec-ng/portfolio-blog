@@ -1,16 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import { PageMetadata } from "./components/page-metadata";
 import { useStateValue } from "./state";
 import DropZone from "./components/dropzone";
-import { ImageElement } from "./plugins/image/image";
-import BlockContainer from "./components//block-container";
+import BlockContainer from "./components/block-container";
 
 export default function Canvas(props) {
-  const [
-    { blocks, pluginMap, readOnly, inPreviewMode },
-    dispatch
-  ] = useStateValue();
+  const [{ blocks, pluginMap, readOnly, inPreviewMode }] = useStateValue();
   const renderDropzones = !readOnly && !inPreviewMode;
 
   /**
@@ -21,7 +16,6 @@ export default function Canvas(props) {
     let list = [];
     blocks.forEach(block => {
       let BlockElement = pluginMap[block.name].canvasElement;
-      let variationAttrs = block.variationAttrs[block.variation] || {};
 
       if (renderDropzones) {
         list.push(
@@ -38,6 +32,7 @@ export default function Canvas(props) {
           uuid={block.uuid}
         >
           <BlockElement
+            isEditable={!readOnly && !inPreviewMode}
             variation={block.variation}
             baseAttrs={block.baseAttrs}
             variationAttrs={block.variationAttrs}
