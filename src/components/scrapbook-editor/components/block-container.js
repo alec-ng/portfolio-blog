@@ -1,32 +1,38 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useStateValue } from "./../state";
-import { ACTION_TYPES } from "./../reducers/index";
 
 /**
  * Wraps a block in a container that provides focus functionality
  * via CSS class and dispatch action
  */
-export default function BlockContainer(props) {
-  const [
-    { readOnly, inPreviewMode, verticalBlockMargin },
-    dispatch
-  ] = useStateValue();
+
+// Only refresh if focus is different
+const isPropsEqual = function(oldProps, newProps) {
+  return (
+    oldProps.isFocused === newProps.isFocused &&
+    oldProps.locked === newProps.locked &&
+    JSON.stringify(oldProps.baseAttrs) === JSON.stringify(newProps.baseAttrs) &&
+    JSON.stringify(oldProps.variationAttrs) ===
+      JSON.stringify(newProps.variationAttrs)
+  );
+};
+
+function BlockContainer(props) {
+  console.log("rendering");
+
   const FocusDiv = styled.div`
     border: ${props =>
-      props.isFocused && !readOnly && !inPreviewMode
-        ? "2pt solid rgba(0,0,0,0.5)"
-        : "none"};
+      props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
     margin-bottom: ${props =>
-      (props.readOnly || inPreviewMode) && verticalBlockMargin
-        ? verticalBlockMargin
+      props.locked && props.verticalBlockMargin
+        ? props.verticalBlockMargin
         : 0};
   `;
   let containerDivRef = React.createRef();
 
   // Scroll into view whenever the block is in focus
   useEffect(() => {
-    if (props.isFocused && !readOnly && !inPreviewMode) {
+    if (props.isFocused && !props.locked) {
       containerDivRef.current.scrollIntoView({
         behavior: "smooth",
         block: "center"
@@ -34,25 +40,24 @@ export default function BlockContainer(props) {
     }
   });
 
-  function onClick(e) {
-    if (readOnly || inPreviewMode) {
-      return;
-    }
-    dispatch({
-      type: ACTION_TYPES.SWITCH_BLOCK_FOCUS,
-      payload: {
-        uuid: props.uuid
-      }
-    });
-  }
-
+  const BlockElement = props.blockElement;
   return (
     <FocusDiv
-      onClick={onClick}
+      onClick={props.onBlockClick}
       isFocused={props.isFocused}
+      verticalBlockMargin={props.verticalBlockMargin}
+      locked={props.locked}
       ref={containerDivRef}
+      data-uuid={props.uuid}
     >
-      {props.children}
+      <BlockElement
+        isEditable={!props.locked}
+        variation={props.variation}
+        baseAttrs={props.baseAttrs}
+        variationAttrs={props.variationAttrs}
+      />
     </FocusDiv>
   );
 }
+//export default BlockContainer;
+export default React.memo(BlockContainer, isPropsEqual);
