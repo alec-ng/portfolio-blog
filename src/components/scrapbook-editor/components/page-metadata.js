@@ -25,11 +25,13 @@ export function PageMetadata(props) {
     <div className="text-center mx-3 my-5">
       {metadataExists ? (
         <>
-          {pageMetadata.title && <h1 className="py-1">{pageMetadata.title}</h1>}
-          {pageMetadata.subTitle && (
-            <h4 className="py-1">{pageMetadata.subTitle}</h4>
+          {pageMetadata.title && (
+            <h1 className="pb-3 pt-1 display-2">{pageMetadata.title}</h1>
           )}
-          {displayDate && <h5 className="py-1">{displayDate}</h5>}
+          {pageMetadata.subTitle && (
+            <h3 className="py-1">{pageMetadata.subTitle}</h3>
+          )}
+          {displayDate && <h4 className="py-1">{displayDate}</h4>}
         </>
       ) : (
         <h1>Page metadata is shown here</h1>

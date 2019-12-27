@@ -12,6 +12,7 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 100;
+  font-size: 1rem;
 }
 
 code {
@@ -22,11 +23,6 @@ code {
 /* Site Colours */
 .primary-color {
   color: rgb(255, 69, 0);
-}
-
-/* Util */
-.width-100 {
-  width: 100%;
 }
 
 /* Text Elements */
@@ -40,9 +36,6 @@ h6 {
 }
 
 /* Buttons */
-button.full-width {
-  width: 100%;
-}
 button.clear {
   background: none;
   border: none;
@@ -82,4 +75,26 @@ hr {
     rgba(0, 0, 0, 0.75),
     rgba(0, 0, 0, 0)
   );
+}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 5768px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
+
+/* External Monitors */
+@media (min-width: 1500px) {
+  html {
+    font-size: 1.2rem;
+  }
 }
