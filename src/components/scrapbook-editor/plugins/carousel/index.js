@@ -1,4 +1,8 @@
-import { CarouselElement, VARIATION_DEFAULT } from "./carousel";
+import {
+  CarouselElement,
+  DEFAULT_NUM_CARDS,
+  VARIATION_DEFAULT
+} from "./carousel";
 
 const Carousel = {
   name: "carousel",
@@ -11,7 +15,8 @@ const Carousel = {
       name: "numCards",
       label: "Number of cards to show on screen",
       element: "input",
-      type: "number"
+      type: "number",
+      defaultValue: DEFAULT_NUM_CARDS
     },
     {
       name: "height",

@@ -3,8 +3,8 @@ import { isMobile } from "react-device-detect";
 import ItemsCarousel from "react-items-carousel";
 import styled from "styled-components";
 
+export const DEFAULT_NUM_CARDS = 1;
 const NUM_CARDS_MOBILE = 1;
-const DEFAULT_NUM_CARDS = 3;
 const SIZES = {
   large: "80vw",
   medium: "60vw",
@@ -33,19 +33,19 @@ export function CarouselElement(props) {
     : DEFAULT_NUM_CARDS;
 
   // Generate images from attribute
-  let imgList;
+  let imgList = [];
   let urlSources = props.baseAttrs.urlSources
     ? props.baseAttrs.urlSources.split("\n")
     : "";
-  imgList =
-    !urlSources || !urlSources[0]
-      ? []
-      : urlSources.map(urlSource => (
-          <CarouselImage
-            urlSource={urlSource}
-            height={props.baseAttrs.height}
-          />
-        ));
+  if (urlSources && urlSources[0]) {
+    urlSources.forEach(url => {
+      if (url.length) {
+        imgList.push(
+          <CarouselImage urlSource={url} height={props.baseAttrs.height} />
+        );
+      }
+    });
+  }
 
   function NoItemsMessage(props) {
     return (
