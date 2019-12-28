@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+const DropZoneDiv = styled.div`
+  z-index: 9999;
+  height: 15px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: ${props =>
+    props.dragEnter
+      ? "1px dashed rgba(0,0,0,0.5)"
+      : "1px dashed rgba(0,0,0,0.15)"};
+  color: rgba(0, 0, 0, 0.5);
+`;
+
 const isEqual = function(oldProps, newProps) {
   return oldProps.uuid === newProps.uuid;
 };
@@ -24,17 +35,6 @@ const DropZone = function(props) {
   function setDrag(e) {
     setDragEnter(true);
   }
-
-  const DropZoneDiv = styled.div`
-    z-index: 9999;
-    height: 15px;
-    background-color: rgba(0, 0, 0, 0.03);
-    border: ${props =>
-      props.dragEnter
-        ? "1px dashed rgba(0,0,0,0.5)"
-        : "1px dashed rgba(0,0,0,0.15)"};
-    color: rgba(0, 0, 0, 0.5);
-  `;
 
   return (
     <DropZoneDiv

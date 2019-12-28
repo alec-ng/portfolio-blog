@@ -6,19 +6,20 @@ import { ACTION_TYPES } from "./../reducers/index";
 /**
  * Toggles preview mode by the toolbar
  */
+
+const InPreviewModeButton = styled.button`
+  position: fixed;
+  width: 150px;
+  height: 40px;
+  bottom: 5%;
+  right: 5%;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.4);
+`;
+
 export default function PreviewButton(props) {
   const [{ inPreviewMode }, dispatch] = useStateValue();
-
-  const InPreviewModeButton = styled.button`
-    position: fixed;
-    width: 150px;
-    height: 40px;
-    bottom: 5%;
-    right: 5%;
-    background-color: rgba(0, 0, 0, 0);
-    border-color: rgba(0, 0, 0, 0.4);
-    color: rgba(0, 0, 0, 0.4);
-  `;
 
   function togglePreview(e) {
     dispatch({

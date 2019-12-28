@@ -6,6 +6,13 @@ import styled from "styled-components";
  * via CSS class and dispatch action
  */
 
+const FocusDiv = styled.div`
+  border: ${props =>
+    props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
+  margin-bottom: ${props =>
+    props.locked && props.verticalBlockMargin ? props.verticalBlockMargin : 0};
+`;
+
 // Only refresh if focus is different
 const isPropsEqual = function(oldProps, newProps) {
   return (
@@ -18,14 +25,6 @@ const isPropsEqual = function(oldProps, newProps) {
 };
 
 function BlockContainer(props) {
-  const FocusDiv = styled.div`
-    border: ${props =>
-      props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
-    margin-bottom: ${props =>
-      props.locked && props.verticalBlockMargin
-        ? props.verticalBlockMargin
-        : 0};
-  `;
   let containerDivRef = React.createRef();
 
   // Scroll into view whenever the block is in focus
