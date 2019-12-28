@@ -4,6 +4,8 @@ import ItemsCarousel from "react-items-carousel";
 import styled from "styled-components";
 
 export const DEFAULT_NUM_CARDS = 1;
+export const VARIATION_DEFAULT = "carousel_default";
+
 const NUM_CARDS_MOBILE = 1;
 const SIZES = {
   large: "80vw",
@@ -19,11 +21,25 @@ const CarouselImage = styled.div`
   background-size: cover;
 `;
 
-export const VARIATION_DEFAULT = "carousel_default";
+const ChevronButton = styled.button`
+  border-radius: 15px;
+  border-style: groove;
+  border-color: rgba(0, 0, 0, 0.75);
+  color: black;
+  border-width: 1px;
+  background-color: white;
+  transition: border-color 0.4s ease-in-out, color 0.75s ease-in-out;
+  &:focus,
+  &:active,
+  &:hover {
+    outline: none;
+    border-color: rgb(255, 69, 0);
+    color: rgb(255, 69, 0);
+  }
+`;
 
 export function CarouselElement(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const chevronWidth = 40;
 
   // determine how many cards to show at once
   let numCards = isMobile
@@ -85,8 +101,8 @@ export function CarouselElement(props) {
             firstAndLastGutter={true}
             requestToChangeActive={setActiveItemIndex}
             activeItemIndex={activeItemIndex}
-            leftChevron={<button>{"<"}</button>}
-            rightChevron={<button>{">"}</button>}
+            leftChevron={<ChevronButton>{"<"}</ChevronButton>}
+            rightChevron={<ChevronButton>{">"}</ChevronButton>}
           >
             {imgList}
           </ItemsCarousel>
