@@ -9,7 +9,9 @@ export function MarkdownElement(props) {
       {props.baseAttrs.source ? (
         <ReactMarkdown source={props.baseAttrs.source} />
       ) : (
-        <h6 className="text-center">Markdown will be rendered here</h6>
+        <h6 className="text-center text-muted">
+          Markdown will be rendered here
+        </h6>
       )}
     </div>
   );

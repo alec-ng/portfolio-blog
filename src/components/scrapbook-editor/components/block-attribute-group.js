@@ -10,13 +10,16 @@ import TextArea from "./textarea";
 export default function BlockAttributeGroup(props) {
   let attrList = [];
   props.attrs.forEach(attr => {
+    // Populate HTML attributes through focused block/plugin definition information
     let inputAttrs = { "data-name": attr.name };
     let attributeSet = props.isBase
       ? props.focusedBlock.baseAttrs
       : props.focusedBlock.variationAttrs[props.variationName];
 
+    inputAttrs["min"] = attr.min;
+    inputAttrs["max"] = attr.max;
     inputAttrs["data-variation"] = props.isBase ? "base" : props.variationName;
-    inputAttrs["value"] = attributeSet[attr.name] || "";
+    inputAttrs["value"] = attributeSet[attr.name] || attr.defaultValue || "";
 
     if (attr.element === "input") {
       if (attr.type === "checkbox" && attributeSet[attr.name] === true) {

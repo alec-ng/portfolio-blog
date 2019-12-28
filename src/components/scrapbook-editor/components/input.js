@@ -20,11 +20,13 @@ export default function Input(props) {
 }
 
 function BaseInput(props) {
+  let inputClass =
+    props.type === "range" ? "form-control-range" : "form-control";
   return (
     <input
       type={props.type}
       data-key={props.dataKey}
-      className="form-control"
+      className={inputClass}
       onChange={props.handleOnChange}
       {...props.attributes}
     />
