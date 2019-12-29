@@ -1,6 +1,6 @@
 import React from "react";
 import { useStateValue } from "./state";
-import { PageMetadataControls } from "./components/page-metadata";
+import { PageHeaderControls } from "./components/page-header";
 import { ACTION_TYPES } from "./reducers/index";
 import DraggablePlugin from "./components/draggable-plugin";
 import Accordion from "./components/accordion";
@@ -18,7 +18,8 @@ export default function Toolbar(props) {
       blocks,
       onSave,
       focusedBlock,
-      showPluginDescription
+      showPluginDescription,
+      header
     },
     dispatch
   ] = useStateValue();
@@ -32,16 +33,16 @@ export default function Toolbar(props) {
   function exportEditorData(e) {
     let nowStr = new Date().toISOString();
     dispatch({
-      type: ACTION_TYPES.UPDATE_INPUT,
+      type: ACTION_TYPES.UPDATE_PAGE_METADATA,
       payload: {
-        inputKey: "lastModified",
+        key: "lastModified",
         value: nowStr
       }
     });
     let localPageMetadata = Object.assign({}, pageMetadata, {
       lastModified: nowStr
     });
-    onSave(localPageMetadata, blocks);
+    onSave(localPageMetadata, header, blocks);
   }
 
   /**
@@ -68,8 +69,8 @@ export default function Toolbar(props) {
   return (
     <div style={{ minHeight: "100%" }}>
       <section className="p-1">
-        <Accordion title="Page Metadata">
-          <PageMetadataControls />
+        <Accordion title="Page Header">
+          <PageHeaderControls />
         </Accordion>
         <Accordion title="Add Block">{PluginList}</Accordion>
         <Accordion title="Block Attributes" openOnDefault={true}>

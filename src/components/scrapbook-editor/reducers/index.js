@@ -1,8 +1,10 @@
 import blockReducer from "./block-reducer";
 
 export const ACTION_TYPES = {
-  // Set page metadata
-  UPDATE_INPUT: "UPDATE_INPUT",
+  // Set header data
+  UPDATE_HEADER: "UPDATE_HEADER",
+  // Set page metadata data
+  UPDATE_PAGE_METADATA: "UPDATE_PAGE_METADATA",
   // updating focused block through toolbar
   UPDATE_FOCUSED_BLOCK: "UPDATE_FOCUSED_BLOCK",
   // on drop event- add new block to canvas
@@ -21,9 +23,17 @@ export const MainReducer = function(state, action) {
   switch (action.type) {
     case ACTION_TYPES.TOGGLE_PREVIEW_MODE:
       return Object.assign({}, state, { inPreviewMode: !state.inPreviewMode });
-    case ACTION_TYPES.UPDATE_INPUT:
+    case ACTION_TYPES.UPDATE_PAGE_METADATA:
       return Object.assign({}, state, {
-        pageMetadata: pageMetadataReducer(state.pageMetadata, action)
+        pageMetadata: Object.assign({}, state.pageMetadata, {
+          [action.payload.key]: action.payload.value
+        })
+      });
+    case ACTION_TYPES.UPDATE_HEADER:
+      return Object.assign({}, state, {
+        header: Object.assign({}, state.header, {
+          [action.payload.key]: action.payload.value
+        })
       });
     case ACTION_TYPES.ADD_BLOCK:
     case ACTION_TYPES.SWITCH_BLOCK_FOCUS:
@@ -42,17 +52,6 @@ export const MainReducer = function(state, action) {
           action
         )
       );
-    default:
-      throw new Error(`Unrecognized action type: ${action.type}`);
-  }
-};
-
-const pageMetadataReducer = function(state, action) {
-  switch (action.type) {
-    case ACTION_TYPES.UPDATE_INPUT:
-      return Object.assign({}, state, {
-        [action.payload.inputKey]: action.payload.value
-      });
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }

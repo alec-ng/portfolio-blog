@@ -1,5 +1,5 @@
 import React from "react";
-import { PageMetadata } from "./components/page-metadata";
+import { PageHeader } from "./components/page-header";
 import { useStateValue } from "./state";
 import { ACTION_TYPES } from "./reducers/index";
 import DropZone from "./components/dropzone";
@@ -85,7 +85,7 @@ export default function Canvas(props) {
 
   return (
     <>
-      <PageMetadata />
+      <PageHeader />
       {list}
       {renderDropzones && <DropZone onDrop={handleOnDrop} />}
     </>

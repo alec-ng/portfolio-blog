@@ -19,8 +19,9 @@ const Admin = function(props) {
   const [editorData, setEditorData] = useState(createPageData());
   const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 
-  function onEditorSave(pageMetadata, blocks) {
+  function onEditorSave(pageMetadata, header, blocks) {
     console.log("SAVING ---- \n\n");
+    console.log(header);
     console.log(pageMetadata);
     console.log(blocks);
   }

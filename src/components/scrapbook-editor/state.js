@@ -7,14 +7,16 @@ export const DefaultState = {
   plugins: null,
   pluginMap: null,
   pageMetadata: {
-    title: undefined,
-    subTitle: undefined,
     createdDate: null,
     lastModified: null,
-    displayDate1: null,
-    displayDate2: null,
     tags: [],
     location: undefined
+  },
+  header: {
+    title: undefined,
+    subTitle: undefined,
+    displayDate1: null,
+    displayDate2: null
   },
   blocks: [],
   readOnly: false,
