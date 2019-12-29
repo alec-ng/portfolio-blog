@@ -57,19 +57,23 @@ export function PageMetadataControls(props) {
   }
 
   return (
-    <form>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+      }}
+    >
       <Input
         label="Title"
         type="text"
         dataKey="title"
-        attributes={{ value: pageMetadata.title }}
+        attributes={{ value: pageMetadata.title || "" }}
         handleOnChange={handleOnChange}
       />
       <Input
         label="Subtitle"
         type="text"
         dataKey="subTitle"
-        attributes={{ value: pageMetadata.subTitle }}
+        attributes={{ value: pageMetadata.subTitle || "" }}
         handleOnChange={handleOnChange}
       />
       <div className="form-row">
@@ -78,7 +82,7 @@ export function PageMetadataControls(props) {
             label="Start Date"
             type="date"
             dataKey="displayDate1"
-            attributes={{ value: pageMetadata.displayDate1 }}
+            attributes={{ value: pageMetadata.displayDate1 || "" }}
             handleOnChange={handleOnChange}
           />
         </div>
@@ -87,7 +91,7 @@ export function PageMetadataControls(props) {
             label="End Date"
             type="date"
             dataKey="displayDate2"
-            attributes={{ value: pageMetadata.displayDate2 }}
+            attributes={{ value: pageMetadata.displayDate2 || "" }}
             handleOnChange={handleOnChange}
           />
         </div>

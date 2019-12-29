@@ -69,7 +69,11 @@ export default function BlockAttributes(props) {
   };
 
   return (
-    <form>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+      }}
+    >
       <AttributeGroup {...baseAttrProps} />
       <VariationSelect />
       <AttributeGroup {...variationAttrProps} />
