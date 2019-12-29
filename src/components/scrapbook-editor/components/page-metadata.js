@@ -26,7 +26,7 @@ export function PageMetadata(props) {
       {metadataExists ? (
         <>
           {pageMetadata.title && (
-            <h1 className="pb-3 pt-1 display-2">{pageMetadata.title}</h1>
+            <h1 className="pb-3 pt-1 display-3">{pageMetadata.title}</h1>
           )}
           {pageMetadata.subTitle && (
             <h3 className="py-1">{pageMetadata.subTitle}</h3>
@@ -44,7 +44,7 @@ export function PageMetadata(props) {
  * Set of inputs to edit current page metadata
  */
 export function PageMetadataControls(props) {
-  const [, dispatch] = useStateValue();
+  const [{ pageMetadata }, dispatch] = useStateValue();
 
   function handleOnChange(e) {
     dispatch({
@@ -62,12 +62,14 @@ export function PageMetadataControls(props) {
         label="Title"
         type="text"
         dataKey="title"
+        attributes={{ value: pageMetadata.title }}
         handleOnChange={handleOnChange}
       />
       <Input
         label="Subtitle"
         type="text"
         dataKey="subTitle"
+        attributes={{ value: pageMetadata.subTitle }}
         handleOnChange={handleOnChange}
       />
       <div className="form-row">
@@ -76,6 +78,7 @@ export function PageMetadataControls(props) {
             label="Start Date"
             type="date"
             dataKey="displayDate1"
+            attributes={{ value: pageMetadata.displayDate1 }}
             handleOnChange={handleOnChange}
           />
         </div>
@@ -84,6 +87,7 @@ export function PageMetadataControls(props) {
             label="End Date"
             type="date"
             dataKey="displayDate2"
+            attributes={{ value: pageMetadata.displayDate2 }}
             handleOnChange={handleOnChange}
           />
         </div>
