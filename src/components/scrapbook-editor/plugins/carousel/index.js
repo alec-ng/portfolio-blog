@@ -33,8 +33,8 @@ const Carousel = {
       element: "textarea"
     },
     {
-      name: "width",
-      label: "Width",
+      name: "size",
+      label: "Size",
       element: "select",
       defaultRequired: true,
       defaultValue: "large",

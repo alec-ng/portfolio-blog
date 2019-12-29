@@ -27,4 +27,6 @@
 
 ## Documentation
 
+- CSS helper classes found in styles.css and namespaced with "scrapbookeditor"
+
 - [Plugins](/plugins.md)

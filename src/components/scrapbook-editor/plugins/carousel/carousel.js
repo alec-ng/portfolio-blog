@@ -7,11 +7,6 @@ export const DEFAULT_NUM_CARDS = 1;
 export const VARIATION_DEFAULT = "carousel_default";
 
 const NUM_CARDS_MOBILE = 1;
-const SIZES = {
-  large: "80vw",
-  medium: "60vw",
-  small: "40vw"
-};
 
 const CarouselImage = styled.div`
   height: ${props => props.height}px;
@@ -54,11 +49,17 @@ export function CarouselElement(props) {
     ? props.baseAttrs.urlSources.split("\n")
     : "";
   if (urlSources && urlSources[0]) {
+    let key = 0;
     urlSources.forEach(url => {
       if (url.length) {
         imgList.push(
-          <CarouselImage urlSource={url} height={props.baseAttrs.height} />
+          <CarouselImage
+            key={key}
+            urlSource={url}
+            height={props.baseAttrs.height}
+          />
         );
+        key++;
       }
     });
   }
@@ -73,20 +74,14 @@ export function CarouselElement(props) {
     );
   }
 
-  let widthStyle = SIZES[props.baseAttrs.width];
+  let sizeClassName = `scrapbookeditor-width_${props.baseAttrs.size}`;
 
   return (
     <>
       {imgList.length === 0 ? (
         <NoItemsMessage />
       ) : (
-        <div
-          style={{
-            padding: "0 20px",
-            margin: "0 auto",
-            maxWidth: `${widthStyle}`
-          }}
-        >
+        <div className={sizeClassName} style={{ margin: "0 auto" }}>
           <ItemsCarousel
             infiniteLoop={false}
             gutter={12}

@@ -1,6 +1,5 @@
 import React from "react";
 import PlaceholderImgURL from "./placeholder.jpg";
-import "./style.css";
 
 const DEFAULT_SIZE = "medium";
 export const VARIATION_DEFAULT = "image_default";
@@ -8,7 +7,7 @@ export const VARIATION_CAPTION = "image_caption";
 
 export function ImageElement(props) {
   const imgSize = props.baseAttrs.size || DEFAULT_SIZE;
-  const sizeClassName = `${VARIATION_DEFAULT}-${imgSize}`;
+  const sizeClassName = `scrapbookeditor-width_${imgSize}`;
 
   function Variation() {
     // isolate attributes for current variations only
