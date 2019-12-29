@@ -20,7 +20,8 @@ export const DefaultState = {
   readOnly: false,
   focusedBlock: undefined,
   inPreviewMode: false,
-  verticalBlockMargin: null
+  verticalBlockMargin: null,
+  showPluginDescription: true
 };
 
 /**

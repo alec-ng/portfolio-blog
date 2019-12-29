@@ -67,6 +67,8 @@ export function ScrapbookEditor(props) {
   globalState.onSave = props.onSave;
   globalState.verticalBlockMargin =
     props.verticalBlockMargin || DEFAULT_VERTICAL_BLOCK_MARGIN;
+  globalState.showPluginDescription =
+    props.showPluginDescription === false ? false : true;
 
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>

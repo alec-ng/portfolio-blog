@@ -16,6 +16,7 @@ const FocusDiv = styled.div`
 // Only refresh if focus is different
 const isPropsEqual = function(oldProps, newProps) {
   return (
+    oldProps.variation === newProps.variation &&
     oldProps.isFocused === newProps.isFocused &&
     oldProps.locked === newProps.locked &&
     JSON.stringify(oldProps.baseAttrs) === JSON.stringify(newProps.baseAttrs) &&

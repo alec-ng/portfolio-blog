@@ -12,7 +12,14 @@ import PreviewButton from "./components/preview-button";
  */
 export default function Toolbar(props) {
   const [
-    { plugins, pageMetadata, blocks, onSave, focusedBlock },
+    {
+      plugins,
+      pageMetadata,
+      blocks,
+      onSave,
+      focusedBlock,
+      showPluginDescription
+    },
     dispatch
   ] = useStateValue();
 
@@ -51,7 +58,11 @@ export default function Toolbar(props) {
    * Render all plugins passed into scrapbook-editor as draggable onto the canvas
    */
   const PluginList = plugins.map(plugin => (
-    <DraggablePlugin key={plugin.name} plugin={plugin}></DraggablePlugin>
+    <DraggablePlugin
+      showPluginDescription={showPluginDescription}
+      key={plugin.name}
+      plugin={plugin}
+    />
   ));
 
   return (

@@ -18,11 +18,11 @@ const CarouselImage = styled.div`
 
 const ChevronButton = styled.button`
   border-radius: 15px;
-  border-style: groove;
+  border-style: solid;
   border-color: rgba(0, 0, 0, 0.75);
   color: black;
   border-width: 1px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
   transition: border-color 0.4s ease-in-out, color 0.75s ease-in-out;
   &:focus,
   &:active,
@@ -93,7 +93,7 @@ export function CarouselElement(props) {
             slidesToScroll={1}
             outsideChevron={false}
             showSlither={true}
-            firstAndLastGutter={true}
+            firstAndLastGutter={false}
             requestToChangeActive={setActiveItemIndex}
             activeItemIndex={activeItemIndex}
             leftChevron={<ChevronButton>{"<"}</ChevronButton>}

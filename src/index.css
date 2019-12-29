@@ -64,6 +64,7 @@ a:hover {
   text-decoration: none;
   color: rgb(255, 125, 0);
 }
+/* Global Styles */
 
 /* hr */
 hr {
@@ -76,6 +77,12 @@ hr {
     rgba(0, 0, 0, 0)
   );
 }
+
+strong,
+b {
+  font-weight: 700;
+}
+
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 5768px) {
 }

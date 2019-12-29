@@ -16,10 +16,16 @@ export default function DraggablePlugin(props) {
     <Row draggable="true" onDragStart={onDragStart} className="mb-2">
       <Col
         className="mx-3"
-        style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: "5px" }}
+        style={{
+          border: "1px solid rgba(0,0,0,0.1)",
+          borderRadius: "5px",
+          cursor: "move"
+        }}
       >
         <h5 className="mt-2">{props.plugin.label}</h5>
-        <p className="mb-2">{props.plugin.description}</p>
+        {props.showPluginDescription && (
+          <p className="mb-2">{props.plugin.description}</p>
+        )}
       </Col>
     </Row>
   );
