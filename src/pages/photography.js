@@ -1,7 +1,6 @@
-import React from "react";
-
-import Enums from "../util/enums";
+import React, { useState } from "react";
 import Layout from "../components/photography-layout";
+import uuidv1 from "uuid/v1";
 
 /**
  * IN THE FUTURE -- this should be merged with the layout page to do a query for only the relevant information to show
@@ -9,102 +8,42 @@ import Layout from "../components/photography-layout";
  * Page level component for photography section
  * (TEMPORARY) Data layer component
  */
-class Photography extends React.Component {
-  constructor(props) {
-    super(props);
-    let pageTestData = this.getTestData_Pages();
+export default function Photography(props) {
+  const { pageList, dataMap } = getTestData();
 
-    this.state = {
-      pageList: pageTestData.pageList,
-      dataMap: pageTestData.dataMap
-    };
-  }
-
-  getTestData_Pages() {
-    let data = [
-      {
-        label: "Test Page 1",
-        id: "test-page-1",
-        data: [
-          {
-            type: Enums.ELE_FULLWIDTH_IMG,
-            src:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/1200px-2010-kodiak-bear-1.jpg",
-            text: {
-              content: "I AM BEAR",
-              style: { top: "3px" }
-            }
-          },
-          {
-            type: Enums.ELE_FULLWIDTH_IMG
-          },
-          {
-            type: Enums.ELE_FULLWIDTH_VIDEO,
-            src: "https://i.imgur.com/QLf1S85.mp4",
-            text: {
-              content: "Yeet Nepal",
-              style: { top: "3px" }
-            }
-          }
-        ]
-      },
-      {
-        label: "Test Page 2",
-        id: "test-page-2",
-        data: [
-          {
-            type: Enums.ELE_FULLWIDTH_IMG,
-            src:
-              "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?ixlib=rb-1.2.1&w=1000&q=80",
-            content: "Lazy Baer",
-            text: {
-              content: "Lazy ass bear",
-              style: { top: "3px" }
-            }
-          }
-        ]
-      },
-      {
-        label: "Test Page 3",
-        id: "test-page-3",
-        data: [
-          {
-            type: Enums.ELE_FULLWIDTH_IMG,
-            src:
-              "https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/bears_16x9.jpg?itok=Xt60oxlc",
-            text: {
-              content: "Arf",
-              style: { top: "3px" }
-            }
-          }
-        ]
-      }
-    ];
-
-    // put into hash and an array (without data)
-    let dataMap = {};
-    let pageList = [];
-    data.forEach(page => {
-      dataMap[page.id] = page;
-      pageList.push({
-        label: page.label,
-        id: page.id
-      });
-    });
-
-    return {
-      pageList: pageList,
-      dataMap: dataMap
-    };
-  }
-
-  render() {
-    return (
-      <div class="container-fluid p-0">
-        <Layout pageList={this.state.pageList} dataMap={this.state.dataMap} />
-      </div>
-    );
-  }
+  return (
+    <div className="container-fluid p-0">
+      <Layout pageList={pageList} dataMap={dataMap} />
+    </div>
+  );
 }
 
-export default Photography;
+const getTestData = function() {
+  let data = [FIRST_TEST_PAGE];
+  let dataMap = {};
+  let pageList = [];
+
+  data.forEach(page => {
+    let uuid = uuidv1();
+    dataMap[uuid] = page;
+    pageList.push({
+      label: page.header.title || page.header.subTitle || "",
+      id: uuid
+    });
+  });
+
+  return {
+    pageList: pageList,
+    dataMap: dataMap
+  };
+};
+
+const header1 = `{"title":"Test","subTitle":"My Test","displayDate1":"2019-12-06","displayDate2":"2019-12-13"}`;
+const pageMetadata1 = `{"createdDate":"2019-12-29","lastModified":"2019-12-30T02:20:48.932Z","tags":[]}`;
+const blocks1 = `[{"name":"image","baseAttrs":{"size":"large","urlSource":"https://i.imgur.com/riz9PNB.jpg"},"variation":"image_caption","variationAttrs":{"image_default":{},"image_caption":{"primaryText":"This is my first test","secondaryText":"This is my secondary test"}},"uuid":"66f540d0-2aa9-11ea-b29a-41afb9d7311f","isFocused":false},{"name":"markdown","baseAttrs":{"source":"Damn why won't this markdown work\\n\\nIt's so hard to get this to render correectly"},"variation":"markdown_default","variationAttrs":{"markdown_default":{}},"uuid":"8216e6c0-2aa9-11ea-b29a-41afb9d7311f","isFocused":true}]`;
+
+const FIRST_TEST_PAGE = {
+  header: JSON.parse(header1),
+  blocks: JSON.parse(blocks1),
+  pageMetadata: JSON.parse(pageMetadata1)
+};

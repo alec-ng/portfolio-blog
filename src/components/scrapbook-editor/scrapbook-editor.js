@@ -10,21 +10,24 @@ import AppContainer from "./app";
 const DEFAULT_VERTICAL_BLOCK_MARGIN = "20px";
 
 /**
- * Inits an object to be used as the pageData prop for ScrapbookEditor
+ * inits a pageData object to be used as a prop for ScrapbookEditor
+ * If data is null, return default
+ * Else, merges pageMetadata, header, and block info
  *
  * @param {*} data either null to return a base object to work with, or the return of exportPageData()
  */
-export function createPageData(data) {
+export function createInitialState(data) {
+  let baseDataCopy = Object.assign({}, DefaultState);
   if (!data) {
-    let baseDataCpy = Object.assign({}, DefaultState);
+    // return back default and set created day to today
     let currDay = new Date();
-    baseDataCpy.pageMetadata.createdDate = `${currDay.getFullYear()}-${currDay.getMonth() +
+    let currDayStr = `${currDay.getFullYear()}-${currDay.getMonth() +
       1}-${currDay.getDate()}`;
-    return baseDataCpy;
+    baseDataCopy.pageMetadata.createdDate = currDayStr;
   } else {
-    // Any processing to do here?
-    return data;
+    baseDataCopy = Object.assign({}, baseDataCopy, data);
   }
+  return baseDataCopy;
 }
 
 /**
@@ -38,19 +41,14 @@ export function ScrapbookEditor(props) {
   if (!props.plugins || props.plugins.length < 1) {
     console.error("You must supply at least one plugin through props.plugins.");
   }
-  if (!props.pageData) {
+  if (!props.onSave && !props.readOnly) {
     console.error(
-      "You must supply page data to load. Try using createPageData()."
-    );
-  }
-  if (!props.onSave) {
-    console.warn(
       "No onSave prop found - you will not be able to access editor data."
     );
   }
 
-  // add plugins and readOnly flag to global state
-  let globalState = Object.assign({}, props.pageData);
+  // add plugins, pageData, and readOnly flag to global state
+  let globalState = createInitialState(props.pageData);
   globalState.plugins = props.plugins;
   if (typeof props.readOnly !== "undefined") {
     globalState.readOnly = props.readOnly;
@@ -69,6 +67,8 @@ export function ScrapbookEditor(props) {
     props.verticalBlockMargin || DEFAULT_VERTICAL_BLOCK_MARGIN;
   globalState.showPluginDescription =
     props.showPluginDescription === false ? false : true;
+
+  // TODO: Header, pageMetadata and blocks properties in pageData
 
   return (
     <StateProvider initialState={globalState} reducer={MainReducer}>
