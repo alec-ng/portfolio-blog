@@ -17,10 +17,12 @@ export default function EditorRenderer(props) {
   return (
     <>
       {props.pageData ? (
+        /* ScrapbookEditor as an uncontrolled component */
         <ScrapbookEditor
           readOnly={true}
           pageData={props.pageData}
           plugins={plugins}
+          key={JSON.stringify(props.pageData)}
         />
       ) : (
         <>
