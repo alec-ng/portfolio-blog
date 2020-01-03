@@ -51,7 +51,11 @@ export default function PhotographyLayout(props) {
         }}
       >
         <ContentHeader />
-        <ContentRenderer pageList={props.pageList} dataMap={props.dataMap} />
+        <ContentRenderer
+          pageList={props.pageList}
+          dataMap={props.dataMap}
+          sectionPath="photography"
+        />
       </ReactSidebar>
     </div>
   );

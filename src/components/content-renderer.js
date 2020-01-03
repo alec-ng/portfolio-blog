@@ -1,28 +1,17 @@
 import React from "react";
+import EditorRenderer from "./editor-renderer";
 import { useLocation, Redirect } from "react-router-dom";
 
-import { ScrapbookEditor } from "./scrapbook-editor/scrapbook-editor";
-import Image from "./scrapbook-editor/plugins/image/index";
-import Markdown from "./scrapbook-editor/plugins/markdown/index";
-import CoverPhoto from "./scrapbook-editor/plugins/cover-photo/index";
-import Spacer from "./scrapbook-editor/plugins/spacer/index";
-import Carousel from "./scrapbook-editor/plugins/carousel/index";
-import Video from "./scrapbook-editor/plugins/video/index";
-
 /**
- * On render, parses the current URL, looks for the page to render, and
- * renders all of its data
+ * On render, parses the current URL and determines the page to render
  */
-
-const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
-
 export default function ContentRenderer(props) {
-  // determine initial chosen page
   let location = useLocation();
-  let pathArr = location.pathname.split("/");
+  let pathArr = location.pathname.split("/"); // {baseUrl}/photography/{id}
   let initialPath =
     pathArr.length > 2 &&
-    pathArr[pathArr.length - 1].toUpperCase() !== "PHOTOGRAPHY"
+    pathArr[pathArr.length - 1].toUpperCase() !==
+      props.sectionPath.toUpperCase()
       ? pathArr[pathArr.length - 1]
       : "";
 
@@ -31,23 +20,12 @@ export default function ContentRenderer(props) {
   if (doRedirect) {
     initialPath = props.pageList[0].id;
   }
-
-  let chosenPageData = props.dataMap[initialPath];
-  debugger;
+  let pageData = props.dataMap[initialPath];
 
   return (
     <section className="mt-1 mb-3">
-      {chosenPageData ? (
-        <ScrapbookEditor
-          readOnly={true}
-          pageData={chosenPageData}
-          plugins={plugins}
-        />
-      ) : (
-        <h1 className="text-center">Page not found</h1>
-      )}
-      {/* Adjust URL path to reflect initial content */
-      doRedirect && <Redirect to={`/photography/${initialPath}`} />}
+      {<EditorRenderer pageData={pageData} />}
+      {doRedirect && <Redirect to={`/photography/${initialPath}`} />}
     </section>
   );
 }

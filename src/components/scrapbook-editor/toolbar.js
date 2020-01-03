@@ -39,10 +39,18 @@ export default function Toolbar(props) {
         value: nowStr
       }
     });
+
     let localPageMetadata = Object.assign({}, pageMetadata, {
       lastModified: nowStr
     });
-    onSave(localPageMetadata, header, blocks);
+    let localHeader = Object.assign({}, header);
+    let localBlocks = JSON.parse(JSON.stringify(blocks).replace(/\n/g, "\\n"));
+    localBlocks.forEach(block => {
+      delete block.isFocused;
+      delete block.uuid;
+    });
+
+    onSave(localPageMetadata, localHeader, localBlocks);
   }
 
   /**
