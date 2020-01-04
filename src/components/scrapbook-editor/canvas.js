@@ -36,18 +36,32 @@ export default function Canvas(props) {
    * dispatch add_block action
    */
   const handleOnDrop = function(e) {
-    const pluginName = e.dataTransfer.getData("pluginName");
     // assumes dropzone uuid is of form dropzone-{uuid}, set in canvas.js
-    let uuid = e.currentTarget.dataset.uuid
+    let currentPositionId = e.currentTarget.dataset.uuid
       ? e.currentTarget.dataset.uuid.replace("dropzone-", "")
       : null;
-    dispatch({
-      type: ACTION_TYPES.ADD_BLOCK,
-      payload: {
-        pluginName: pluginName,
-        uuid: uuid
-      }
-    });
+
+    if (e.dataTransfer.getData("dragType") === "plugin") {
+      const pluginName = e.dataTransfer.getData("pluginName");
+      // assumes dropzone uuid is of form dropzone-{uuid}, set in canvas.js
+      dispatch({
+        type: ACTION_TYPES.ADD_BLOCK,
+        payload: {
+          pluginName: pluginName,
+          uuid: currentPositionId
+        }
+      });
+    }
+
+    if (e.dataTransfer.getData("dragType") === "block") {
+      dispatch({
+        type: ACTION_TYPES.MOVE_BLOCK,
+        payload: {
+          targetBlockId: e.dataTransfer.getData("targetBlockId"), // block to be moved
+          positionBlockId: currentPositionId // block for the above to be moved in front of
+        }
+      });
+    }
   };
 
   /**

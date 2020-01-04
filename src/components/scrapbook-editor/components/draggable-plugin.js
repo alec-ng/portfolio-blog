@@ -9,6 +9,7 @@ import Col from "react-bootstrap/Col";
 export default function DraggablePlugin(props) {
   // dataTransfer the the name of the plugin
   function onDragStart(e) {
+    e.dataTransfer.setData("dragType", "plugin");
     e.dataTransfer.setData("pluginName", props.plugin.name);
   }
 

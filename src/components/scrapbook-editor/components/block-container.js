@@ -7,7 +7,7 @@ import styled from "styled-components";
  */
 
 const FocusDiv = styled.div`
-  min-height: 20px;
+  min-height: ${props => (props.locked ? "inherit" : "20px")};
   border: ${props =>
     props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
   margin-bottom: ${props =>
@@ -39,9 +39,16 @@ function BlockContainer(props) {
     }
   });
 
+  const onDragStart = function(e) {
+    e.dataTransfer.setData("dragType", "block");
+    e.dataTransfer.setData("targetBlockId", props.uuid);
+  };
   const BlockElement = props.blockElement;
+
   return (
     <FocusDiv
+      draggable="true"
+      onDragStart={onDragStart}
       onClick={props.onBlockClick}
       isFocused={props.isFocused}
       verticalBlockMargin={props.verticalBlockMargin}

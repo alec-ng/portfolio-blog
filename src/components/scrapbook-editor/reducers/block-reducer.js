@@ -1,9 +1,16 @@
 import uuidv1 from "uuid/v1";
 import { ACTION_TYPES } from "./index";
 
+// Expected to return {blocks, focusedBlock}
 export default function blockReducer(state, action) {
   let deepCloneBlocks = JSON.parse(JSON.stringify(state.blocks));
   switch (action.type) {
+    case ACTION_TYPES.MOVE_BLOCK:
+      return moveBlock(
+        deepCloneBlocks,
+        action.payload.targetBlockId,
+        action.payload.positionBlockId
+      );
     case ACTION_TYPES.ADD_BLOCK:
       return addNewBlock(
         deepCloneBlocks,
@@ -31,6 +38,34 @@ export default function blockReducer(state, action) {
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Moves the targetBlock to the positionBlock's index
+ */
+function moveBlock(blockArr, targetBlockId, positionBlockId) {
+  debugger;
+  let targetBlockIndex = blockArr.findIndex(
+    block => block.uuid === targetBlockId
+  );
+  let [blockToMove] = blockArr.splice(targetBlockIndex, 1);
+
+  // if no position specified, pushes to end
+  if (!positionBlockId) {
+    blockArr.push(blockToMove);
+  } else {
+    let positionBlockIndex = blockArr.findIndex(
+      block => block.uuid === positionBlockId
+    );
+    blockArr.splice(positionBlockIndex, 0, blockToMove);
+  }
+
+  return switchActiveBlock(blockArr, targetBlockId);
+}
+
+/**
+ * Removes current focused blocks from global state
+ */
 function deleteFocusedBlock(blockArr, uuid) {
   let focusedInd = blockArr.findIndex(block => block.uuid === uuid);
   blockArr.splice(focusedInd, 1);
