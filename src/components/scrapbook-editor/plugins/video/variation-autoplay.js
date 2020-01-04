@@ -14,7 +14,6 @@ export function AutoplayElement(props) {
 
   // For autoplay variation- if video is visible, play. If not, pause
   function onChange(isVisible) {
-    debugger;
     let video = this.children.ref.current.getElementsByTagName("video")[0];
     if (isVisible) {
       video.play();
