@@ -44,22 +44,23 @@ export default function blockReducer(state, action) {
  * Moves the targetBlock to the positionBlock's index
  */
 function moveBlock(blockArr, targetBlockId, positionBlockId) {
-  debugger;
   let targetBlockIndex = blockArr.findIndex(
     block => block.uuid === targetBlockId
   );
   let [blockToMove] = blockArr.splice(targetBlockIndex, 1);
 
-  // if no position specified, pushes to end
+  // Block is moved to the very end
   if (!positionBlockId) {
     blockArr.push(blockToMove);
   } else {
+    // Block is moved to anywhere else
     let positionBlockIndex = blockArr.findIndex(
       block => block.uuid === positionBlockId
     );
     blockArr.splice(positionBlockIndex, 0, blockToMove);
   }
 
+  // active block is block that was just moved
   return switchActiveBlock(blockArr, targetBlockId);
 }
 

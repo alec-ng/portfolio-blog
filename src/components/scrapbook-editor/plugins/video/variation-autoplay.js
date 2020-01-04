@@ -9,12 +9,12 @@ export function AutoplayElement(props) {
 
   let attributes = {
     muted: true,
-    loop: true,
-    vidRef: vidRef
+    loop: true
   };
 
   // For autoplay variation- if video is visible, play. If not, pause
   function onChange(isVisible) {
+    debugger;
     let video = this.children.ref.current.getElementsByTagName("video")[0];
     if (isVisible) {
       video.play();

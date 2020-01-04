@@ -54,10 +54,14 @@ export default function Canvas(props) {
     }
 
     if (e.dataTransfer.getData("dragType") === "block") {
+      let targetBlockId = e.dataTransfer.getData("targetBlockId");
+      if (targetBlockId === currentPositionId) {
+        return; // first block is moved to first position, nothing to move
+      }
       dispatch({
         type: ACTION_TYPES.MOVE_BLOCK,
         payload: {
-          targetBlockId: e.dataTransfer.getData("targetBlockId"), // block to be moved
+          targetBlockId: targetBlockId, // block to be moved
           positionBlockId: currentPositionId // block for the above to be moved in front of
         }
       });
