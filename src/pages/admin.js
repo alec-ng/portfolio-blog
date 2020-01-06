@@ -1,6 +1,6 @@
 import React from "react";
 import { withAuthorization } from "../components/session";
-import { ScrapbookEditor } from "../components/scrapbook-editor/scrapbook-editor";
+import { ScrapbookCMS } from "../components/scrapbook-cms/scrapbook-cms";
 
 import Image from "../components/scrapbook-editor/plugins/image/index";
 import Markdown from "../components/scrapbook-editor/plugins/markdown/index";
@@ -9,14 +9,18 @@ import Spacer from "../components/scrapbook-editor/plugins/spacer/index";
 import Carousel from "../components/scrapbook-editor/plugins/carousel/index";
 import Video from "../components/scrapbook-editor/plugins/video/index";
 
-/**
- * Page level component for admin section
- */
 const Admin = function(props) {
+  // TODO: on initialization (once), read all post and postContent data from firebase
+
+  // Could be derived off of a subset of data to feed in, e.g. trip reports vs photography
+  const key = "";
+
   return (
     <div className="container-fluid p-0">
-      <ScrapbookEditor
-        onSave={onEditorSave}
+      <ScrapbookCMS
+        key={key}
+        onCMSSave={onCMSSave}
+        data={testData}
         plugins={plugins}
         showPluginDescription={false}
       />
@@ -29,6 +33,24 @@ const condition = authUser =>
 export default withAuthorization(condition)(Admin);
 
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
+
+const testData = {
+  "test-uuid": {
+    post: {},
+    postContent: {}
+  },
+  "test-uuid-2": {
+    post: {},
+    postContent: {}
+  }
+};
+
+const onCMSSave = function(history) {
+  // TODO:
+  // history = [{actionType, payload}, ...]
+  // do a batched write --- https://cloud.google.com/firestore/docs/manage-data/transactions#batched-writes
+  // should return back a confirmation (true if successful) -- if so, ScrapbookCMS should clear out the history list
+};
 
 const onEditorSave = function(pageMetadata, header, blocks) {
   console.log("HEADER ----");

@@ -1,6 +1,6 @@
-
-import app from 'firebase/app';
-import 'firebase/auth';
+import app from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -10,28 +10,40 @@ const config = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSENGER_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
+
+const COLLECTION_POST = "posts";
+const COLLECTION_POSTCONTENTS = "postContents";
 
 class Firebase {
   constructor() {
     app.initializeApp(config);
 
+    /* Helpers */
+    this.fieldValue = app.firestore.FieldValue;
+
+    /* Firebase APIs */
     this.auth = app.auth();
+    this.db = app.firestore();
+
+    /* Social Signin Method Provider */
     this.googleProvider = new app.auth.GoogleAuthProvider();
   }
 
   /* Auth API */
   doSignInWithGoogle = () => {
     this.auth.signInWithPopup(this.googleProvider);
-  }
-
+  };
   doSignOut = () => {
     this.auth.signOut();
-  }
-  
+  };
 
+  /* Firestore API */
+  post = uid => this.db.doc(`${COLLECTION_POST}/${uid}`);
+  posts = () => this.db.collection(`${COLLECTION_POST}`);
+  postContent = uid => this.db.doc(`${COLLECTION_POSTCONTENTS}/${uid}`);
+  postContents = uid => this.db.doc(`${COLLECTION_POSTCONTENTS}/${uid}`);
 }
 
 export default Firebase;
-
