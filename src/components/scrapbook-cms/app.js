@@ -12,6 +12,7 @@ export default function App(props) {
       plugins={props.plugins}
       key={editorKey}
       onSave={onEditorSave}
+      onChange={onEditorChange}
       pageData={pageData}
     />
   );
@@ -37,17 +38,12 @@ export default function App(props) {
   // </AppContainer>
 }
 
-const onEditorSave = function(pageMetadata, header, blocks) {
-  // TODO: dispatch
-  console.log("HEADER ----");
-  console.log(header);
-  console.log(escapeJSONString(JSON.stringify(header)));
-  console.log("PAGE METADATA ----");
-  console.log(pageMetadata);
-  console.log(escapeJSONString(JSON.stringify(pageMetadata)));
-  console.log("BLOCKS ----");
-  console.log(blocks);
-  console.log(escapeJSONString(JSON.stringify(blocks)));
+const onEditorChange = function(header, blocks) {
+  // This works
+};
+
+const onEditorSave = function(header, blocks) {
+  // This works
 };
 
 const escapeJSONString = function(str) {

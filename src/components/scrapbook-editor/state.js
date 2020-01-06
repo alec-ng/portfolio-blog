@@ -1,29 +1,50 @@
 import React, { createContext, useReducer, useContext } from "react";
 
 /**
+ * Trims state data to be exported to parent component
+ */
+export const exportStateData = function(header, blocks) {
+  let localHeader = Object.assign({}, header);
+  let localBlocks = JSON.parse(JSON.stringify(blocks).replace(/\n/g, "\\n"));
+
+  // For each block, delete unneeded props and variation attributes not used
+  localBlocks.forEach(block => {
+    delete block.isFocused;
+    delete block.uuid;
+    Object.keys(block.variationAttrs).forEach(variationKey => {
+      if (variationKey !== block.variation) {
+        delete block.variationAttrs[variationKey];
+      }
+    });
+  });
+
+  return {
+    exportHeader: localHeader,
+    exportBlocks: localBlocks
+  };
+};
+
+/**
  * Default editor state if none is provided
+ * All expected keys are listed here
  */
 export const DefaultState = {
   plugins: null,
   pluginMap: null,
-  pageMetadata: {
-    createdDate: null,
-    lastModified: null,
-    tags: [],
-    location: undefined
-  },
   header: {
-    title: undefined,
-    subTitle: undefined,
-    displayDate1: null,
-    displayDate2: null
+    title: "",
+    subTitle: "",
+    displayDate1: "",
+    displayDate2: ""
   },
   blocks: [],
   readOnly: false,
   focusedBlock: undefined,
   inPreviewMode: false,
   verticalBlockMargin: null,
-  showPluginDescription: true
+  showPluginDescription: true,
+  onSave: null,
+  onChange: null
 };
 
 /**

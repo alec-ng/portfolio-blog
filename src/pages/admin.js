@@ -51,27 +51,3 @@ const onCMSSave = function(history) {
   // do a batched write --- https://cloud.google.com/firestore/docs/manage-data/transactions#batched-writes
   // should return back a confirmation (true if successful) -- if so, ScrapbookCMS should clear out the history list
 };
-
-const onEditorSave = function(pageMetadata, header, blocks) {
-  console.log("HEADER ----");
-  console.log(header);
-  console.log(escapeJSONString(JSON.stringify(header)));
-  console.log("PAGE METADATA ----");
-  console.log(pageMetadata);
-  console.log(escapeJSONString(JSON.stringify(pageMetadata)));
-  console.log("BLOCKS ----");
-  console.log(blocks);
-  console.log(escapeJSONString(JSON.stringify(blocks)));
-};
-
-const escapeJSONString = function(str) {
-  return str
-    .replace(/\\n/g, "\\n")
-    .replace(/\\'/g, "\\'")
-    .replace(/\\"/g, '\\"')
-    .replace(/\\&/g, "\\&")
-    .replace(/\\r/g, "\\r")
-    .replace(/\\t/g, "\\t")
-    .replace(/\\b/g, "\\b")
-    .replace(/\\f/g, "\\f");
-};

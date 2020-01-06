@@ -60,23 +60,19 @@ const getTestData = function() {
  * Expect format in db to be stringified JSON, and data to provide to scrapbook-editor to be parsed
  */
 const header1 = `{"title":"Test","subTitle":"My Test","displayDate1":"2019-12-06","displayDate2":"2019-12-13"}`;
-const pageMetadata1 = `{"createdDate":"2019-12-29","lastModified":"2019-12-30T02:20:48.932Z","tags":[]}`;
 const blocks1 = `[{"name":"image","baseAttrs":{"size":"large","urlSource":"https://i.imgur.com/riz9PNB.jpg"},"variation":"image_caption","variationAttrs":{"image_default":{},"image_caption":{"primaryText":"This is my first test","secondaryText":"This is my secondary test"}},"uuid":"66f540d0-2aa9-11ea-b29a-41afb9d7311f","isFocused":false},{"name":"markdown","baseAttrs":{"source":"Damn why won't this markdown work\\n\\nIt's so hard to get this to render correectly"},"variation":"markdown_default","variationAttrs":{"markdown_default":{}},"uuid":"8216e6c0-2aa9-11ea-b29a-41afb9d7311f","isFocused":true}]`;
 
 const FIRST_TEST_PAGE = {
   header: JSON.parse(header1),
-  blocks: JSON.parse(blocks1),
-  pageMetadata: JSON.parse(pageMetadata1)
+  blocks: JSON.parse(blocks1)
 };
 
 const header2 = `{"title":"My Other Test Page","subTitle":"Let's see how this one turns out","displayDate1":null,"displayDate2":null}`;
-const pageMetadata2 = `{"createdDate":"2019-12-31","lastModified":"2019-12-31T18:26:16.325Z","tags":[]}`;
 const blocks2 = `[{"name":"markdown","baseAttrs":{"source":"# Harhar\n## Harhar\n### Har\n\n"},"variation":"markdown_default","variationAttrs":{"markdown_default":{}}},{"name":"image","baseAttrs":{"size":"large","urlSource":"https://i.imgur.com/KOBT4nk.jpg"},"variation":"image_default","variationAttrs":{"image_default":{}}}]`;
 
 const SECOND_TEST_PAGE = {
   header: JSON.parse(header2),
-  blocks: JSON.parse(blocks2.replace(/\n/g, "\\n")),
-  pageMetadata: JSON.parse(pageMetadata2)
+  blocks: JSON.parse(blocks2.replace(/\n/g, "\\n"))
 };
 
 const TEST_DATA = [FIRST_TEST_PAGE, SECOND_TEST_PAGE];

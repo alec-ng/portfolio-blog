@@ -1,5 +1,5 @@
 import React from "react";
-import { useStateValue } from "./state";
+import { useStateValue, exportStateData } from "./state";
 import { PageHeaderControls } from "./components/page-header";
 import { ACTION_TYPES } from "./reducers/index";
 import DraggablePlugin from "./components/draggable-plugin";
@@ -12,45 +12,17 @@ import PreviewButton from "./components/preview-button";
  */
 export default function Toolbar(props) {
   const [
-    {
-      plugins,
-      pageMetadata,
-      blocks,
-      onSave,
-      focusedBlock,
-      showPluginDescription,
-      header
-    },
+    { plugins, blocks, onSave, focusedBlock, showPluginDescription, header },
     dispatch
   ] = useStateValue();
 
   /**
    * On button click,
-   * // TODO: block validation
-   * updates the last modified timestamp on page metadata
    * executes the onSave cb with the page metadata and block information passed as args
    */
   function exportEditorData(e) {
-    let nowStr = new Date().toISOString();
-    dispatch({
-      type: ACTION_TYPES.UPDATE_PAGE_METADATA,
-      payload: {
-        key: "lastModified",
-        value: nowStr
-      }
-    });
-
-    let localPageMetadata = Object.assign({}, pageMetadata, {
-      lastModified: nowStr
-    });
-    let localHeader = Object.assign({}, header);
-    let localBlocks = JSON.parse(JSON.stringify(blocks).replace(/\n/g, "\\n"));
-    localBlocks.forEach(block => {
-      delete block.isFocused;
-      delete block.uuid;
-    });
-
-    onSave(localPageMetadata, localHeader, localBlocks);
+    let { exportHeader, exportBlocks } = exportStateData(header, blocks);
+    onSave(exportHeader, exportBlocks);
   }
 
   /**
