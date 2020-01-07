@@ -2,19 +2,24 @@ import React from "react";
 import { ScrapbookEditor } from "../scrapbook-editor/scrapbook-editor";
 import { useStateValue } from "./state";
 
+import Toolbar from "./components/toolbar";
+
 export default function App(props) {
   const [{ data, chosenPage }, dispatch] = useStateValue();
   let editorKey = chosenPage ? JSON.stringify(chosenPage.postData) : "";
   let pageData = chosenPage ? chosenPage.postData : null;
   return (
-    <ScrapbookEditor
-      showPluginDescription={props.showPluginDescription}
-      plugins={props.plugins}
-      key={editorKey}
-      onSave={onEditorSave}
-      onChange={onEditorChange}
-      pageData={pageData}
-    />
+    <div>
+      <Toolbar />
+      <ScrapbookEditor
+        showPluginDescription={props.showPluginDescription}
+        plugins={props.plugins}
+        key={editorKey}
+        onSave={onEditorSave}
+        onChange={onEditorChange}
+        pageData={pageData}
+      />
+    </div>
   );
 
   // <AppContainer>

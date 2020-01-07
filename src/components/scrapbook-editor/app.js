@@ -14,7 +14,7 @@ const BaseContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  height: 100%;
+  height: ${props => (props.readOnly || props.inPreviewMode ? "100%" : "100vh")}
   min-width: ${props =>
     props.readOnly || props.inPreviewMode ? "inherit" : "992px"};
 `;
@@ -37,7 +37,7 @@ const ToolbarContainer = styled.div`
 const CanvasContainer = styled.div`
   overflow-y: auto;
   flex: ${props => (props.readOnly ? "100%" : "75%")};
-  margin: ${props => (props.readOnly || props.inPreviewMode ? "0" : "0 10px")};
+  padding: ${props => (props.readOnly || props.inPreviewMode ? "0" : "0 10px")};
 `;
 
 export default function App(props) {

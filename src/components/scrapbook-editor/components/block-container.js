@@ -7,7 +7,7 @@ import styled from "styled-components";
  */
 
 const FocusDiv = styled.div`
-  cursor: move;
+  cursor: ${props => (props.locked ? "inherit" : "move")};
   min-height: ${props => (props.locked ? "inherit" : "20px")};
   border: ${props =>
     props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
