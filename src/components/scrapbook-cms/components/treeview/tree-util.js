@@ -1,0 +1,132 @@
+/**
+ * Used for animation of node expansion
+ */
+const onEnterActive = node => {
+  return { height: node.scrollHeight };
+};
+export const motion = {
+  motionName: "node-motion",
+  motionAppear: false,
+  onEnterActive,
+  onLeaveStart: node => ({ height: node.offsetHeight })
+};
+
+/**
+ * Given a chosenKey that exists in treeData, returns back two arrays - initially selected
+ * key comprising of just the chosenkey, and expandedKeys that open all sub nodes leading up to
+ * the chosen key
+ * treeData is an array of the form returned by createTreeData()
+ */
+export function getInitialKeys(chosenNode, treeData) {
+  let initialSelectedKeys = [];
+  let initialExpandedKeys = [];
+  let returnVal = [initialSelectedKeys, initialExpandedKeys];
+
+  if (!chosenNode || !treeData) {
+    return returnVal;
+  }
+
+  // node key, format: post_${year}-${month}-${day}-${title}
+  const [, year, month] = chosenNode.split("-");
+  let yearNode = treeData.find(node => node.key === `year-${year}`);
+  if (!yearNode) {
+    return returnVal;
+  }
+  let monthNode = yearNode.children.find(
+    node => node.key === `month-${year}-${month}`
+  );
+  if (!monthNode) {
+    return returnVal;
+  }
+  initialSelectedKeys.push(chosenNode);
+  initialExpandedKeys.push(yearNode.key);
+  initialExpandedKeys.push(monthNode.key);
+  return returnVal;
+}
+
+/**
+ * From an array of posts, returns an array of node objects to be used as treeData
+ * for the rc-tree component
+ */
+export function createTreeData(posts) {
+  // Group all data by yyyy, mm, dd
+  let keyData = getGroupedPostData(posts);
+  let treeData = [];
+
+  function reverse(a, b) {
+    return b - a;
+  }
+
+  // iteratively put all grouped data in an array, where days are grouped subchildren of its respective
+  // month, which are in term grouped subchildren of its respective year
+  let sortedYears = Object.keys(keyData).sort(reverse);
+  sortedYears.forEach(year => {
+    let months = [];
+    let yearNode = {
+      key: `year-${year}`,
+      title: year.toString(),
+      children: months
+    };
+
+    let sortedMonths = Object.keys(keyData[year]).sort(reverse);
+    sortedMonths.forEach(month => {
+      let days = [];
+      let monthNode = {
+        key: `month-${year}-${month}`,
+        title: monthMap[month],
+        children: days
+      };
+
+      let sortedDays = Object.keys(keyData[year][month]).sort(reverse);
+      sortedDays.forEach(day => {
+        let title = keyData[year][month][day].title;
+        let postNode = {
+          key: `post-${year}-${month}-${day}-${title}`,
+          title: keyData[year][month][day].title,
+          children: []
+        };
+        days.push(postNode);
+      });
+
+      months.push(monthNode);
+    });
+
+    treeData.push(yearNode);
+  });
+
+  return treeData;
+}
+
+// groups all posts by year, then by each year's month, then by each month's date
+function getGroupedPostData(posts) {
+  let keyData = {}; // yy -> {mm -> {post}}
+  posts.forEach(post => {
+    let [year, month, day] = post.date.split("-"); // yyyy-mm-dd
+    if (!keyData[year]) {
+      keyData[year] = {};
+    }
+    if (!keyData[year][month]) {
+      keyData[year][month] = {};
+    }
+    if (!keyData[year][month][day]) {
+      keyData[year][month][day] = {};
+    }
+    keyData[year][month][day] = { title: post.title };
+  });
+  return keyData;
+}
+
+const monthMap = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Aug",
+  "09": "Sep",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Dec"
+};

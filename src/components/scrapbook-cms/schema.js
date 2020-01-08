@@ -3,7 +3,8 @@ export const post = {
   date: "RESEARCH: date type, or what format to store that i can sort them?",
   location: "some unique id for a map application coordinate",
   tags: ["tag-1"],
-  postData: "firebase-autogen-id"
+  postData: "firebase-autogen-id",
+  isPublished: true
 };
 
 export const postData = {

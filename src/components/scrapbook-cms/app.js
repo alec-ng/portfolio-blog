@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { ScrapbookEditor } from "../scrapbook-editor/scrapbook-editor";
 import { useStateValue } from "./state";
 
@@ -42,26 +41,6 @@ export default function App(props) {
       )}
     </>
   );
-
-  // <AppContainer>
-  //   <SidebarContainer>
-  //     <Sidebar
-  //       onPostSelect={}
-  //       onPageMetadataChange={}
-  //       onPostCreate={}
-  //       onPostDelete={}
-  //       postData={}
-  //       chosenPost={} />
-  //   </SidebarContainer>
-  //   <EditorContainer>
-  //     <ScrapbookEditor
-  //       showPluginDescription={props.scrapbookProps.showPluginDescription}
-  //       plugins={props.scrapbookProps.plugins}
-  //       key={JSON.stringify(chosenPage.postData)}
-  //       onSave={onPostDataSave}
-  //       pageData={chosenPage.postData} />
-  //   </EditorContainer>
-  // </AppContainer>
 }
 
 const onEditorChange = function(header, blocks) {

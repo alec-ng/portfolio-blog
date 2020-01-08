@@ -32,7 +32,6 @@ export default function SidebarDrawer(props) {
 const DrawerContainer = styled.div`
   background-color: #373a47;
   min-width: 300px;
-  display: flex;
   height: 100%;
   padding: 20px;
   color: rgb(184, 183, 173);
