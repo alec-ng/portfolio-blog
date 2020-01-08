@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useStateValue } from "./../state";
 import switcherIcon from "./treeview-switcher";
 import "rc-tree/assets/index.css";
 import "./treeview.css";
-import Tree, { TreeNode } from "rc-tree";
+import Tree from "rc-tree";
 
 /**
  *

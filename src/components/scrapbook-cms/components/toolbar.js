@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { useStateValue } from "../state";
 import PageMetadata from "./page-metadata";
 import TreeView from "./treeview";
-import { slide as Menu } from "react-burger-menu";
+
+const VIEW_POSTS = "posts";
+const VIEW_POSTDATA = "postData";
 
 /**
- * Menu sidebar with two sections controlled through a button-group
+ * State manager for sidebar functionality
+ * Renders two views: treeview and post data
  * 1. shows all pages loaded in a treeview
  * 2. if a page is chosen, shows its metadata<Menu>
-        <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a>
-        <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
  */
 export default function Toolbar(props) {
+  const [view, setView] = useState(VIEW_POSTS);
+
   const onSave = function() {
     props.onSave();
     // props.onSave should accept a cb that, when run, will let us know if the
@@ -36,59 +38,10 @@ export default function Toolbar(props) {
     // on "yes" - mutateHistory()
   };
 
-  const showSettings = function(e, f) {
-    console.log(e);
-    console.log(f);
-  };
-
-  let styles = {
-    bmBurgerButton: {
-      position: "fixed",
-      width: "35px",
-      height: "30px",
-      right: "25px",
-      top: "25px"
-    },
-    bmBurgerBars: {
-      background: "#373a47"
-    },
-    bmBurgerBarsHover: {
-      background: "#a90000"
-    },
-    bmCrossButton: {
-      height: "24px",
-      width: "24px"
-    },
-    bmCross: {
-      background: "#bdc3c7"
-    },
-    bmMenuWrap: {
-      position: "fixed",
-      height: "100%"
-    },
-    bmMenu: {
-      background: "#373a47",
-      padding: "2.5em 1.5em 0",
-      fontSize: "1.15em"
-    },
-    bmMorphShape: {
-      fill: "#373a47"
-    },
-    bmItemList: {
-      color: "#b8b7ad",
-      padding: "0.8em"
-    },
-    bmItem: {
-      display: "inline-block"
-    },
-    bmOverlay: {
-      background: "rgba(0, 0, 0, 0.3)"
-    }
-  };
-
   return (
-    <Menu styles={styles} right isOpen>
-      <TreeView />
-    </Menu>
+    <>
+      {view === VIEW_POSTS && <TreeView />}
+      {view === VIEW_POSTDATA && <h1>postdata todo</h1>}
+    </>
   );
 }
