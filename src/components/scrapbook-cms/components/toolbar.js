@@ -27,7 +27,6 @@ export default function Toolbar(props) {
     chosenPost,
     treeData
   );
-  console.log(`selectedKeyes: ${selectedKeys}, chosenPost: ${chosenPost}`);
   const [view, setView] = useState(VIEW_POSTS);
   const [expandedKeys, setExpandedKeys] = useState(initialExpandedKeys);
 

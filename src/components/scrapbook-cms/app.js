@@ -1,14 +1,29 @@
 import React from "react";
 import { ScrapbookEditor } from "../scrapbook-editor/scrapbook-editor";
 import { useStateValue } from "./state";
+import { ACTION_TYPES } from "./reducers/index";
 import styled from "styled-components";
 import SidebarDrawer from "./components/sidebar-drawer";
 import Toolbar from "./components/toolbar";
 import Header from "./components/header";
 
 export default function App(props) {
-  const [{ chosenPost, data }] = useStateValue();
+  const [{ chosenPost, data }, dispatch] = useStateValue();
   let postData = chosenPost ? data[chosenPost].postData : null;
+
+  function onEditorChange(header, blocks) {
+    // This works
+    dispatch({
+      type: ACTION_TYPES.UPDATE_POST_DATA,
+      payload: {
+        id: chosenPost,
+        postData: {
+          header: header,
+          blocks: blocks
+        }
+      }
+    });
+  }
 
   return (
     <>
@@ -22,7 +37,7 @@ export default function App(props) {
           showPluginDescription={props.showPluginDescription}
           plugins={props.plugins}
           key={chosenPost}
-          onSave={onEditorSave}
+          // onSave={onEditorSave}
           onChange={onEditorChange}
           pageData={postData}
         />

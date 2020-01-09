@@ -58,13 +58,15 @@ export default function Toolbar(props) {
         </Accordion>
       </section>
       <section className="p-3">
-        <button
-          type="button"
-          className="btn btn-block btn-success"
-          onClick={exportEditorData}
-        >
-          Save
-        </button>
+        {onSave != null && (
+          <button
+            type="button"
+            className="btn btn-block btn-success"
+            onClick={exportEditorData}
+          >
+            Save
+          </button>
+        )}
         <PreviewButton />
         {focusedBlock != null && (
           <button
