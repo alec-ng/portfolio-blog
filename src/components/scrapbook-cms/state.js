@@ -5,9 +5,15 @@ import React, { createContext, useReducer, useContext } from "react";
  */
 export const DefaultState = {
   onSave: undefined,
-  data: {},
+  data: {}, // postId > {post, postData}
   chosenPost: null, // pointer to an element in postData
-  changeList: []
+  changes: {
+    create: [],
+    updatePost: [],
+    updatePostData: [],
+    delete: []
+  },
+  originalPostSet: [] // // ids of all posts that exist in the db
 };
 
 /**

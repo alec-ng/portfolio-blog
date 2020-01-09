@@ -26,8 +26,8 @@ export function getInitialKeys(chosenNode, treeData) {
     return returnVal;
   }
 
-  // node key, format: post_${year}-${month}-${day}-${title}
-  const [, year, month] = chosenNode.split("-");
+  // node key, format: ${year}-${month}-${day}-${title}
+  const [year, month] = chosenNode.split("-");
   let yearNode = treeData.find(node => node.key === `year-${year}`);
   if (!yearNode) {
     return returnVal;
@@ -38,7 +38,7 @@ export function getInitialKeys(chosenNode, treeData) {
   if (!monthNode) {
     return returnVal;
   }
-  initialSelectedKeys.push(chosenNode);
+  initialSelectedKeys.push(`post-${chosenNode}`);
   initialExpandedKeys.push(yearNode.key);
   initialExpandedKeys.push(monthNode.key);
   return returnVal;
@@ -70,22 +70,23 @@ export function createTreeData(posts) {
 
     let sortedMonths = Object.keys(keyData[year]).sort(reverse);
     sortedMonths.forEach(month => {
-      let days = [];
+      let posts = [];
       let monthNode = {
         key: `month-${year}-${month}`,
         title: monthMap[month],
-        children: days
+        children: posts
       };
 
       let sortedDays = Object.keys(keyData[year][month]).sort(reverse);
       sortedDays.forEach(day => {
-        let title = keyData[year][month][day].title;
-        let postNode = {
-          key: `post-${year}-${month}-${day}-${title}`,
-          title: keyData[year][month][day].title,
-          children: []
-        };
-        days.push(postNode);
+        keyData[year][month][day].forEach(post => {
+          let postNode = {
+            key: `post-${year}-${month}-${day}-${post.title}`,
+            title: post.title,
+            children: []
+          };
+          posts.push(postNode);
+        });
       });
 
       months.push(monthNode);
@@ -109,9 +110,9 @@ function getGroupedPostData(posts) {
       keyData[year][month] = {};
     }
     if (!keyData[year][month][day]) {
-      keyData[year][month][day] = {};
+      keyData[year][month][day] = [];
     }
-    keyData[year][month][day] = { title: post.title };
+    keyData[year][month][day].push({ title: post.title });
   });
   return keyData;
 }

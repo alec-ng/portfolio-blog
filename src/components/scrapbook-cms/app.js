@@ -1,15 +1,14 @@
 import React from "react";
 import { ScrapbookEditor } from "../scrapbook-editor/scrapbook-editor";
 import { useStateValue } from "./state";
-
+import styled from "styled-components";
 import SidebarDrawer from "./components/sidebar-drawer";
 import Toolbar from "./components/toolbar";
 import Header from "./components/header";
 
 export default function App(props) {
-  const [{ data, chosenPage }, dispatch] = useStateValue();
-  let editorKey = chosenPage ? JSON.stringify(chosenPage.postData) : "";
-  let pageData = chosenPage ? chosenPage.postData : null;
+  const [{ chosenPost, data }] = useStateValue();
+  let postData = chosenPost ? data[chosenPost].postData : null;
 
   return (
     <>
@@ -18,30 +17,33 @@ export default function App(props) {
           <Toolbar />
         </SidebarDrawer>
       </Header>
-      {chosenPage != null ? (
+      {chosenPost != null ? (
         <ScrapbookEditor
           showPluginDescription={props.showPluginDescription}
           plugins={props.plugins}
-          key={editorKey}
+          key={chosenPost}
           onSave={onEditorSave}
           onChange={onEditorChange}
-          pageData={pageData}
+          pageData={postData}
         />
       ) : (
-        <h1>
-          {[...new Array(100)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join("\n")}
-        </h1>
+        <EmptyEditorContainer>
+          <h1 className="text-muted">
+            In the toolbar, select or create a post to modify its contents here.
+          </h1>
+        </EmptyEditorContainer>
       )}
     </>
   );
 }
+
+const EmptyEditorContainer = styled.div`
+  display: flex;
+  text-align: center;
+  height: 80vh;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 const onEditorChange = function(header, blocks) {
   // This works

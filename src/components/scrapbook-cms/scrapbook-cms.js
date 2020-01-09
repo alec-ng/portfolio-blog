@@ -13,6 +13,7 @@ export function ScrapbookCMS(props) {
   if (props.data) {
     globalState.data = props.data;
   }
+  globalState.originalPostSet = Object.keys(props.data);
 
   return (
     <StateProvider reducer={MainReducer} initialState={globalState}>

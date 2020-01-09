@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useStateValue } from "../state";
-import PageMetadata from "./page-metadata";
+import { ACTION_TYPES } from "../reducers/index";
 import CreatePostModal from "./create-post-modal";
 import TreeView from "./treeview/treeview";
-import { createTreeData } from "./treeview/tree-util";
+import { createTreeData, getInitialKeys } from "./treeview/tree-util";
 
 const VIEW_POSTS = "posts";
 const VIEW_POSTDATA = "postData";
@@ -15,69 +15,102 @@ const VIEW_POSTDATA = "postData";
  * 2. if a page is chosen, shows its metadata<Menu>
  */
 export default function Toolbar(props) {
+  const [{ chosenPost, data, changeList }, dispatch] = useStateValue();
+
+  const posts = [];
+  Object.keys(data).forEach(key => {
+    posts.push(data[key].post);
+  });
+  const titles = posts.map(post => post.title);
+  const treeData = createTreeData(posts);
+  const [selectedKeys, initialExpandedKeys] = getInitialKeys(
+    chosenPost,
+    treeData
+  );
+  console.log(`selectedKeyes: ${selectedKeys}, chosenPost: ${chosenPost}`);
   const [view, setView] = useState(VIEW_POSTS);
+  const [expandedKeys, setExpandedKeys] = useState(initialExpandedKeys);
 
-  const [{ chosenPost, data }, dispatch] = useStateValue();
+  // if expandable, expand. else, select leaf and execute nodeSelect cb
+  function onNodeSelect(selectedKeys, e) {
+    if (e.node.isLeaf()) {
+      onPostSelect(e.node.props.eventKey);
+    } else {
+      setExpandedKeys(
+        e.node.props.expanded
+          ? expandedKeys.filter(k => k !== e.node.props.eventKey)
+          : expandedKeys.concat(e.node.props.eventKey)
+      );
+    }
+  }
 
-  const onSave = function() {
-    props.onSave();
+  function onExpand(expandedKeys) {
+    setExpandedKeys(expandedKeys);
+  }
+
+  function onSave() {
+    // optional: list the changes made
+
+    function onComplete(isSuccess) {
+      // dispatch -- clear change list
+      // fire success modal
+    }
+    props.onSave(changeList, data, onComplete);
     // props.onSave should accept a cb that, when run, will let us know if the
-    // updates were successful. if yes, then clear the change list
-  };
+  }
 
-  const onPostSelect = function(selectedKey) {
-    console.log(selectedKey);
-    // update chosenPost with selection
-    // check if current postData is same as one passed in to plugin initially
-  };
+  function onPostSelect(selectedKey) {
+    let postId = selectedKey.replace("post-", "");
+    if (chosenPost === postId) {
+      return;
+    }
+    dispatch({
+      type: ACTION_TYPES.SELECT_POST,
+      payload: {
+        id: postId
+      }
+    });
+  }
 
-  const onPostCreate = function(newPost) {
-    console.log(newPost);
-    // Dispatch create new post event
-    // close the modal
-    // clear the form's input values
+  function onPostCreate(newPost) {
+    dispatch({
+      type: ACTION_TYPES.CREATE_POST,
+      payload: newPost
+    });
+    // update expanded keys
+    const [year, month] = newPost.date.split("-");
+    const expandedKeys = [`year-${year}`, `month-${year}-${month}`];
+    setExpandedKeys(expandedKeys);
+  }
 
-    // validation -- title should be unique across all posts
-  };
-
-  const onPostDelete = function(e) {
+  function onPostDelete(e) {
     // "Are you sure" confirmation?
     // on "yes" - mutateHistory()
-  };
+  }
 
-  const treeData = createTreeData(sampleData);
   return (
     <>
       {view === VIEW_POSTS && (
         <>
-          <TreeView
-            chosenNode="post-2019-05-11-Nepal"
-            treeData={treeData}
-            onNodeSelect={onPostSelect}
-          />
-          <CreatePostModal onSubmit={onPostCreate} titles={["test"]} />
+          <div className="mb-4">
+            <TreeView
+              treeData={treeData}
+              onNodeSelect={onNodeSelect}
+              expandedKeys={expandedKeys}
+              selectedKeys={selectedKeys}
+              onExpand={onExpand}
+            />
+          </div>
+          <div className="text-center">
+            <CreatePostModal onSubmit={onPostCreate} titles={titles} />
+            <br />
+            <button type="button" onClick={onSave} className="btn btn-primary">
+              Save Changes
+            </button>
+          </div>
         </>
       )}
       {view === VIEW_POSTDATA && <h1>postdata todo</h1>}
     </>
   );
 }
-
-const sampleData = [
-  {
-    title: "Nepal",
-    date: "2019-05-11"
-  },
-  {
-    title: "Juan de Fuca",
-    date: "2019-05-15"
-  },
-  {
-    title: "Slalok Mountain",
-    date: "2016-01-01"
-  },
-  {
-    title: "Rainbow Mountain",
-    date: "2016-06-14"
-  }
-];
