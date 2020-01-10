@@ -4,9 +4,22 @@ import { ACTION_TYPES } from "../reducers/index";
 import CreatePostModal from "./create-post-modal";
 import TreeView from "./treeview/treeview";
 import { createTreeData, getInitialKeys } from "./treeview/tree-util";
+import ButtonGroup from "./button-group";
+import PageMetadata from "./page-metadata";
 
 const VIEW_POSTS = "posts";
 const VIEW_POSTDATA = "postData";
+
+const buttonGroupData = [
+  {
+    key: VIEW_POSTS,
+    label: "View All Posts"
+  },
+  {
+    key: VIEW_POSTDATA,
+    label: "Selected Post"
+  }
+];
 
 /**
  * State manager for sidebar functionality
@@ -21,19 +34,34 @@ export default function Toolbar(props) {
   Object.keys(data).forEach(key => {
     posts.push(data[key].post);
   });
-  const titles = posts.map(post => post.title);
+  const existingIdList = posts.map(post => post.id);
   const treeData = createTreeData(posts);
   const [selectedKeys, initialExpandedKeys] = getInitialKeys(
     chosenPost,
     treeData
   );
+  const chosenPostMetadata = chosenPost ? data[chosenPost].post : null;
+
   const [view, setView] = useState(VIEW_POSTS);
   const [expandedKeys, setExpandedKeys] = useState(initialExpandedKeys);
 
-  // if expandable, expand. else, select leaf and execute nodeSelect cb
+  /**
+   * If leaf, update seleted post state
+   * If not a leaf, expand and show its children
+   */
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf()) {
-      onPostSelect(e.node.props.eventKey);
+      let postId = e.node.props.eventKey.replace("post-", "");
+      if (chosenPost === postId) {
+        return;
+      }
+      dispatch({
+        type: ACTION_TYPES.SELECT_POST,
+        payload: {
+          id: postId
+        }
+      });
+      setView(VIEW_POSTDATA);
     } else {
       setExpandedKeys(
         e.node.props.expanded
@@ -43,34 +71,34 @@ export default function Toolbar(props) {
     }
   }
 
+  /**
+   * fully controlled list of expanded tree nodes
+   */
   function onExpand(expandedKeys) {
     setExpandedKeys(expandedKeys);
   }
 
+  /**
+   * executes the save cb supplied and upon success, clears all change history
+   */
   function onSave() {
     // optional: list the changes made
+    // for all post data, update the lastModified stamp to (new Date()).toISOString()
 
     function onComplete(isSuccess) {
-      // dispatch -- clear change list
-      // fire success modal
+      dispatch({
+        type: ACTION_TYPES.CLEAR_HISTORY
+      });
+      alert("successfully saved");
     }
     props.onSave(changeList, data, onComplete);
-    // props.onSave should accept a cb that, when run, will let us know if the
   }
 
-  function onPostSelect(selectedKey) {
-    let postId = selectedKey.replace("post-", "");
-    if (chosenPost === postId) {
-      return;
-    }
-    dispatch({
-      type: ACTION_TYPES.SELECT_POST,
-      payload: {
-        id: postId
-      }
-    });
-  }
-
+  /**
+   * Creates a new post in state and adjust expanded tree nodes to show
+   * the newly created post
+   * Toggle the toolbar view to show page metadata
+   */
   function onPostCreate(newPost) {
     dispatch({
       type: ACTION_TYPES.CREATE_POST,
@@ -80,6 +108,7 @@ export default function Toolbar(props) {
     const [year, month] = newPost.date.split("-");
     const expandedKeys = [`year-${year}`, `month-${year}-${month}`];
     setExpandedKeys(expandedKeys);
+    setView(VIEW_POSTDATA);
   }
 
   function onPostDelete(e) {
@@ -87,8 +116,20 @@ export default function Toolbar(props) {
     // on "yes" - mutateHistory()
   }
 
+  function toggleView(e) {
+    setView(e.currentTarget.dataset.buttonkey);
+  }
+
   return (
     <>
+      <div className="mb-3">
+        <ButtonGroup
+          buttons={buttonGroupData}
+          activeKey={view}
+          onClick={toggleView}
+        />
+      </div>
+
       {view === VIEW_POSTS && (
         <>
           <div className="mb-4">
@@ -101,7 +142,10 @@ export default function Toolbar(props) {
             />
           </div>
           <div className="text-center">
-            <CreatePostModal onSubmit={onPostCreate} titles={titles} />
+            <CreatePostModal
+              onSubmit={onPostCreate}
+              existingIdList={existingIdList}
+            />
             <br />
             <button type="button" onClick={onSave} className="btn btn-primary">
               Save Changes
@@ -109,7 +153,14 @@ export default function Toolbar(props) {
           </div>
         </>
       )}
-      {view === VIEW_POSTDATA && <h1>postdata todo</h1>}
+
+      {view === VIEW_POSTDATA && (
+        <PageMetadata
+          chosenPost={chosenPostMetadata}
+          existingIdList={existingIdList}
+          onDelete={onPostDelete}
+        />
+      )}
     </>
   );
 }

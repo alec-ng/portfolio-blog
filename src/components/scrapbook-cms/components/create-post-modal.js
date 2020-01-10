@@ -1,5 +1,4 @@
-import React from "react";
-import { useStateValue } from "./../state";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -46,7 +45,7 @@ export default function CreatePostModal(props) {
               Titles can only be alphanumeric with spaces.
             </p>
             <ModalForm
-              titles={props.titles}
+              existingIdList={props.existingIdList}
               closeModal={handleClose}
               onSubmit={props.onSubmit}
             />
@@ -58,27 +57,28 @@ export default function CreatePostModal(props) {
 }
 
 function ModalForm(props) {
-  const formRef = React.useRef(null);
-  const existingTitles = props.titles.map(title => title.toUpperCase());
+  const [showKeyError, setShowKeyError] = useState(false);
 
-  // Ensure the title is unique across all existing posts
-  function validateTitle(e) {
-    let input = e.currentTarget;
-    let hasDuplicateTitle =
-      input.checkValidity() &&
-      existingTitles.indexOf(input.value.toUpperCase()) !== -1;
-    input.setCustomValidity(
-      hasDuplicateTitle
-        ? "The title you have chosen is already being used. Please use another."
-        : ""
-    );
-  }
+  const formRef = React.useRef(null);
+  const idList = props.existingIdList.map(id => id.toUpperCase());
 
   // On success, execute the submit cb, clear the form of all data, and close the modal
   function validateForm(e) {
     e.preventDefault();
 
     if (formRef.current.reportValidity()) {
+      // check if date/title combination is unique
+      let title = formRef.current
+        .querySelector("[data-val=title]")
+        .value.trim();
+      let date = formRef.current.querySelector("[data-val=date]").value;
+      let id = `${date}-${title}`;
+      let hasDuplicateKey = idList.indexOf(id.toUpperCase()) !== -1;
+      setShowKeyError(hasDuplicateKey);
+      if (hasDuplicateKey) {
+        return;
+      }
+
       let newData = {};
       formRef.current.querySelectorAll("input").forEach(input => {
         newData[input.dataset.val] = input.value;
@@ -103,7 +103,6 @@ function ModalForm(props) {
               pattern="[a-zA-Z0-9\s]+"
               type="text"
               className="form-control"
-              onChange={validateTitle}
             />
           </label>
           <label style={{ width: "100%" }}>
@@ -116,6 +115,14 @@ function ModalForm(props) {
             />
           </label>
         </div>
+        {showKeyError && (
+          <div className="text-center mb-4" style={{ color: "red" }}>
+            <i>
+              The title and date combination already exists. Please change
+              either the title or date.
+            </i>
+          </div>
+        )}
         <div className="text-right">
           <button
             type="button"

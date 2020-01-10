@@ -49,6 +49,7 @@ export default withAuthorization(condition)(Admin);
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 
 const onCMSSave = function(changes, data, onComplete) {
+  // posts to create have a fake id generated from UUID --
   // do a batched write --- https://cloud.google.com/firestore/docs/manage-data/transactions#batched-writes
   // if successful, execute onComplete with true/false
 };

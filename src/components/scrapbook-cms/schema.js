@@ -4,7 +4,9 @@ export const post = {
   location: "some unique id for a map application coordinate",
   tags: ["tag-1"],
   postData: "firebase-autogen-id",
-  isPublished: true
+  isPublished: false,
+  lastModified: new Date().toISOString(),
+  createdDate: "yyyy-mm-dd"
 };
 
 export const postData = {

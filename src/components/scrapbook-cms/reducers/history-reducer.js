@@ -21,14 +21,21 @@ export default function historyReducer(state, action) {
 function createPost(state, action, localData, localChanges) {
   // add new entry to data
   let newPost = Object.assign({}, action.payload);
+
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, "0");
+  let mm = String(today.getMonth() + 1).padStart(2, "0");
+  let yyyy = today.getFullYear();
+  newPost.createdDate = `${yyyy}-${mm}-${dd}`;
   newPost.id = `${newPost.date}-${newPost.title}`;
   localData[newPost.id] = {
     post: newPost,
     postData: null
   };
 
-  // log change. if post previously existed and was created with theh same key, then
-  // remove the deletion log and mark for update. Else, mark for creation
+  // if post previously existed, was deleted, then re-created with the same key, then
+  // remove the deletion log and mark for update
+  // Else, mark for creation
   if (
     localChanges.delete.indexOf(newPost.id) !== -1 &&
     state.originalPostSet.indexOf(newPost.id) !== -1
