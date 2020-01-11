@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withAuthorization } from "../components/session";
 import { ScrapbookCMS } from "../components/scrapbook-cms/scrapbook-cms";
 
@@ -10,33 +10,37 @@ import Carousel from "../components/scrapbook-editor/plugins/carousel/index";
 import Video from "../components/scrapbook-editor/plugins/video/index";
 
 const Admin = function(props) {
-  // On initialization (once), read all post and postContent data from firebase
-  // posts.length should === postSData.length
-  let posts = [];
-  let postData = [];
+  const [loading, setLoading] = useState(true);
 
-  // create data mapping between each post's key and its post/postData documents
+  // read all cms-posts in from database
+  // create mapping between each id and and the cms-post
   let data = {};
-  posts.forEach(post => {
-    data[post.id] = {
-      post: post
-    };
-  });
-  postData.forEach(postData => {
-    data[postData.post].postData = postData;
-  });
+  props.firebase
+    .cmsPosts()
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        data[doc.id] = doc.data();
+      });
+    })
+    .catch(error => {
+      alert(error);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
 
   // fired whenever the editor needs to synchronize CRUD actions with the database
   // this should return a promise.
   const onCMSAction = function(action, payload) {
     switch (action) {
       case "create":
-        // TODO: batch write for CMSPost as well
+        // TODO: batch write for CMSPost and post-data
         return new Promise((resolve, reject) => {
           props.firebase
-            .posts()
+            .cmsPosts()
             .doc(payload.id)
-            .set(payload.post)
+            .set(payload.cmsPost)
             .then(() => {
               resolve();
             })
@@ -49,8 +53,19 @@ const Admin = function(props) {
         // determine if post or postdata or both needed
         break;
       case "delete":
-        // delete both post and postdata
-        break;
+        return new Promise((resolve, reject) => {
+          props.firebase
+            .cmsPosts()
+            .doc(payload.id)
+            .delete()
+            .then(() => {
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
+      // TODO: batch delete post, postData, cmsPost, and update postIndex if published
     }
   };
 
@@ -59,15 +74,21 @@ const Admin = function(props) {
   const key = "";
 
   return (
-    <div className="container-fluid p-0">
-      <ScrapbookCMS
-        key={key}
-        onAction={onCMSAction}
-        data={data}
-        plugins={plugins}
-        showPluginDescription={false}
-      />
-    </div>
+    <>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div className="container-fluid p-0">
+          <ScrapbookCMS
+            key={key}
+            onAction={onCMSAction}
+            data={data}
+            plugins={plugins}
+            showPluginDescription={false}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
@@ -76,49 +97,3 @@ const condition = authUser =>
 export default withAuthorization(condition)(Admin);
 
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
-
-const samplePosts = [
-  {
-    id: "2019-05-11-Nepal",
-    title: "Nepal",
-    date: "2019-05-11"
-  },
-  {
-    id: "2019-05-15-Juan de Fuca",
-    title: "Juan de Fuca",
-    date: "2019-05-15"
-  },
-  {
-    id: "2016-01-01-Slalok Mountain",
-    title: "Slalok Mountain",
-    date: "2016-01-01"
-  },
-  {
-    id: "2016-06-14-Rainbow Mountain",
-    title: "Rainbow Mountain",
-    date: "2016-06-14"
-  }
-];
-
-const samplePostData = [
-  {
-    post: "2019-05-11-Nepal",
-    header: { title: "Nepal" },
-    blocks: []
-  },
-  {
-    post: "2019-05-15-Juan de Fuca",
-    header: { title: "Juan de FUca" },
-    blocks: []
-  },
-  {
-    post: "2016-01-01-Slalok Mountain",
-    header: { title: "Slalok mountain" },
-    blocks: []
-  },
-  {
-    post: "2016-06-14-Rainbow Mountain",
-    header: { title: "Rainbow Mountain" },
-    blocks: []
-  }
-];

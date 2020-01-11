@@ -18,17 +18,12 @@ export default function actionReducer(state, action) {
 }
 
 function createPost(state, action, localData) {
-  let newPost = Object.assign({}, action.payload.post);
-  newPost.id = action.payload.id;
-  localData[newPost.id] = {
-    post: newPost
-  };
-
+  localData[action.payload.id] = action.payload.cmsPost;
   return {
     data: localData,
     chosenPost: {
-      key: newPost.id,
-      post: newPost
+      key: action.payload.id,
+      cmsPost: action.payload.cmsPost
     }
   };
 }
@@ -56,8 +51,7 @@ function updatePostData(state, action, localData) {
 }
 
 function deletePost(state, action, localData) {
-  localData.delete(action.payload.id);
-
+  delete localData[action.payload.id];
   return {
     data: localData,
     chosenPost: null

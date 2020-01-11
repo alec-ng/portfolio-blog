@@ -25,8 +25,7 @@ export const MainReducer = function(state, action) {
       let mergeObj = {
         chosenPost: {
           key: action.payload.key,
-          post: data.post,
-          postData: data.postData
+          cmsPost: data
         }
       };
       return Object.assign({}, state, mergeObj);

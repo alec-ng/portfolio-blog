@@ -13,7 +13,8 @@ export default function PostManager(props) {
     posts.push(props.data[key].post);
   });
   const treeData = createTreeData(posts);
-  const existingIdList = posts.map(post => post.id);
+
+  const existingIdList = Object.keys(props.data);
 
   // fully controlled tree state
   const [selectedKeys, initialExpandedKeys] = getInitialKeys(
@@ -27,9 +28,6 @@ export default function PostManager(props) {
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf()) {
       let postId = e.node.props.eventKey.replace("post-", "");
-      if (props.chosenPost.key === postId) {
-        return;
-      }
       props.onNodeSelect(postId);
     } else {
       setExpandedKeys(

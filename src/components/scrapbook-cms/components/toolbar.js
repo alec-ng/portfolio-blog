@@ -16,16 +16,7 @@ const VIEW_POSTDATA = "postData";
  */
 export default function Toolbar(props) {
   const [{ chosenPost, data, onAction }, dispatch] = useStateValue();
-
-  const chosenPostMetadata = chosenPost ? chosenPost.post : null;
-
   const [view, setView] = useState(chosenPost ? VIEW_POSTDATA : VIEW_POSTS);
-
-  let posts = [];
-  Object.keys(data).forEach(key => {
-    posts.push(data[key].post);
-  });
-  const existingIdList = posts.map(post => post.id);
 
   function onNodeSelect(selectedPostId) {
     dispatch({
@@ -37,43 +28,65 @@ export default function Toolbar(props) {
     setView(VIEW_POSTDATA);
   }
 
-  function onPostCreate(newPost) {
-    let dbPost = Object.assign({}, newPost);
+  function onPostCreate(newPost, onSuccess) {
+    let cmsPost = {};
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
     let mm = String(today.getMonth() + 1).padStart(2, "0");
     let yyyy = today.getFullYear();
-    dbPost.createdDate = `${yyyy}-${mm}-${dd}`;
-    let postId = `${dbPost.date}-${dbPost.title}`;
+    cmsPost.createdDate = `${yyyy}-${mm}-${dd}`;
 
+    let post = Object.assign({}, newPost);
+    post.isPublished = false;
+    cmsPost.post = post;
+
+    let postId = `${newPost.date}-${newPost.title}`;
+
+    // TODO: freeze everything until the promise toggles it again
     onAction("create", {
       id: postId,
-      post: dbPost
+      cmsPost: cmsPost
     })
       .then(() => {
-        dispatch({
-          type: ACTION_TYPES.CREATE_POST,
-          payload: {
-            id: postId,
-            post: dbPost
-          }
+        onSuccess(() => {
+          dispatch({
+            type: ACTION_TYPES.CREATE_POST,
+            payload: {
+              id: postId,
+              cmsPost: cmsPost
+            }
+          });
+          setView(VIEW_POSTDATA);
         });
-        setView(VIEW_POSTDATA);
       })
       .catch(failure => {
         alert(failure);
       });
-
-    // TODO: freeze everything until the promise toggles it again
   }
 
-  function onPostDelete(e) {}
+  function onPostDelete() {
+    onAction("delete", { id: chosenPost.key })
+      .then(() => {
+        setView(VIEW_POSTS);
+        dispatch({
+          type: ACTION_TYPES.DELETE_POST,
+          payload: {
+            id: chosenPost.key
+          }
+        });
+      })
+      .catch(failure => {
+        alert(failure);
+      });
+  }
+
+  function onPostUpdate(e) {}
 
   return (
     <>
       {view === VIEW_POSTS && (
         <>
-          <PostManager
+          <AllPostsView
             data={data}
             chosenPost={chosenPost}
             onPostCreate={onPostCreate}
@@ -83,12 +96,44 @@ export default function Toolbar(props) {
       )}
 
       {view === VIEW_POSTDATA && (
-        <PageMetadata
-          chosenPost={chosenPostMetadata}
-          existingIdList={existingIdList}
+        <ChosenPostView
+          data={data}
+          onUpdate={onPostUpdate}
+          chosenPost={chosenPost}
           onDelete={onPostDelete}
         />
       )}
     </>
+  );
+}
+
+function AllPostsView(props) {
+  return (
+    <PostManager
+      data={props.data}
+      chosenPost={props.chosenPost}
+      onPostCreate={props.onPostCreate}
+      onNodeSelect={props.onNodeSelect}
+    />
+  );
+}
+
+function ChosenPostView(props) {
+  // extract all Ids to check for dupes
+  debugger;
+  const existingIdList = Object.keys(props.data);
+
+  // if a page is chosen, grab its post and its created date / last modified
+  const chosenPostMetadata = props.chosenPost.cmsPost.post;
+  chosenPostMetadata.createdDate = props.chosenPost.cmsPost.createdDate;
+  chosenPostMetadata.lastModified = props.chosenPost.cmsPost.lastModified;
+
+  return (
+    <PageMetadata
+      chosenPost={chosenPostMetadata}
+      existingIdList={existingIdList}
+      onDelete={props.onDelete}
+      onUpdate={props.onUpdate}
+    />
   );
 }

@@ -5,7 +5,7 @@ import React, { createContext, useReducer, useContext } from "react";
  */
 export const DefaultState = {
   onAction: null, // fired whenever a C-UD action needs to be performed
-  data: {}, // key value pairings, postId : {post, postData}
+  data: {}, // key value pairings, postId : cms-post
   chosenPost: null // one specific key/value pair from data {key, post, postdata}
 };
 
