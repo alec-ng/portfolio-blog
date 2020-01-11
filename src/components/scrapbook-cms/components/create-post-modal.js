@@ -60,7 +60,6 @@ function ModalForm(props) {
   const [showKeyError, setShowKeyError] = useState(false);
 
   const formRef = React.useRef(null);
-  debugger;
   const idList = props.existingIdList.map(id => id.toUpperCase());
 
   // On success, execute the submit cb, clear the form of all data, and close the modal

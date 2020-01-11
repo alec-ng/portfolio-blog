@@ -33,39 +33,48 @@ const Admin = function(props) {
   // fired whenever the editor needs to synchronize CRUD actions with the database
   // this should return a promise.
   const onCMSAction = function(action, payload) {
-    switch (action) {
-      case "create":
-        // TODO: batch write for CMSPost and post-data
-        return new Promise((resolve, reject) => {
-          props.firebase
-            .cmsPosts()
-            .doc(payload.id)
-            .set(payload.cmsPost)
-            .then(() => {
-              resolve();
-            })
-            .catch(error => {
-              reject(error);
-            });
-          // TODO: Create empty postData, just with
-        });
-      case "update":
-        // determine if post or postdata or both needed
-        break;
-      case "delete":
-        return new Promise((resolve, reject) => {
-          props.firebase
-            .cmsPosts()
-            .doc(payload.id)
-            .delete()
-            .then(() => {
-              resolve();
-            })
-            .catch(error => {
-              reject(error);
-            });
-        });
-      // TODO: batch delete post, postData, cmsPost, and update postIndex if published
+    if (action === "create") {
+      // create new cms-post, post, postData documents
+      let batch = props.firebase.batch();
+      let cmsPostRef = props.firebase.cmsPosts().doc(payload.id);
+      batch.set(cmsPostRef, payload.cmsPost);
+      let postRef = props.firebase.posts().doc(payload.id);
+      batch.set(postRef, payload.cmsPost.post);
+      let postDataRef = props.firebase.postData().doc(payload.id);
+      batch.set(postDataRef, {});
+
+      return new Promise((resolve, reject) => {
+        batch
+          .commit()
+          .then(() => {
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    } else if (action === "update") {
+      // determine if post or postdata or both needed
+    } else if (action === "delete") {
+      // create existing cms-post, post, postData documents
+      let batch = props.firebase.batch();
+      let cmsPostRef = props.firebase.cmsPosts().doc(payload.id);
+      batch.delete(cmsPostRef);
+      let postRef = props.firebase.posts().doc(payload.id);
+      batch.delete(postRef);
+      let postDataRef = props.firebase.postData().doc(payload.id);
+      batch.delete(postDataRef);
+
+      return new Promise((resolve, reject) => {
+        batch
+          .commit()
+          .then(() => {
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     }
   };
 

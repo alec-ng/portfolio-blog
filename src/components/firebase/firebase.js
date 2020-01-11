@@ -49,6 +49,7 @@ class Firebase {
   singlePostData = id => this.db.doc(`${COLLECTION_POST_DATA}/${id}`);
   postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
   postIndex = () => this.db.collection(`${COLLECTION_CMS_POST}`);
+  batch = () => this.db.batch();
 }
 
 export default Firebase;

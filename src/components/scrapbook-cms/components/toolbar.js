@@ -120,7 +120,6 @@ function AllPostsView(props) {
 
 function ChosenPostView(props) {
   // extract all Ids to check for dupes
-  debugger;
   const existingIdList = Object.keys(props.data);
 
   // if a page is chosen, grab its post and its created date / last modified
