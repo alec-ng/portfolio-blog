@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import switcherIcon from "./treeview-switcher";
 import "rc-tree/assets/index.css";
 import "./treeview.css";
 import Tree from "rc-tree";
-import { motion, getInitialKeys } from "./tree-util";
+import { motion } from "./tree-util";
 
 /**
  * Renders a treeview that provides options for a initially selected post.
