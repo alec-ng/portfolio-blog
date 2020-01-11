@@ -18,14 +18,8 @@ export default function actionReducer(state, action) {
 }
 
 function createPost(state, action, localData) {
-  let newPost = Object.assign({}, action.payload);
-  let today = new Date();
-  let dd = String(today.getDate()).padStart(2, "0");
-  let mm = String(today.getMonth() + 1).padStart(2, "0");
-  let yyyy = today.getFullYear();
-  newPost.createdDate = `${yyyy}-${mm}-${dd}`;
-  newPost.id = `${newPost.date}-${newPost.title}`;
-
+  let newPost = Object.assign({}, action.payload.post);
+  newPost.id = action.payload.id;
   localData[newPost.id] = {
     post: newPost
   };

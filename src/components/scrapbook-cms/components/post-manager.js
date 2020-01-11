@@ -49,15 +49,6 @@ export default function PostManager(props) {
     alert("todo!");
   }
 
-  // Adjust expanded keys and fire onPostCreate cb
-  function onPostCreate(newPost) {
-    props.onPostCreate(newPost);
-    // update expanded keys
-    const [year, month] = newPost.date.split("-");
-    const expandedKeys = [`year-${year}`, `month-${year}-${month}`];
-    setExpandedKeys(expandedKeys);
-  }
-
   const ButtonNavGroup = props.buttonNavGroup;
 
   return (
@@ -76,7 +67,7 @@ export default function PostManager(props) {
       </div>
       <div className="text-center">
         <CreatePostModal
-          onSubmit={onPostCreate}
+          onSubmit={props.onPostCreate}
           existingIdList={existingIdList}
         />
         <br />

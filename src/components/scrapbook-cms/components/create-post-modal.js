@@ -82,7 +82,6 @@ function ModalForm(props) {
       let newData = {};
       formRef.current.querySelectorAll("input").forEach(input => {
         newData[input.dataset.val] = input.value;
-        input.value = "";
       });
       props.onSubmit(newData);
       props.closeModal();

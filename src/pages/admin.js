@@ -26,6 +26,34 @@ const Admin = function(props) {
     data[postData.post].postData = postData;
   });
 
+  // fired whenever the editor needs to synchronize CRUD actions with the database
+  // this should return a promise.
+  const onCMSAction = function(action, payload) {
+    switch (action) {
+      case "create":
+        // TODO: batch write for CMSPost as well
+        return new Promise((resolve, reject) => {
+          props.firebase
+            .posts()
+            .doc(payload.id)
+            .set(payload.post)
+            .then(() => {
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
+          // TODO: Create empty postData, just with
+        });
+      case "update":
+        // determine if post or postdata or both needed
+        break;
+      case "delete":
+        // delete both post and postdata
+        break;
+    }
+  };
+
   // Could be derived off of a subset of data to feed in, e.g. trip reports vs photography
   // TODO: could also try altering after  onCMSAction?
   const key = "";
@@ -48,29 +76,6 @@ const condition = authUser =>
 export default withAuthorization(condition)(Admin);
 
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
-
-// fired whenever the editor needs to synchronize CRUD actions with the database
-// this should return a promise.
-const onCMSAction = function(action, payload) {
-  switch (action) {
-    case "create":
-      // Create post
-      // Create empty postData, just with
-      break;
-    case "update":
-      // determine if post or postdata or both needed
-      break;
-    case "delete":
-      // delete both post and postdata
-      break;
-
-      return new Promise((resolve, reject) => {
-        // do my callout to firestore
-        // resolve(true)
-        // reject('Add the callback error here')
-      });
-  }
-};
 
 const samplePosts = [
   {

@@ -28,11 +28,11 @@ const buttonGroupData = [
  * 2. if a page is chosen, shows its metadata<Menu>
  */
 export default function Toolbar(props) {
-  const [{ chosenPost, data, changeList }, dispatch] = useStateValue();
+  const [{ chosenPost, data, onAction }, dispatch] = useStateValue();
 
   const chosenPostMetadata = chosenPost ? chosenPost.post : null;
 
-  const [view, setView] = useState(VIEW_POSTS);
+  const [view, setView] = useState(chosenPost ? VIEW_POSTDATA : VIEW_POSTS);
 
   let posts = [];
   Object.keys(data).forEach(key => {
@@ -61,11 +61,33 @@ export default function Toolbar(props) {
   }
 
   function onPostCreate(newPost) {
-    dispatch({
-      type: ACTION_TYPES.CREATE_POST,
-      payload: newPost
-    });
-    setView(VIEW_POSTDATA);
+    let dbPost = Object.assign({}, newPost);
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0");
+    let yyyy = today.getFullYear();
+    dbPost.createdDate = `${yyyy}-${mm}-${dd}`;
+    let postId = `${dbPost.date}-${dbPost.title}`;
+
+    onAction("create", {
+      id: postId,
+      post: dbPost
+    })
+      .then(value => {
+        dispatch({
+          type: ACTION_TYPES.CREATE_POST,
+          payload: {
+            id: postId,
+            post: dbPost
+          }
+        });
+        setView(VIEW_POSTDATA);
+      })
+      .catch(failure => {
+        alert(failure);
+      });
+
+    // TODO: freeze everything until the promise toggles it again
   }
 
   function onPostDelete(e) {

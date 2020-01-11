@@ -13,8 +13,10 @@ const config = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-const COLLECTION_POST = "posts";
-const COLLECTION_POSTCONTENTS = "postContents";
+const COLLECTION_CMS_POST = "cms-post";
+const COLLECTION_POST = "post";
+const COLLECTION_POST_DATA = "post-data";
+const COLLECTION_POST_INDEX = "post-index";
 
 class Firebase {
   constructor() {
@@ -40,10 +42,13 @@ class Firebase {
   };
 
   /* Firestore API */
-  post = uid => this.db.doc(`${COLLECTION_POST}/${uid}`);
+  post = id => this.db.doc(`${COLLECTION_POST}/${id}`);
   posts = () => this.db.collection(`${COLLECTION_POST}`);
-  postContent = uid => this.db.doc(`${COLLECTION_POSTCONTENTS}/${uid}`);
-  postContents = uid => this.db.doc(`${COLLECTION_POSTCONTENTS}/${uid}`);
+  cmsPost = id => this.db.doc(`${COLLECTION_CMS_POST}/${id}`);
+  cmsPosts = () => this.db.collection(`${COLLECTION_CMS_POST}`);
+  singlePostData = id => this.db.doc(`${COLLECTION_POST_DATA}/${id}`);
+  postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
+  postIndex = () => this.db.collection(`${COLLECTION_CMS_POST}`);
 }
 
 export default Firebase;
