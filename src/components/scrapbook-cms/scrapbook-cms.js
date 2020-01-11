@@ -4,16 +4,20 @@ import { MainReducer } from "./reducers/index";
 import App from "./app";
 
 export function ScrapbookCMS(props) {
-  if (!props.onCMSSave) {
-    console.error("You must supply a callback for props.onCMSSave.");
+  if (!props.onAction) {
+    console.error("You must supply a promise for props.onAction.");
+  }
+  if (!props.plugins || props.plugins.length < 1) {
+    console.error(
+      "You must supply at least one plugin to use with Scrapbook-Editor."
+    );
   }
 
   const globalState = Object.assign({}, DefaultState);
-  globalState.onSave = props.onCMSSave;
+  globalState.onAction = props.onAction;
   if (props.data) {
     globalState.data = props.data;
   }
-  globalState.originalPostSet = Object.keys(props.data);
 
   return (
     <StateProvider reducer={MainReducer} initialState={globalState}>

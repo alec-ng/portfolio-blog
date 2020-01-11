@@ -8,8 +8,7 @@ import Toolbar from "./components/toolbar";
 import Header from "./components/header";
 
 export default function App(props) {
-  const [{ chosenPost, data }, dispatch] = useStateValue();
-  let postData = chosenPost ? data[chosenPost].postData : null;
+  const [{ chosenPost }, dispatch] = useStateValue();
 
   function onEditorChange(header, blocks) {
     // This works
@@ -37,9 +36,8 @@ export default function App(props) {
           showPluginDescription={props.showPluginDescription}
           plugins={props.plugins}
           key={chosenPost}
-          // onSave={onEditorSave}
           onChange={onEditorChange}
-          pageData={postData}
+          pageData={chosenPost.postData}
         />
       ) : (
         <EmptyEditorContainer>
@@ -59,14 +57,6 @@ const EmptyEditorContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-
-const onEditorChange = function(header, blocks) {
-  // This works
-};
-
-const onEditorSave = function(header, blocks) {
-  // This works
-};
 
 const escapeJSONString = function(str) {
   return str

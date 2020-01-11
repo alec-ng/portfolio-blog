@@ -17,7 +17,7 @@ export default function PostManager(props) {
 
   // fully controlled tree state
   const [selectedKeys, initialExpandedKeys] = getInitialKeys(
-    props.chosenPost,
+    props.chosenPost ? props.chosenPost.key : null,
     treeData
   );
   const [expandedKeys, setExpandedKeys] = useState(initialExpandedKeys);
@@ -27,7 +27,7 @@ export default function PostManager(props) {
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf()) {
       let postId = e.node.props.eventKey.replace("post-", "");
-      if (props.chosenPost === postId) {
+      if (props.chosenPost.key === postId) {
         return;
       }
       props.onNodeSelect(postId);

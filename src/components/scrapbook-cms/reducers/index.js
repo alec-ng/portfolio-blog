@@ -1,4 +1,4 @@
-import historyReducer from "./history-reducer";
+import actionReducer from "./action-reducer";
 
 export const ACTION_TYPES = {
   // new post is created and chosen post is set to it
@@ -9,8 +9,6 @@ export const ACTION_TYPES = {
   UPDATE_POST_DATA: "UPDATE_POST_DATA",
   // post and its contents are deleted
   DELETE_POST: "DELETE_POST",
-  // on successful save, clear out change list
-  CLEAR_HISTORY: "CLEAR_HISTORY",
   // post is chosen
   SELECT_POST: "SELECT_POST"
 };
@@ -21,14 +19,17 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.UPDATE_POST:
     case ACTION_TYPES.UPDATE_POST_DATA:
     case ACTION_TYPES.DELETE_POST:
-      return Object.assign({}, state, historyReducer(state, action));
-    case ACTION_TYPES.CLEAR_HISTORY:
-      return Object.assign({}, state, {
-        changeList: [],
-        originalPostSet: Object.keys(state.data)
-      });
+      return Object.assign({}, state, actionReducer(state, action));
     case ACTION_TYPES.SELECT_POST:
-      return Object.assign({}, state, { chosenPost: action.payload.id });
+      let data = state.data[action.payload.key];
+      let mergeObj = {
+        chosenPost: {
+          key: action.payload.key,
+          post: data.post,
+          postData: data.postData
+        }
+      };
+      return Object.assign({}, state, mergeObj);
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }

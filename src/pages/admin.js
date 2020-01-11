@@ -27,13 +27,14 @@ const Admin = function(props) {
   });
 
   // Could be derived off of a subset of data to feed in, e.g. trip reports vs photography
+  // TODO: could also try altering after  onCMSAction?
   const key = "";
 
   return (
     <div className="container-fluid p-0">
       <ScrapbookCMS
         key={key}
-        onCMSSave={onCMSSave}
+        onAction={onCMSAction}
         data={data}
         plugins={plugins}
         showPluginDescription={false}
@@ -48,10 +49,27 @@ export default withAuthorization(condition)(Admin);
 
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 
-const onCMSSave = function(changes, data, onComplete) {
-  // posts to create have a fake id generated from UUID --
-  // do a batched write --- https://cloud.google.com/firestore/docs/manage-data/transactions#batched-writes
-  // if successful, execute onComplete with true/false
+// fired whenever the editor needs to synchronize CRUD actions with the database
+// this should return a promise.
+const onCMSAction = function(action, payload) {
+  switch (action) {
+    case "create":
+      // Create post
+      // Create empty postData, just with
+      break;
+    case "update":
+      // determine if post or postdata or both needed
+      break;
+    case "delete":
+      // delete both post and postdata
+      break;
+
+      return new Promise((resolve, reject) => {
+        // do my callout to firestore
+        // resolve(true)
+        // reject('Add the callback error here')
+      });
+  }
 };
 
 const samplePosts = [

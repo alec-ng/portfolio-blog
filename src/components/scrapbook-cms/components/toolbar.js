@@ -30,7 +30,7 @@ const buttonGroupData = [
 export default function Toolbar(props) {
   const [{ chosenPost, data, changeList }, dispatch] = useStateValue();
 
-  const chosenPostMetadata = chosenPost ? data[chosenPost].post : null;
+  const chosenPostMetadata = chosenPost ? chosenPost.post : null;
 
   const [view, setView] = useState(VIEW_POSTS);
 
@@ -54,7 +54,7 @@ export default function Toolbar(props) {
     dispatch({
       type: ACTION_TYPES.SELECT_POST,
       payload: {
-        id: selectedPostId
+        key: selectedPostId
       }
     });
     setView(VIEW_POSTDATA);

@@ -4,16 +4,9 @@ import React, { createContext, useReducer, useContext } from "react";
  * Default editor state if none is provided
  */
 export const DefaultState = {
-  onSave: undefined,
-  data: {}, // postId > {post, postData}
-  chosenPost: null, // pointer to an element in postData
-  changes: {
-    create: [],
-    updatePost: [],
-    updatePostData: [],
-    delete: []
-  },
-  originalPostSet: [] // // ids of all posts that exist in the db
+  onAction: null, // fired whenever a C-UD action needs to be performed
+  data: {}, // key value pairings, postId : {post, postData}
+  chosenPost: null // one specific key/value pair from data {key, post, postdata}
 };
 
 /**
