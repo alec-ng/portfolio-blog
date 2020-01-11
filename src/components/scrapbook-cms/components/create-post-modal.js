@@ -84,7 +84,6 @@ function ModalForm(props) {
         newData[input.dataset.val] = input.value;
       });
       props.onSubmit(newData);
-      props.closeModal();
     }
   }
 

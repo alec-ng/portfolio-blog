@@ -44,18 +44,8 @@ export default function PostManager(props) {
     setExpandedKeys(expandedKeys);
   }
 
-  // TODO: update so this will actually just save the post data?
-  function onSave() {
-    alert("todo!");
-  }
-
-  const ButtonNavGroup = props.buttonNavGroup;
-
   return (
     <>
-      <div className="mb-3">
-        <ButtonNavGroup onClick={props.navOnClick} />
-      </div>
       <div className="mb-4">
         <TreeView
           treeData={treeData}
@@ -70,10 +60,6 @@ export default function PostManager(props) {
           onSubmit={props.onPostCreate}
           existingIdList={existingIdList}
         />
-        <br />
-        <button type="button" onClick={onSave} className="btn btn-primary">
-          Save Changes
-        </button>
       </div>
     </>
   );

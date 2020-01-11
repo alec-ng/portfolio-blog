@@ -3,23 +3,10 @@ import { useStateValue } from "../state";
 import { ACTION_TYPES } from "../reducers/index";
 
 import PostManager from "./post-manager";
-
-import ButtonGroup from "./button-group";
 import PageMetadata from "./page-metadata";
 
 const VIEW_POSTS = "posts";
 const VIEW_POSTDATA = "postData";
-
-const buttonGroupData = [
-  {
-    key: VIEW_POSTS,
-    label: "View All Posts"
-  },
-  {
-    key: VIEW_POSTDATA,
-    label: "Selected Post"
-  }
-];
 
 /**
  * State manager for sidebar functionality
@@ -39,16 +26,6 @@ export default function Toolbar(props) {
     posts.push(data[key].post);
   });
   const existingIdList = posts.map(post => post.id);
-
-  function ButtonNavGroup(props) {
-    return (
-      <ButtonGroup
-        buttons={buttonGroupData}
-        activeKey={view}
-        onClick={props.onClick}
-      />
-    );
-  }
 
   function onNodeSelect(selectedPostId) {
     dispatch({
@@ -73,7 +50,7 @@ export default function Toolbar(props) {
       id: postId,
       post: dbPost
     })
-      .then(value => {
+      .then(() => {
         dispatch({
           type: ACTION_TYPES.CREATE_POST,
           payload: {
@@ -90,22 +67,13 @@ export default function Toolbar(props) {
     // TODO: freeze everything until the promise toggles it again
   }
 
-  function onPostDelete(e) {
-    // "Are you sure" confirmation?
-    // on "yes" - mutateHistory()
-  }
-
-  function toggleView(e) {
-    setView(e.currentTarget.dataset.buttonkey);
-  }
+  function onPostDelete(e) {}
 
   return (
     <>
       {view === VIEW_POSTS && (
         <>
           <PostManager
-            buttonNavGroup={ButtonNavGroup}
-            navOnClick={toggleView}
             data={data}
             chosenPost={chosenPost}
             onPostCreate={onPostCreate}
