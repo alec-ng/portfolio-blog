@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
+import Modal from "./modal";
+
+const Spinner = (
+  <div
+    className="spinner-border spinner-border-sm"
+    role="status"
+    style={{
+      marginBottom: "2px",
+      marginRight: "5px"
+    }}
+  >
+    <span className="sr-only">Loading...</span>
+  </div>
+);
 
 /*
  * Renders a button that opens up a modal to create a new post
  */
 export default function CreatePostModal(props) {
   const [open, setOpen] = React.useState(false);
+  const [locked, setLocked] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -17,40 +28,34 @@ export default function CreatePostModal(props) {
     setOpen(false);
   };
 
+  // lock modal and form when doing async db actions
+  function handleFormSubmit(newData) {
+    setLocked(true);
+    props.onSubmit(newData, dispatch => {
+      setOpen(false);
+      setLocked(false);
+      window.setTimeout(dispatch, 100); // async dispatch for nice closeModal animation
+    });
+  }
+
   return (
     <div>
       <button className="btn btn-success" type="button" onClick={handleOpen}>
         Create New Post
       </button>
-      <Modal
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500
-        }}
-      >
-        <Fade in={open}>
-          <ModalContainer>
-            <h2>Create a new post</h2>
-            <p>
-              Enter a unique title and date combination.
-              <br />
-              Titles can only be alphanumeric with spaces.
-            </p>
-            <ModalForm
-              existingIdList={props.existingIdList}
-              closeModal={handleClose}
-              onSubmit={props.onSubmit}
-            />
-          </ModalContainer>
-        </Fade>
+      <Modal open={open} handleClose={handleClose} locked={locked}>
+        <h2>Create a new post</h2>
+        <p>
+          Enter a unique title and date combination.
+          <br />
+          Titles can only be alphanumeric with spaces.
+        </p>
+        <ModalForm
+          existingIdList={props.existingIdList}
+          closeModal={handleClose}
+          onSubmit={handleFormSubmit}
+          locked={locked}
+        />
       </Modal>
     </div>
   );
@@ -61,9 +66,10 @@ function ModalForm(props) {
 
   const formRef = React.useRef(null);
   const idList = props.existingIdList.map(id => id.toUpperCase());
+  const disabledProps = props.locked ? { disabled: true } : {};
 
   // On success, execute the submit cb, clear the form of all data, and close the modal
-  function validateForm(e) {
+  function validateAndSubmit(e) {
     e.preventDefault();
 
     if (formRef.current.reportValidity()) {
@@ -83,67 +89,60 @@ function ModalForm(props) {
       formRef.current.querySelectorAll("input").forEach(input => {
         newData[input.dataset.val] = input.value;
       });
-      props.onSubmit(newData, dispatch => {
-        props.closeModal();
-        window.setTimeout(dispatch, 100); // async dispatch for nice closeModal animation
-      });
+      props.onSubmit(newData);
     }
   }
 
   return (
     <>
-      <form ref={formRef} onSubmit={validateForm}>
-        <div className="form-group">
-          <label style={{ width: "100%" }}>
-            Title
-            <input
-              required
-              minLength="3"
-              maxLength="50"
-              data-val="title"
-              pattern="[a-zA-Z0-9\s]+"
-              type="text"
-              className="form-control"
-            />
-          </label>
-          <label style={{ width: "100%" }}>
-            Date
-            <input
-              required
-              type="date"
-              data-val="date"
-              className="form-control"
-            />
-          </label>
-        </div>
-        {showKeyError && (
-          <div className="text-center mb-4" style={{ color: "red" }}>
-            <i>
-              The title and date combination already exists. Please change
-              either the title or date.
-            </i>
+      <form ref={formRef} onSubmit={validateAndSubmit}>
+        <fieldset {...disabledProps}>
+          <div className="form-group">
+            <label style={{ width: "100%" }}>
+              Title
+              <input
+                required
+                minLength="3"
+                maxLength="50"
+                data-val="title"
+                pattern="[a-zA-Z0-9\s]+"
+                type="text"
+                className="form-control"
+              />
+            </label>
+            <label style={{ width: "100%" }}>
+              Date
+              <input
+                required
+                type="date"
+                data-val="date"
+                className="form-control"
+              />
+            </label>
           </div>
-        )}
-        <div className="text-right">
-          <button
-            type="button"
-            onClick={props.closeModal}
-            className="mr-2 btn btn-danger"
-          >
-            Cancel
-          </button>
-          <button type="submit" className="btn btn-success">
-            Create
-          </button>
-        </div>
+          {showKeyError && (
+            <div className="text-center mb-4" style={{ color: "red" }}>
+              <i>
+                The title and date combination already exists. Please change
+                either the title or date.
+              </i>
+            </div>
+          )}
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={props.closeModal}
+              className="mr-2 btn btn-danger"
+            >
+              Cancel
+            </button>
+            <button type="submit" className="btn btn-success">
+              {props.locked && Spinner}
+              Create
+            </button>
+          </div>
+        </fieldset>
       </form>
     </>
   );
 }
-
-const ModalContainer = styled.div`
-  background: white;
-  padding: 30px;
-  width: 350px;
-  border-radius: 5px;
-`;
