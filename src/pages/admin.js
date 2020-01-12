@@ -36,11 +36,45 @@ const Admin = function(props) {
     let batch = props.firebase.batch();
     switch (action) {
       case "create":
-        batch.set(props.firebase.cmsPosts().doc(payload.id), payload.cmsPost);
-        batch.set(props.firebase.posts().doc(payload.id), payload.cmsPost.post);
-        batch.set(props.firebase.postData().doc(payload.id), {});
-        break;
+        return new Promise((resolve, reject) => {
+          let newId;
+          props.firebase
+            .cmsPosts()
+            .add(payload.cmsPost)
+            .then(docRef => {
+              newId = docRef.id;
+              let batchCreate = props.firebase.batch();
+              batchCreate.set(
+                props.firebase.posts().doc(newId),
+                payload.cmsPost.post
+              );
+              batchCreate.set(
+                props.firebase.postData().doc(newId),
+                payload.cmsPost.postData
+              );
+              batchCreate.commit();
+            })
+            .then(() => {
+              resolve(newId);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
       case "update":
+        //payload.cmsPost.lastModified = props.firebase.timestamp();
+        batch.update(
+          props.firebase.cmsPosts().doc(payload.id),
+          payload.cmsPost
+        );
+        batch.update(
+          props.firebase.posts().doc(payload.id),
+          payload.cmsPost.post
+        );
+        batch.update(
+          props.firebase.postData().doc(payload.id),
+          payload.cmsPost.postData
+        );
         break;
       case "publish":
         break;

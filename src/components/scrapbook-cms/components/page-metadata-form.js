@@ -31,6 +31,7 @@ export default function PageMetadata(props) {
             required
             className="form-control"
             type="date"
+            data-val="date"
           />
         </label>
       </div>

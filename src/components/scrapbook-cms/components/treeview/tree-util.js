@@ -48,9 +48,9 @@ export function getInitialKeys(chosenNode, treeData) {
  * From an array of posts, returns an array of node objects to be used as treeData
  * for the rc-tree component
  */
-export function createTreeData(posts) {
+export function createTreeData(data) {
   // Group all data by yyyy, mm, dd
-  let keyData = getGroupedPostData(posts);
+  let keyData = getGroupedPostData(data);
   let treeData = [];
 
   function reverse(a, b) {
@@ -81,7 +81,7 @@ export function createTreeData(posts) {
       sortedDays.forEach(day => {
         keyData[year][month][day].forEach(post => {
           let postNode = {
-            key: `post-${year}-${month}-${day}-${post.title}`,
+            key: post.key,
             title: post.title,
             children: []
           };
@@ -99,9 +99,10 @@ export function createTreeData(posts) {
 }
 
 // groups all posts by year, then by each year's month, then by each month's date
-function getGroupedPostData(posts) {
+function getGroupedPostData(data) {
   let keyData = {}; // yy -> {mm -> {post}}
-  posts.forEach(post => {
+  Object.keys(data).forEach(id => {
+    let post = data[id].post;
     let [year, month, day] = post.date.split("-"); // yyyy-mm-dd
     if (!keyData[year]) {
       keyData[year] = {};
@@ -112,7 +113,7 @@ function getGroupedPostData(posts) {
     if (!keyData[year][month][day]) {
       keyData[year][month][day] = [];
     }
-    keyData[year][month][day].push({ title: post.title });
+    keyData[year][month][day].push({ title: post.title, key: id });
   });
   return keyData;
 }

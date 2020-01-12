@@ -37,7 +37,9 @@ export const MainReducer = function(state, action) {
       chosenPost.cmsPost.post[action.payload.property] = action.payload.value;
       return Object.assign({}, state, { chosenPost: chosenPost });
     case ACTION_TYPES.SAVE_CURRENT_POST:
-      return state;
+      let localData = Object.assign({}, state.data);
+      localData[state.chosenPost.key] = state.chosenPost.cmsPost;
+      return Object.assign({}, state, { data: localData });
     case ACTION_TYPES.CLOSE_CURRENT_POST:
       return state;
     case ACTION_TYPES.PUBLISH_CURRENT_POST:

@@ -31,10 +31,12 @@ export default function CreatePostModal(props) {
   // lock modal and form when doing async db actions
   function handleFormSubmit(newData) {
     setLocked(true);
-    props.onSubmit(newData, dispatch => {
-      setOpen(false);
+    props.onSubmit(newData, (isSuccess, dispatch) => {
       setLocked(false);
-      window.setTimeout(dispatch, 100); // async dispatch for nice closeModal animation
+      if (isSuccess) {
+        setOpen(false);
+        window.setTimeout(dispatch, 100); // async dispatch for nice closeModal animation
+      }
     });
   }
 
@@ -83,8 +85,8 @@ function ModalForm(props) {
         .querySelector("[data-val=title]")
         .value.trim();
       let date = formRef.current.querySelector("[data-val=date]").value;
-      let id = `${date}-${title}`;
-      let hasDuplicateKey = idList.indexOf(id.toUpperCase()) !== -1;
+      let key = `${date}-${title}`;
+      let hasDuplicateKey = idList.indexOf(key.toUpperCase()) !== -1;
       setShowKeyError(hasDuplicateKey);
       if (hasDuplicateKey) {
         return;

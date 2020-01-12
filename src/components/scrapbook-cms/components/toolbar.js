@@ -11,6 +11,7 @@ const VIEW_POSTDATA = "postData";
 
 /**
  * State manager for sidebar functionality
+ * Contains logic for handling CRUD and state manipulation actions
  * Renders two views: treeview and post data
  * 1. shows all pages loaded in a treeview
  * 2. if a page is chosen, shows its metadata<Menu>
@@ -21,11 +22,13 @@ export default function Toolbar(props) {
   const [showSnackbar, setShowSnackbar] = useState();
   const [snackbarMessage, setSnackbarMessage] = useState();
 
+  // on snackbar timeout or manual X click
   function closeSnackbar() {
     setShowSnackbar(false);
     setSnackbarMessage("");
   }
 
+  // on tree node leaf click
   function onNodeSelect(selectedPostId) {
     dispatch({
       type: ACTION_TYPES.SELECT_POST,
@@ -36,7 +39,8 @@ export default function Toolbar(props) {
     setView(VIEW_POSTDATA);
   }
 
-  function onPostCreate(newPost, formActionAfterSuccess) {
+  // on successful create modal form submission
+  function onPostCreate(newPost, onCalloutComplete) {
     let cmsPost = {};
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
@@ -45,23 +49,21 @@ export default function Toolbar(props) {
     cmsPost.createdDate = `${yyyy}-${mm}-${dd}`;
 
     let post = Object.assign({}, newPost);
+    let key = `${newPost.date}-${newPost.title}`;
     post.isPublished = false;
+    post.key = key;
     cmsPost.post = post;
+    cmsPost.postData = {};
 
-    let postId = `${newPost.date}-${newPost.title}`;
-
-    onAction("create", {
-      id: postId,
-      cmsPost: cmsPost
-    })
-      .then(() => {
+    onAction("create", { cmsPost: cmsPost })
+      .then(dbId => {
         setSnackbarMessage(getSnackbarMessage("create", cmsPost.post.title));
         setShowSnackbar(true);
-        formActionAfterSuccess(() => {
+        onCalloutComplete(true, () => {
           dispatch({
             type: ACTION_TYPES.CREATE_POST,
             payload: {
-              id: postId,
+              id: dbId,
               cmsPost: cmsPost
             }
           });
@@ -69,10 +71,12 @@ export default function Toolbar(props) {
         });
       })
       .catch(failure => {
+        onCalloutComplete(false);
         alert(failure);
       });
   }
 
+  // on confirmed chosen post delete button click
   function onPostDelete() {
     onAction("delete", { id: chosenPost.key })
       .then(() => {
@@ -89,10 +93,11 @@ export default function Toolbar(props) {
         });
       })
       .catch(failure => {
-        alert(failure);
+        setSnackbarMessage(getSnackbarMessage("error", failure));
       });
   }
 
+  // on page metadata form input change
   function onChange(property, value) {
     dispatch({
       type: ACTION_TYPES.UPDATE_CURRENT_POST,
@@ -103,11 +108,29 @@ export default function Toolbar(props) {
     });
   }
 
-  function onPostUpdate() {}
+  // on either successful chosen post Save button click or "Back" and save button click
+  function onSave(doExit) {
+    debugger;
+    onAction("update", {
+      id: chosenPost.key,
+      cmsPost: chosenPost.cmsPost
+    })
+      .then(() => {
+        setSnackbarMessage(
+          getSnackbarMessage("update", chosenPost.cmsPost.post.title)
+        );
+        let type = doExit
+          ? ACTION_TYPES.CLOSE_CURRENT_POST
+          : ACTION_TYPES.SAVE_CURRENT_POST;
+        dispatch({ type: type });
+      })
+      .catch(failure => {
+        setSnackbarMessage(getSnackbarMessage("error", failure));
+      });
+  }
 
-  function onPublish() {}
-
-  function onUnpublish() {}
+  // on publish / unpublish button click
+  function onPublish(publishStatus) {}
 
   return (
     <>
@@ -124,7 +147,7 @@ export default function Toolbar(props) {
       {view === VIEW_POSTDATA && (
         <ChosenPostManager
           data={data}
-          onUpdate={onPostUpdate}
+          onSave={onSave}
           chosenPost={chosenPost}
           onDelete={onPostDelete}
           onChange={onChange}
@@ -153,6 +176,8 @@ function getSnackbarMessage(action, title) {
       return `${title} has been successfully published.`;
     case "unpublish":
       return `${title} has been unpublished.`;
+    case "error":
+      return `Something went wrong - ${title}. Please try again.`;
     default:
       throw new Error(`Unknown action: ${action}`);
   }

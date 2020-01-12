@@ -48,8 +48,9 @@ class Firebase {
   cmsPosts = () => this.db.collection(`${COLLECTION_CMS_POST}`);
   singlePostData = id => this.db.doc(`${COLLECTION_POST_DATA}/${id}`);
   postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
-  postIndex = () => this.db.collection(`${COLLECTION_CMS_POST}`);
+  postIndex = () => this.db.collection(`${COLLECTION_POST_INDEX}`);
   batch = () => this.db.batch();
+  timestamp = () => this.fieldValue.serverTimestamp();
 }
 
 export default Firebase;

@@ -8,13 +8,12 @@ import CreatePostModal from "./create-post-modal";
  */
 export default function PostManager(props) {
   // create tree and post modal data based on props
-  let posts = [];
-  Object.keys(props.data).forEach(key => {
-    posts.push(props.data[key].post);
-  });
-  const treeData = createTreeData(posts);
+  const treeData = createTreeData(props.data);
 
-  const existingIdList = Object.keys(props.data);
+  let existingIdList = [];
+  Object.keys(props.data).forEach(id => {
+    existingIdList.push(props.data[id].post.key);
+  });
 
   // fully controlled tree state
   const [selectedKeys, initialExpandedKeys] = getInitialKeys(
