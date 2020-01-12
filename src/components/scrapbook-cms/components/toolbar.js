@@ -3,7 +3,8 @@ import { useStateValue } from "../state";
 import { ACTION_TYPES } from "../reducers/index";
 
 import PostManager from "./post-manager";
-import PageMetadata from "./page-metadata";
+import ChosenPostManager from "./chosen-post-manager";
+import Snackbar from "./snackbar";
 
 const VIEW_POSTS = "posts";
 const VIEW_POSTDATA = "postData";
@@ -17,6 +18,13 @@ const VIEW_POSTDATA = "postData";
 export default function Toolbar(props) {
   const [{ chosenPost, data, onAction }, dispatch] = useStateValue();
   const [view, setView] = useState(chosenPost ? VIEW_POSTDATA : VIEW_POSTS);
+  const [showSnackbar, setShowSnackbar] = useState();
+  const [snackbarMessage, setSnackbarMessage] = useState();
+
+  function closeSnackbar() {
+    setShowSnackbar(false);
+    setSnackbarMessage("");
+  }
 
   function onNodeSelect(selectedPostId) {
     dispatch({
@@ -28,7 +36,7 @@ export default function Toolbar(props) {
     setView(VIEW_POSTDATA);
   }
 
-  function onPostCreate(newPost, onSuccess) {
+  function onPostCreate(newPost, formActionAfterSuccess) {
     let cmsPost = {};
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
@@ -42,13 +50,14 @@ export default function Toolbar(props) {
 
     let postId = `${newPost.date}-${newPost.title}`;
 
-    // TODO: freeze everything until the promise toggles it again
     onAction("create", {
       id: postId,
       cmsPost: cmsPost
     })
       .then(() => {
-        onSuccess(() => {
+        setSnackbarMessage(getSnackbarMessage("create", cmsPost.post.title));
+        setShowSnackbar(true);
+        formActionAfterSuccess(() => {
           dispatch({
             type: ACTION_TYPES.CREATE_POST,
             payload: {
@@ -67,6 +76,10 @@ export default function Toolbar(props) {
   function onPostDelete() {
     onAction("delete", { id: chosenPost.key })
       .then(() => {
+        setSnackbarMessage(
+          getSnackbarMessage("delete", chosenPost.cmsPost.post.title)
+        );
+        setShowSnackbar(true);
         setView(VIEW_POSTS);
         dispatch({
           type: ACTION_TYPES.DELETE_POST,
@@ -80,13 +93,27 @@ export default function Toolbar(props) {
       });
   }
 
-  function onPostUpdate(e) {}
+  function onChange(property, value) {
+    dispatch({
+      type: ACTION_TYPES.UPDATE_CURRENT_POST,
+      payload: {
+        property: property,
+        value: value
+      }
+    });
+  }
+
+  function onPostUpdate() {}
+
+  function onPublish() {}
+
+  function onUnpublish() {}
 
   return (
     <>
       {view === VIEW_POSTS && (
         <>
-          <AllPostsView
+          <PostManager
             data={data}
             chosenPost={chosenPost}
             onPostCreate={onPostCreate}
@@ -94,45 +121,39 @@ export default function Toolbar(props) {
           />
         </>
       )}
-
       {view === VIEW_POSTDATA && (
-        <ChosenPostView
+        <ChosenPostManager
           data={data}
           onUpdate={onPostUpdate}
           chosenPost={chosenPost}
           onDelete={onPostDelete}
+          onChange={onChange}
+        />
+      )}
+      {showSnackbar && (
+        <Snackbar
+          message={snackbarMessage}
+          open={showSnackbar}
+          handleClose={closeSnackbar}
         />
       )}
     </>
   );
 }
 
-function AllPostsView(props) {
-  return (
-    <PostManager
-      data={props.data}
-      chosenPost={props.chosenPost}
-      onPostCreate={props.onPostCreate}
-      onNodeSelect={props.onNodeSelect}
-    />
-  );
-}
-
-function ChosenPostView(props) {
-  // extract all Ids to check for dupes
-  const existingIdList = Object.keys(props.data);
-
-  // if a page is chosen, grab its post and its created date / last modified
-  const chosenPostMetadata = props.chosenPost.cmsPost.post;
-  chosenPostMetadata.createdDate = props.chosenPost.cmsPost.createdDate;
-  chosenPostMetadata.lastModified = props.chosenPost.cmsPost.lastModified;
-
-  return (
-    <PageMetadata
-      chosenPost={chosenPostMetadata}
-      existingIdList={existingIdList}
-      onDelete={props.onDelete}
-      onUpdate={props.onUpdate}
-    />
-  );
+function getSnackbarMessage(action, title) {
+  switch (action) {
+    case "create":
+      return `${title} has been created.`;
+    case "delete":
+      return `${title} was successfully deleted.`;
+    case "update":
+      return `${title} has been saved.`;
+    case "publish":
+      return `${title} has been successfully published.`;
+    case "unpublish":
+      return `${title} has been unpublished.`;
+    default:
+      throw new Error(`Unknown action: ${action}`);
+  }
 }

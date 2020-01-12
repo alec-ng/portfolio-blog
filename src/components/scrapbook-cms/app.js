@@ -13,13 +13,10 @@ export default function App(props) {
   function onEditorChange(header, blocks) {
     // This works
     dispatch({
-      type: ACTION_TYPES.UPDATE_POST_DATA,
+      type: ACTION_TYPES.UPDATE_CURRENT_POSTDATA,
       payload: {
-        id: chosenPost,
-        postData: {
-          header: header,
-          blocks: blocks
-        }
+        header: header,
+        blocks: blocks
       }
     });
   }

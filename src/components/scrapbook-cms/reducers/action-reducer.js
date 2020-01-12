@@ -6,10 +6,6 @@ export default function actionReducer(state, action) {
   switch (action.type) {
     case ACTION_TYPES.CREATE_POST:
       return createPost(state, action, localData);
-    case ACTION_TYPES.UPDATE_POST:
-      return updatePost(state, action, localData);
-    case ACTION_TYPES.UPDATE_POST_DATA:
-      return updatePostData(state, action, localData);
     case ACTION_TYPES.DELETE_POST:
       return deletePost(state, action, localData);
     default:
@@ -25,28 +21,6 @@ function createPost(state, action, localData) {
       key: action.payload.id,
       cmsPost: action.payload.cmsPost
     }
-  };
-}
-
-function updatePost(state, action, localData) {
-  let postToUpdate = action.payload.id;
-  let localPost = localData[postToUpdate].post;
-  localData[postToUpdate].post = Object.assign({}, localPost, action.payload);
-  return {
-    data: localData
-  };
-}
-
-function updatePostData(state, action, localData) {
-  let postToUpdate = action.payload.id;
-  let localPostData = localData[postToUpdate].postData;
-  localData[postToUpdate].postData = Object.assign(
-    {},
-    localPostData,
-    action.payload.postData
-  );
-  return {
-    data: localData
   };
 }
 

@@ -33,49 +33,38 @@ const Admin = function(props) {
   // fired whenever the editor needs to synchronize CRUD actions with the database
   // this should return a promise.
   const onCMSAction = function(action, payload) {
-    if (action === "create") {
-      // create new cms-post, post, postData documents
-      let batch = props.firebase.batch();
-      let cmsPostRef = props.firebase.cmsPosts().doc(payload.id);
-      batch.set(cmsPostRef, payload.cmsPost);
-      let postRef = props.firebase.posts().doc(payload.id);
-      batch.set(postRef, payload.cmsPost.post);
-      let postDataRef = props.firebase.postData().doc(payload.id);
-      batch.set(postDataRef, {});
-
-      return new Promise((resolve, reject) => {
-        batch
-          .commit()
-          .then(() => {
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    } else if (action === "update") {
-      // determine if post or postdata or both needed
-    } else if (action === "delete") {
-      // create existing cms-post, post, postData documents
-      let batch = props.firebase.batch();
-      let cmsPostRef = props.firebase.cmsPosts().doc(payload.id);
-      batch.delete(cmsPostRef);
-      let postRef = props.firebase.posts().doc(payload.id);
-      batch.delete(postRef);
-      let postDataRef = props.firebase.postData().doc(payload.id);
-      batch.delete(postDataRef);
-
-      return new Promise((resolve, reject) => {
-        batch
-          .commit()
-          .then(() => {
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+    let batch = props.firebase.batch();
+    switch (action) {
+      case "create":
+        batch.set(props.firebase.cmsPosts().doc(payload.id), payload.cmsPost);
+        batch.set(props.firebase.posts().doc(payload.id), payload.cmsPost.post);
+        batch.set(props.firebase.postData().doc(payload.id), {});
+        break;
+      case "update":
+        break;
+      case "publish":
+        break;
+      case "unpublish":
+        break;
+      case "delete":
+        batch.delete(props.firebase.cmsPosts().doc(payload.id));
+        batch.delete(props.firebase.posts().doc(payload.id));
+        batch.delete(props.firebase.postData().doc(payload.id));
+        break;
+      default:
+        throw new Error(`Unrecognized action: ${action}`);
     }
+
+    return new Promise((resolve, reject) => {
+      batch
+        .commit()
+        .then(() => {
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   };
 
   // Could be derived off of a subset of data to feed in, e.g. trip reports vs photography

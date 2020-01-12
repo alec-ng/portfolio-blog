@@ -40,7 +40,12 @@ export default function CreatePostModal(props) {
 
   return (
     <div>
-      <button className="btn btn-success" type="button" onClick={handleOpen}>
+      <button
+        style={{ width: "100%" }}
+        className="btn btn-success"
+        type="button"
+        onClick={handleOpen}
+      >
         Create New Post
       </button>
       <Modal open={open} handleClose={handleClose} locked={locked}>
