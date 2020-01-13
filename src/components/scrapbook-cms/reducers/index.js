@@ -1,4 +1,3 @@
-import actionReducer from "./action-reducer";
 import { generateKeyFromPost } from "./../post-util";
 
 export const ACTION_TYPES = {
@@ -21,57 +20,89 @@ export const ACTION_TYPES = {
   SELECT_POST: "SELECT_POST"
 };
 
+// Note: chosenPost should have a difference reference than data[chosenPost.key]
+// Utilize JSON.parse + JSON.stringify for this
+
 export const MainReducer = function(state, action) {
   switch (action.type) {
     case ACTION_TYPES.CREATE_POST:
     case ACTION_TYPES.DELETE_POST:
-    case ACTION_TYPES.UPDATE_DATA:
-      return Object.assign({}, state, actionReducer(state, action));
-
-    // TODO
-    case ACTION_TYPES.UPDATE_CURRENT_POSTDATA:
-      let localChosenPost = Object.assign({}, state.chosenPost);
-      localChosenPost.cmsPost.postData = action.payload;
-      return Object.assign({}, state, { chosenPost: localChosenPost });
-    case ACTION_TYPES.UPDATE_CURRENT_POST:
-      let chosenPost = Object.assign({}, state.chosenPost);
-      chosenPost.cmsPost.post[action.payload.property] = action.payload.value;
-      chosenPost.cmsPost.post.key = generateKeyFromPost(
-        chosenPost.cmsPost.post
-      );
-      return Object.assign({}, state, { chosenPost: chosenPost });
     case ACTION_TYPES.SAVE_CURRENT_POST:
-      let localData = Object.assign({}, state.data);
-      let cmsPostDupe = JSON.parse(JSON.stringify(state.chosenPost.cmsPost));
-      localData[state.chosenPost.key] = cmsPostDupe;
-      return Object.assign({}, state, { data: localData });
+      return Object.assign({}, state, dataReducer(state, action));
+
+    case ACTION_TYPES.UPDATE_CURRENT_POSTDATA:
+    case ACTION_TYPES.UPDATE_CURRENT_POST:
+    case ACTION_TYPES.SELECT_POST:
+      return Object.assign({}, state, chosenPostReducer(state, action));
+
     case ACTION_TYPES.CLOSE_CURRENT_POST:
       return state;
     case ACTION_TYPES.PUBLISH_CURRENT_POST:
       return state;
     case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
       return state;
-    // TODO
 
-    case ACTION_TYPES.SELECT_POST:
-      let cmsPost = JSON.parse(JSON.stringify(state.data[action.payload.key]));
-      let mergeObj = {
-        chosenPost: {
-          key: action.payload.key,
-          cmsPost: cmsPost
-        }
-      };
-      return Object.assign({}, state, mergeObj);
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }
 };
 
-function updatePost(state, action, localData) {
-  let postToUpdate = action.payload.id;
-  let localPost = localData[postToUpdate].post;
-  localData[postToUpdate].post = Object.assign({}, localPost, action.payload);
+// Actions whose primary need is to change chosenPoset
+function chosenPostReducer(state, action) {
+  let localChosenPost = Object.assign({}, state.chosenPost);
+
+  switch (action.type) {
+    case ACTION_TYPES.UPDATE_CURRENT_POSTDATA:
+      localChosenPost.cmsPost.postData = action.payload;
+      break;
+    case ACTION_TYPES.UPDATE_CURRENT_POST:
+      localChosenPost.cmsPost.post[action.payload.property] =
+        action.payload.value;
+      localChosenPost.cmsPost.post.key = generateKeyFromPost(
+        localChosenPost.cmsPost.post
+      );
+      break;
+    case ACTION_TYPES.SELECT_POST:
+      localChosenPost = {
+        key: action.payload.key,
+        cmsPost: JSON.parse(JSON.stringify(state.data[action.payload.key]))
+      };
+      break;
+    default:
+      throw new Error(`Unknown action: ${action.type}`);
+  }
+
+  return { chosenPost: localChosenPost };
+}
+
+// Actions whose primary need is to alter data
+// Corresponds to actions needing db callout, requiring a sync with state data
+// chosenPost may be altered as well
+function dataReducer(state, action) {
+  let localData = Object.assign({}, state.data);
+  let chosenPost;
+
+  switch (action.type) {
+    case ACTION_TYPES.CREATE_POST:
+      localData[action.payload.id] = action.payload.cmsPost;
+      chosenPost = {
+        key: action.payload.id,
+        cmsPost: JSON.parse(JSON.stringify(localData[action.payload.id]))
+      };
+      break;
+    case ACTION_TYPES.DELETE_POST:
+      delete localData[action.payload.id];
+      chosenPost = null;
+      break;
+    case ACTION_TYPES.SAVE_CURRENT_POST:
+      let cmsPostDupe = JSON.parse(JSON.stringify(state.chosenPost.cmsPost));
+      localData[state.chosenPost.key] = cmsPostDupe;
+      break;
+    default:
+      throw new Error(`Unknown action: ${action.type}`);
+  }
   return {
-    data: localData
+    data: localData,
+    chosenPost: chosenPost === undefined ? state.chosenPost : chosenPost
   };
 }
