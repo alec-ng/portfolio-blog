@@ -26,7 +26,7 @@ export function getInitialKeys(chosenNode, treeData) {
     return returnVal;
   }
 
-  // node key, format: ${year}-${month}-${day}-${title}
+  // node key, format: ${year}-${month}-${day}-${dbId}
   const [year, month] = chosenNode.split("-");
   let yearNode = treeData.find(node => node.key === `year-${year}`);
   if (!yearNode) {
@@ -113,7 +113,10 @@ function getGroupedPostData(data) {
     if (!keyData[year][month][day]) {
       keyData[year][month][day] = [];
     }
-    keyData[year][month][day].push({ title: post.title, key: id });
+    keyData[year][month][day].push({
+      title: post.title,
+      key: `${year}-${month}-${day}-${id}`
+    });
   });
   return keyData;
 }

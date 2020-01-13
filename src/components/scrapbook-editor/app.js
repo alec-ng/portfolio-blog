@@ -14,7 +14,7 @@ const BaseContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  height: ${props => (props.readOnly || props.inPreviewMode ? "100%" : "100vh")}
+  height: 100%;
   min-width: ${props =>
     props.readOnly || props.inPreviewMode ? "inherit" : "992px"};
 `;

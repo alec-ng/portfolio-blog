@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useStateValue } from "../state";
 import { ACTION_TYPES } from "../reducers/index";
+import { generateNewCmsPost } from "../post-util";
 
 import PostManager from "./post-manager";
 import ChosenPostManager from "./chosen-post-manager";
@@ -41,20 +42,7 @@ export default function Toolbar(props) {
 
   // on successful create modal form submission
   function onPostCreate(newPost, onCalloutComplete) {
-    let cmsPost = {};
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, "0");
-    let mm = String(today.getMonth() + 1).padStart(2, "0");
-    let yyyy = today.getFullYear();
-    cmsPost.createdDate = `${yyyy}-${mm}-${dd}`;
-
-    let post = Object.assign({}, newPost);
-    let key = `${newPost.date}-${newPost.title}`;
-    post.isPublished = false;
-    post.key = key;
-    cmsPost.post = post;
-    cmsPost.postData = {};
-
+    let cmsPost = generateNewCmsPost(newPost.date, newPost.title);
     onAction("create", { cmsPost: cmsPost })
       .then(dbId => {
         setSnackbarMessage(getSnackbarMessage("create", cmsPost.post.title));
@@ -77,7 +65,7 @@ export default function Toolbar(props) {
   }
 
   // on confirmed chosen post delete button click
-  function onPostDelete() {
+  function onPostDelete(onCalloutComplete) {
     onAction("delete", { id: chosenPost.key })
       .then(() => {
         setSnackbarMessage(
@@ -94,6 +82,9 @@ export default function Toolbar(props) {
       })
       .catch(failure => {
         setSnackbarMessage(getSnackbarMessage("error", failure));
+      })
+      .finally(() => {
+        onCalloutComplete();
       });
   }
 
@@ -109,8 +100,7 @@ export default function Toolbar(props) {
   }
 
   // on either successful chosen post Save button click or "Back" and save button click
-  function onSave(doExit) {
-    debugger;
+  function onSave(doExit, onCalloutComplete) {
     onAction("update", {
       id: chosenPost.key,
       cmsPost: chosenPost.cmsPost
@@ -119,6 +109,7 @@ export default function Toolbar(props) {
         setSnackbarMessage(
           getSnackbarMessage("update", chosenPost.cmsPost.post.title)
         );
+        setShowSnackbar(true);
         let type = doExit
           ? ACTION_TYPES.CLOSE_CURRENT_POST
           : ACTION_TYPES.SAVE_CURRENT_POST;
@@ -126,6 +117,9 @@ export default function Toolbar(props) {
       })
       .catch(failure => {
         setSnackbarMessage(getSnackbarMessage("error", failure));
+      })
+      .finally(() => {
+        onCalloutComplete();
       });
   }
 

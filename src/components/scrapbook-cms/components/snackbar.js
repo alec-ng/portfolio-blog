@@ -7,7 +7,7 @@ export default function SnackbarComponent(props) {
     <Snackbar
       anchorOrigin={{
         vertical: "bottom",
-        horizontal: "center"
+        horizontal: "left"
       }}
       open={props.open}
       autoHideDuration={5000}

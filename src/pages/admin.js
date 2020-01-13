@@ -62,7 +62,7 @@ const Admin = function(props) {
             });
         });
       case "update":
-        //payload.cmsPost.lastModified = props.firebase.timestamp();
+        payload.cmsPost.lastModified = props.firebase.timestamp();
         batch.update(
           props.firebase.cmsPosts().doc(payload.id),
           payload.cmsPost

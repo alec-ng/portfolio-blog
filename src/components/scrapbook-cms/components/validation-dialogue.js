@@ -17,10 +17,12 @@ export function ValidationDialogue(props) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Error</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        <b>Please fix the following errors</b>
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {errorList}
+          <ul>{errorList}</ul>
         </DialogContentText>
       </DialogContent>
     </Dialog>
@@ -31,6 +33,6 @@ export const ValidationMessages = {
   EMPTY_CONTENT: `Your post must have at least one block to show. 
     Drag and drop a plugin on the editor canvas.`,
   EMPTY_HEADER: `A title is required. Provide a title under the "Page Header" section.`,
-  UNIQUE_KEY: `The title/date combination you provided already exists. Please provide either 
+  UNIQUE_KEY: `The title/date combination you provided already exists. Provide either 
     a different date or title.`
 };

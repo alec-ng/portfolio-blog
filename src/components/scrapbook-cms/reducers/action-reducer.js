@@ -19,7 +19,8 @@ function createPost(state, action, localData) {
     data: localData,
     chosenPost: {
       key: action.payload.id,
-      cmsPost: action.payload.cmsPost
+      // create its own distinct copy of data
+      cmsPost: JSON.parse(JSON.stringify(localData[action.payload.id]))
     }
   };
 }

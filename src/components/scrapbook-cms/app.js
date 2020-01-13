@@ -29,13 +29,15 @@ export default function App(props) {
         </SidebarDrawer>
       </Header>
       {chosenPost != null ? (
-        <ScrapbookEditor
-          showPluginDescription={props.showPluginDescription}
-          plugins={props.plugins}
-          key={chosenPost}
-          onChange={onEditorChange}
-          pageData={chosenPost.postData}
-        />
+        <EditorContainer>
+          <ScrapbookEditor
+            showPluginDescription={props.showPluginDescription}
+            plugins={props.plugins}
+            key={chosenPost}
+            onChange={onEditorChange}
+            pageData={chosenPost.cmsPost.postData}
+          />
+        </EditorContainer>
       ) : (
         <EmptyEditorContainer>
           <h1 className="text-muted">
@@ -47,6 +49,10 @@ export default function App(props) {
   );
 }
 
+const EditorContainer = styled.div`
+  height: calc(100vh - 64px);
+`;
+
 const EmptyEditorContainer = styled.div`
   display: flex;
   text-align: center;
@@ -54,15 +60,3 @@ const EmptyEditorContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-
-const escapeJSONString = function(str) {
-  return str
-    .replace(/\\n/g, "\\n")
-    .replace(/\\'/g, "\\'")
-    .replace(/\\"/g, '\\"')
-    .replace(/\\&/g, "\\&")
-    .replace(/\\r/g, "\\r")
-    .replace(/\\t/g, "\\t")
-    .replace(/\\b/g, "\\b")
-    .replace(/\\f/g, "\\f");
-};

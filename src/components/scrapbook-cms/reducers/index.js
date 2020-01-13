@@ -1,4 +1,5 @@
 import actionReducer from "./action-reducer";
+import { generateKeyFromPost } from "./../post-util";
 
 export const ACTION_TYPES = {
   // new post is created and chosen post is set to it
@@ -35,10 +36,14 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.UPDATE_CURRENT_POST:
       let chosenPost = Object.assign({}, state.chosenPost);
       chosenPost.cmsPost.post[action.payload.property] = action.payload.value;
+      chosenPost.cmsPost.post.key = generateKeyFromPost(
+        chosenPost.cmsPost.post
+      );
       return Object.assign({}, state, { chosenPost: chosenPost });
     case ACTION_TYPES.SAVE_CURRENT_POST:
       let localData = Object.assign({}, state.data);
-      localData[state.chosenPost.key] = state.chosenPost.cmsPost;
+      let cmsPostDupe = JSON.parse(JSON.stringify(state.chosenPost.cmsPost));
+      localData[state.chosenPost.key] = cmsPostDupe;
       return Object.assign({}, state, { data: localData });
     case ACTION_TYPES.CLOSE_CURRENT_POST:
       return state;
@@ -49,11 +54,11 @@ export const MainReducer = function(state, action) {
     // TODO
 
     case ACTION_TYPES.SELECT_POST:
-      let data = state.data[action.payload.key];
+      let cmsPost = JSON.parse(JSON.stringify(state.data[action.payload.key]));
       let mergeObj = {
         chosenPost: {
           key: action.payload.key,
-          cmsPost: data
+          cmsPost: cmsPost
         }
       };
       return Object.assign({}, state, mergeObj);

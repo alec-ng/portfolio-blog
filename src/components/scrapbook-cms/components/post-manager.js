@@ -9,11 +9,9 @@ import CreatePostModal from "./create-post-modal";
 export default function PostManager(props) {
   // create tree and post modal data based on props
   const treeData = createTreeData(props.data);
-
-  let existingIdList = [];
-  Object.keys(props.data).forEach(id => {
-    existingIdList.push(props.data[id].post.key);
-  });
+  const existingKeyList = Object.keys(props.data).map(id =>
+    props.data[id].post.key.toUpperCase()
+  );
 
   // fully controlled tree state
   const [selectedKeys, initialExpandedKeys] = getInitialKeys(
@@ -26,8 +24,8 @@ export default function PostManager(props) {
   // If not a leaf, expand and show its children
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf()) {
-      let postId = e.node.props.eventKey.replace("post-", "");
-      props.onNodeSelect(postId);
+      const [year, month, day, id] = e.node.props.eventKey.split("-");
+      props.onNodeSelect(id);
     } else {
       setExpandedKeys(
         e.node.props.expanded
@@ -55,7 +53,7 @@ export default function PostManager(props) {
       <div className="text-center">
         <CreatePostModal
           onSubmit={props.onPostCreate}
-          existingIdList={existingIdList}
+          existingKeyList={existingKeyList}
         />
       </div>
     </>

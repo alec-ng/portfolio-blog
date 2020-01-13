@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { generateKey } from "./../post-util";
 import Modal from "./modal";
 
 const Spinner = (
@@ -58,7 +59,7 @@ export default function CreatePostModal(props) {
           Titles can only be alphanumeric with spaces.
         </p>
         <ModalForm
-          existingIdList={props.existingIdList}
+          existingKeyList={props.existingKeyList}
           closeModal={handleClose}
           onSubmit={handleFormSubmit}
           locked={locked}
@@ -72,7 +73,7 @@ function ModalForm(props) {
   const [showKeyError, setShowKeyError] = useState(false);
 
   const formRef = React.useRef(null);
-  const idList = props.existingIdList.map(id => id.toUpperCase());
+  const idList = props.existingKeyList.map(id => id.toUpperCase());
   const disabledProps = props.locked ? { disabled: true } : {};
 
   // On success, execute the submit cb, clear the form of all data, and close the modal
@@ -85,7 +86,7 @@ function ModalForm(props) {
         .querySelector("[data-val=title]")
         .value.trim();
       let date = formRef.current.querySelector("[data-val=date]").value;
-      let key = `${date}-${title}`;
+      let key = generateKey(date, title);
       let hasDuplicateKey = idList.indexOf(key.toUpperCase()) !== -1;
       setShowKeyError(hasDuplicateKey);
       if (hasDuplicateKey) {
