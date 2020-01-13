@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import PageMetadataForm from "./page-metadata-form";
-import { ValidationDialogue, ValidationMessages } from "./validation-dialogue";
+import { ValidationDialogue } from "./validation-dialogue";
 import isEqual from "react-fast-compare";
-import { generateKeyFromPost } from "./../post-util";
+import { validatePost } from "./../post-util";
 
 const BackBtn = styled.button`
   background: none;
@@ -47,9 +47,6 @@ export default function ChosenPostManager(props) {
 
   const formRef = useRef(null);
   const isPublished = props.chosenPost.cmsPost.post.isPublished;
-  const existingIdList = Object.keys(props.data).map(id =>
-    props.data[id].post.key.toUpperCase()
-  );
 
   // consolidate information from cms-post and post for easier access
   const postMetadata = Object.assign({}, props.chosenPost.cmsPost.post);
@@ -78,49 +75,17 @@ export default function ChosenPostManager(props) {
   }
 
   function validate(isPublished) {
-    function returnValidStatus(validationErrors) {
-      if (validationErrors.length > 0) {
-        setValidationErrors(validationErrors);
-        setValidationDialogueOpen(true);
-        return false;
-      } else {
-        return true;
-      }
+    let { valid, validationErrors } = validatePost(
+      props.data,
+      props.chosenPost,
+      formRef,
+      isPublished
+    );
+    if (!valid && validationErrors.length > 0) {
+      setValidationErrors(validationErrors);
+      setValidationDialogueOpen(true);
     }
-    // html5 form input validation
-    let isValid = formRef.current.reportValidity();
-    if (!isValid) {
-      return;
-    }
-
-    let validationErrors = [];
-
-    // ensure date/tite combo is unique and valid
-    let key = generateKeyFromPost(props.chosenPost.cmsPost.post);
-    let hasDuplicateKey = existingIdList.indexOf(key.toUpperCase()) !== -1;
-    if (hasDuplicateKey) {
-      validationErrors.push(ValidationMessages.UNIQUE_KEY);
-    }
-
-    // terminate early for drafts
-    if (!isPublished) {
-      return returnValidStatus(validationErrors);
-    }
-
-    // validate blocks[] is not empty
-    let isContentPresent = props.chosenPost.cmsPost.pageData.blocks.length > 0;
-    if (!isContentPresent) {
-      validationErrors.push(ValidationMessages.UNIQUE_KEY);
-    }
-
-    // validate header.title is not empty
-    let isHeaderPresent =
-      props.chosenPost.cmsPost.pageData.header.title.length > 0;
-    if (!isHeaderPresent) {
-      validationErrors.push(ValidationMessages.EMPTY_HEADER);
-    }
-
-    return returnValidStatus(validationErrors);
+    return valid;
   }
 
   function goBack() {}
@@ -161,8 +126,6 @@ export default function ChosenPostManager(props) {
         setActionPending("");
       });
     }
-
-    alert("todo!");
   }
 
   return (

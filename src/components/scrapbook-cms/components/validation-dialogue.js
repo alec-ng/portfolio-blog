@@ -28,11 +28,3 @@ export function ValidationDialogue(props) {
     </Dialog>
   );
 }
-
-export const ValidationMessages = {
-  EMPTY_CONTENT: `Your post must have at least one block to show. 
-    Drag and drop a plugin on the editor canvas.`,
-  EMPTY_HEADER: `A title is required. Provide a title under the "Page Header" section.`,
-  UNIQUE_KEY: `The title/date combination you provided already exists. Provide either 
-    a different date or title.`
-};
