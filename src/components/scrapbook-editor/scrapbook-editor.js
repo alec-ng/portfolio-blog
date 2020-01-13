@@ -28,16 +28,19 @@ export function ScrapbookEditor(props) {
     );
   }
 
-  // add plugins, pageData, and readOnly flag to global state
+  // if pagedata provided, add it to state, and adjust blocks to provide a unique uuid
   let globalState = Object.assign({}, DefaultState);
   if (props.pageData) {
     let localPageData = JSON.parse(JSON.stringify(props.pageData));
-    localPageData.blocks.forEach(block => {
-      block.uuid = uuidv1();
-      block.isFocused = false;
-    });
+    if (localPageData.blocks && localPageData.blocks.length > 0) {
+      localPageData.blocks.forEach(block => {
+        block.uuid = uuidv1();
+        block.isFocused = false;
+      });
+    }
     globalState = Object.assign({}, globalState, localPageData);
   }
+
   globalState.plugins = props.plugins;
   if (typeof props.readOnly !== "undefined") {
     globalState.readOnly = props.readOnly;
