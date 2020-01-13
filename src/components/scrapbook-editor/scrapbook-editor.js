@@ -1,6 +1,7 @@
 import React from "react";
 import { StateProvider, DefaultState } from "./state";
 import { MainReducer } from "./reducers/index";
+import uuidv1 from "uuid/v1";
 import AppContainer from "./app";
 
 // CONFIG
@@ -30,7 +31,12 @@ export function ScrapbookEditor(props) {
   // add plugins, pageData, and readOnly flag to global state
   let globalState = Object.assign({}, DefaultState);
   if (props.pageData) {
-    globalState = Object.assign({}, globalState, props.pageData);
+    let localPageData = JSON.parse(JSON.stringify(props.pageData));
+    localPageData.blocks.forEach(block => {
+      block.uuid = uuidv1();
+      block.isFocused = false;
+    });
+    globalState = Object.assign({}, globalState, localPageData);
   }
   globalState.plugins = props.plugins;
   if (typeof props.readOnly !== "undefined") {

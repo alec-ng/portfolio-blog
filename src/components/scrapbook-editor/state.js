@@ -4,7 +4,7 @@ import React, { createContext, useReducer, useContext } from "react";
  * Trims state data to be exported to parent component
  */
 export const exportStateData = function(header, blocks) {
-  let localHeader = Object.assign({}, header);
+  let localHeader = JSON.parse(JSON.stringify(header));
   let localBlocks = JSON.parse(JSON.stringify(blocks).replace(/\n/g, "\\n"));
 
   // For each block, delete unneeded props and variation attributes not used
