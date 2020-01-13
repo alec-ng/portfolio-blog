@@ -1,9 +1,14 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import PageMetadataForm from "./page-metadata-form";
-import { ValidationDialogue } from "./validation-dialogue";
+import {
+  ValidationModal,
+  SavePostModal,
+  DeleteConfirmationModal
+} from "./modal-collection";
 import isEqual from "react-fast-compare";
 import { validatePost } from "./../post-util";
+import Spinner from "./spinner";
 
 const BackBtn = styled.button`
   background: none;
@@ -12,67 +17,79 @@ const BackBtn = styled.button`
   border-radius: 3px;
   padding: 2px 10px;
 `;
-
 const FullWidthBtn = styled.button`
   width: 100%;
 `;
-
-const Spinner = (
-  <div
-    className="spinner-border spinner-border-sm"
-    role="status"
-    style={{
-      marginBottom: "2px",
-      marginRight: "5px"
-    }}
-  >
-    <span className="sr-only">Loading...</span>
-  </div>
-);
 
 /**
  * Component manager for toolbar view when a post is selected
  */
 export default function ChosenPostManager(props) {
-  const [validationErrors, setValidationErrors] = useState([]);
-  const [validationDialogueOpen, setValidationDialogueOpen] = useState(false);
+  // Constants
+  ////////////////////////////////////////////////
+
+  // Metadata form state
   const [formDisabled, setFormDisabled] = useState(false);
   const [actionPending, setActionPending] = useState("");
 
+  // Utilities
   const hasChanged = !isEqual(
     props.data[props.chosenPost.key],
     props.chosenPost.cmsPost
   );
-  const saveButtonAttribues = hasChanged ? {} : { disabled: true };
-
-  const formRef = useRef(null);
   const isPublished = props.chosenPost.cmsPost.post.isPublished;
 
-  // consolidate information from cms-post and post for easier access
-  const postMetadata = Object.assign({}, props.chosenPost.cmsPost.post);
-  postMetadata.createdDate = props.chosenPost.cmsPost.createdDate;
-  postMetadata.lastModified = props.chosenPost.cmsPost.lastModified;
+  // UI
+  const formRef = useRef(null);
+  const saveButtonAttribues = hasChanged ? {} : { disabled: true };
 
-  const closeValidationDialog = () => {
-    setValidationDialogueOpen(false);
+  // Modals
+  ////////////////////////////////////////////////
+
+  // Open state
+  const [modalOpen, setModalOpen] = useState({
+    delete: false,
+    saveAndClose: false,
+    validation: false,
+    publish: false
+  });
+  function toggleModal(key, isOpen) {
+    let modalStates = Object.assign({}, modalOpen);
+    modalStates[key] = isOpen;
+    setModalOpen(modalStates);
+  }
+
+  const [validationErrors, setValidationErrors] = useState([]);
+  const closeValidationModal = () => {
+    toggleModal("validation", false);
     setValidationErrors([]);
   };
 
-  function deletePost() {
-    if (
-      window.confirm(
-        "This action will delete your post and all of its contents, regardless of its publish status." +
-          " Are you sure you want to delete this post? THIS CANNOT BE UNDONE."
-      )
-    ) {
-      setFormDisabled(true);
-      setActionPending("delete");
-      props.onDelete(() => {
-        setFormDisabled(false);
-        setActionPending("");
-      });
-    }
-  }
+  const openDeleteModal = () => {
+    toggleModal("delete", true);
+  };
+  const closeDeleteModal = () => {
+    toggleModal("delete", false);
+  };
+  const onDeleteModal = () => {
+    toggleModal("delete", false);
+    setFormDisabled(true);
+    setActionPending("delete");
+    props.onDelete(() => {
+      setFormDisabled(false);
+      setActionPending("");
+    });
+  };
+
+  const closeSaveModal = () => {
+    toggleModal("saveAndClose", false);
+  };
+  const onSaveAndClose = () => {
+    baseSave(null, back);
+  };
+
+  // Functions
+  ////////////////////////////////////////////////
 
   function validate(isPublished) {
     let { valid, validationErrors } = validatePost(
@@ -83,14 +100,24 @@ export default function ChosenPostManager(props) {
     );
     if (!valid && validationErrors.length > 0) {
       setValidationErrors(validationErrors);
-      setValidationDialogueOpen(true);
+      toggleModal("validation", true);
     }
     return valid;
   }
 
-  function goBack() {}
+  function goBack() {
+    if (!hasChanged) {
+      back();
+    } else {
+      toggleModal("saveAndClose", true);
+    }
+  }
 
-  function save() {
+  function back() {
+    props.setViewAllPosts();
+  }
+
+  function baseSave(e, onSuccess) {
     if (!validate(isPublished)) {
       return;
     }
@@ -100,6 +127,9 @@ export default function ChosenPostManager(props) {
     props.onSave(doExit, () => {
       setFormDisabled(false);
       setActionPending("");
+      if (onSuccess) {
+        onSuccess();
+      }
     });
   }
 
@@ -130,26 +160,38 @@ export default function ChosenPostManager(props) {
 
   return (
     <>
-      <ValidationDialogue
-        open={validationDialogueOpen}
-        handleClose={closeValidationDialog}
+      <ValidationModal
+        open={modalOpen.validation}
+        handleClose={closeValidationModal}
         errors={validationErrors}
+      />
+      <DeleteConfirmationModal
+        open={modalOpen.delete}
+        handleClose={closeDeleteModal}
+        onDelete={onDeleteModal}
+      />
+      <SavePostModal
+        open={modalOpen.saveAndClose}
+        handleClose={closeSaveModal}
+        onNoClick={back}
+        onYesClick={onSaveAndClose}
       />
 
       <BackBtn type="button" className="mb-4" onClick={goBack}>
         &#8592; Back
       </BackBtn>
+
       <form ref={formRef}>
         <fieldset disabled={formDisabled}>
-          <PageMetadataForm postMetadata={postMetadata} onChange={onChange} />
+          <PageMetadataForm chosenPost={props.chosenPost} onChange={onChange} />
           <div className="my-3">
             <FullWidthBtn
               type="button"
               className="my-2 btn btn-success"
-              onClick={save}
+              onClick={baseSave}
               {...saveButtonAttribues}
             >
-              {actionPending === "save" && Spinner}
+              {actionPending === "save" && <Spinner />}
               Save
             </FullWidthBtn>
             <FullWidthBtn
@@ -157,15 +199,15 @@ export default function ChosenPostManager(props) {
               className="my-2 btn btn-info"
               onClick={togglePublish}
             >
-              {actionPending === "publish" && Spinner}
+              {actionPending === "publish" && <Spinner />}
               {isPublished ? "Unpublish" : "Publish"}
             </FullWidthBtn>
             <FullWidthBtn
               type="button"
-              onClick={deletePost}
+              onClick={openDeleteModal}
               className="my-2 btn btn-danger"
             >
-              {actionPending === "delete" && Spinner}
+              {actionPending === "delete" && <Spinner />}
               Delete
             </FullWidthBtn>
           </div>

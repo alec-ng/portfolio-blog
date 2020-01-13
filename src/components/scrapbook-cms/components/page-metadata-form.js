@@ -17,7 +17,7 @@ export default function PageMetadata(props) {
             data-val="title"
             pattern="[a-zA-Z0-9\s]+"
             type="text"
-            defaultValue={props.postMetadata.title}
+            defaultValue={props.chosenPost.cmsPost.post.title}
             className="form-control"
           />
         </label>
@@ -26,7 +26,7 @@ export default function PageMetadata(props) {
         <label style={{ width: "100%" }}>
           Date
           <input
-            defaultValue={props.postMetadata.date}
+            defaultValue={props.chosenPost.cmsPost.post.date}
             onChange={props.onChange}
             required
             className="form-control"
@@ -40,7 +40,7 @@ export default function PageMetadata(props) {
           Created
           <input
             style={{ color: "white" }}
-            value={props.postMetadata.createdDate}
+            value={props.chosenPost.cmsPost.createdDate}
             readOnly
             className="form-control-plaintext"
             type="text"
@@ -50,10 +50,10 @@ export default function PageMetadata(props) {
       <div className="form-group">
         <label style={{ width: "100%" }}>
           Last Modified
-          {props.postMetadata.lastModified ? (
+          {props.chosenPost.cmsPost.lastModified ? (
             <input
               style={{ color: "white" }}
-              value={props.postMetadata.lastModified}
+              value={props.chosenPost.cmsPost.lastModified}
               readOnly
               className="form-control-plaintext"
               type="datetime-local"

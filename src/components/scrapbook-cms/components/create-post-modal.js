@@ -1,19 +1,7 @@
 import React, { useState } from "react";
 import { generateKey } from "./../post-util";
 import Modal from "./modal";
-
-const Spinner = (
-  <div
-    className="spinner-border spinner-border-sm"
-    role="status"
-    style={{
-      marginBottom: "2px",
-      marginRight: "5px"
-    }}
-  >
-    <span className="sr-only">Loading...</span>
-  </div>
-);
+import Spinner from "./spinner";
 
 /*
  * Renders a button that opens up a modal to create a new post
@@ -145,7 +133,7 @@ function ModalForm(props) {
               Cancel
             </button>
             <button type="submit" className="btn btn-success">
-              {props.locked && Spinner}
+              {props.locked && <Spinner />}
               Create
             </button>
           </div>

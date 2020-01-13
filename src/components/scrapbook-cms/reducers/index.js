@@ -14,6 +14,8 @@ export const ACTION_TYPES = {
   // saving the current post and exiting the current view
   CLOSE_CURRENT_POST: "CLOSE_CURRENT_POST",
   // toggle publish flags
+  SAVE_AND_CLOSE_CURRENT_POST: "SAVE_AND_CLOSE_CURRENT_POST",
+  // toggle publish flags
   PUBLISH_CURRENT_POST: "PUBLISH_CURRENT_POST",
   UNPUBLISH_CURRENT_POST: "UNPUBLISH_CURRENT_POST",
   // post is chosen
@@ -33,10 +35,9 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.UPDATE_CURRENT_POSTDATA:
     case ACTION_TYPES.UPDATE_CURRENT_POST:
     case ACTION_TYPES.SELECT_POST:
+    case ACTION_TYPES.CLOSE_CURRENT_POST:
       return Object.assign({}, state, chosenPostReducer(state, action));
 
-    case ACTION_TYPES.CLOSE_CURRENT_POST:
-      return state;
     case ACTION_TYPES.PUBLISH_CURRENT_POST:
       return state;
     case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
@@ -67,6 +68,9 @@ function chosenPostReducer(state, action) {
         key: action.payload.key,
         cmsPost: JSON.parse(JSON.stringify(state.data[action.payload.key]))
       };
+      break;
+    case ACTION_TYPES.CLOSE_CURRENT_POST:
+      localChosenPost = null;
       break;
     default:
       throw new Error(`Unknown action: ${action.type}`);

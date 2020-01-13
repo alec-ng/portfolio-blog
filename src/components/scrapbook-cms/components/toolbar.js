@@ -29,6 +29,13 @@ export default function Toolbar(props) {
     setSnackbarMessage("");
   }
 
+  function setViewAllPosts() {
+    setView(VIEW_POSTS);
+    dispatch({
+      type: ACTION_TYPES.CLOSE_CURRENT_POST
+    });
+  }
+
   // on tree node leaf click
   function onNodeSelect(selectedPostId) {
     dispatch({
@@ -145,6 +152,7 @@ export default function Toolbar(props) {
           chosenPost={chosenPost}
           onDelete={onPostDelete}
           onChange={onChange}
+          setViewAllPosts={setViewAllPosts}
         />
       )}
       {showSnackbar && (
