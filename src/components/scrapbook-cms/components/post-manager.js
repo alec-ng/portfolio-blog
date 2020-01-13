@@ -2,13 +2,56 @@ import React, { useState } from "react";
 import { createTreeData, getInitialKeys } from "./treeview/tree-util";
 import TreeView from "./treeview/treeview";
 import CreatePostModal from "./create-post-modal";
+import ButtonGroup from "./button-group";
+
+const ALL_POSTS = "ALL_POSTS";
+const PUBLISHED_POSTS = "PUBLISHED_POSTS";
+const DRAFT_POSTS = "DRAFT_POSTS";
+
+const buttonGroupData = [
+  {
+    key: ALL_POSTS,
+    label: "All"
+  },
+  {
+    key: PUBLISHED_POSTS,
+    label: "Published"
+  },
+  {
+    key: DRAFT_POSTS,
+    label: "Drafts"
+  }
+];
+
+function getFilteredData(data, view) {
+  if (view === ALL_POSTS) {
+    return data;
+  }
+
+  let localData = JSON.parse(JSON.stringify(data));
+  Object.keys(localData).forEach(key => {
+    let deleteUnpublished =
+      view === PUBLISHED_POSTS && !localData[key].post.isPublished;
+    let deletePublished =
+      view === DRAFT_POSTS && localData[key].post.isPublished;
+    if (deleteUnpublished || deletePublished) {
+      delete localData[key];
+    }
+  });
+  return localData;
+}
 
 /**
  * "View All Posts" view in toolbar
  */
 export default function PostManager(props) {
+  const [postView, setPostView] = useState(ALL_POSTS);
+  function toggleView(e) {
+    setPostView(e.currentTarget.dataset.buttonkey);
+  }
+
   // create tree and post modal data based on props
-  const treeData = createTreeData(props.data);
+  const treeData = createTreeData(getFilteredData(props.data, postView));
   const existingKeyList = Object.keys(props.data).map(id =>
     props.data[id].post.key.toUpperCase()
   );
@@ -41,6 +84,13 @@ export default function PostManager(props) {
 
   return (
     <>
+      <div className="mb-3">
+        <ButtonGroup
+          buttons={buttonGroupData}
+          activeKey={postView}
+          onClick={toggleView}
+        />
+      </div>
       <div className="mb-4">
         <TreeView
           treeData={treeData}

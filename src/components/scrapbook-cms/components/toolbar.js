@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { useStateValue } from "../state";
 import { ACTION_TYPES } from "../reducers/index";
 import { generateNewCmsPost } from "../post-util";
@@ -158,16 +159,15 @@ export default function Toolbar(props) {
 
   return (
     <>
-      {view === VIEW_POSTS && (
-        <>
-          <PostManager
-            data={data}
-            chosenPost={chosenPost}
-            onPostCreate={onPostCreate}
-            onNodeSelect={onNodeSelect}
-          />
-        </>
-      )}
+      <PostManagerContainer view={view}>
+        <PostManager
+          data={data}
+          chosenPost={chosenPost}
+          onPostCreate={onPostCreate}
+          onNodeSelect={onNodeSelect}
+        />
+      </PostManagerContainer>
+
       {view === VIEW_POSTDATA && (
         <ChosenPostManager
           data={data}
@@ -189,6 +189,10 @@ export default function Toolbar(props) {
     </>
   );
 }
+
+const PostManagerContainer = styled.div`
+  display: ${props => (props.view === VIEW_POSTS ? "inherit" : "none")};
+`;
 
 function getSnackbarMessage(action, title) {
   switch (action) {
