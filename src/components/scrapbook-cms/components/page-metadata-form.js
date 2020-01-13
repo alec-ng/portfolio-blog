@@ -1,13 +1,28 @@
 import React from "react";
+import moment from "moment";
+import styled from "styled-components";
+
+const datetimeFormat = "YYYY-MM-DD h:mm a";
+
+const FullWidthLabel = styled.label`
+  width: 100%;
+`;
 
 /**
  * Inputs for page metadata of current selected page
  */
 export default function PageMetadata(props) {
+  // lastModified is a Firestore Timestamp value
+  let lastModified = props.chosenPost.cmsPost.lastModified
+    ? moment
+        .unix(props.chosenPost.cmsPost.lastModified.seconds)
+        .format(datetimeFormat)
+    : "N/A";
+
   return (
     <>
       <div className="form-group">
-        <label style={{ width: "100%" }}>
+        <FullWidthLabel>
           Title
           <input
             required
@@ -20,10 +35,10 @@ export default function PageMetadata(props) {
             defaultValue={props.chosenPost.cmsPost.post.title}
             className="form-control"
           />
-        </label>
+        </FullWidthLabel>
       </div>
       <div className="form-group">
-        <label style={{ width: "100%" }}>
+        <FullWidthLabel>
           Date
           <input
             defaultValue={props.chosenPost.cmsPost.post.date}
@@ -33,10 +48,10 @@ export default function PageMetadata(props) {
             type="date"
             data-val="date"
           />
-        </label>
+        </FullWidthLabel>
       </div>
       <div className="form-group">
-        <label style={{ width: "100%" }}>
+        <FullWidthLabel>
           Created
           <input
             style={{ color: "white" }}
@@ -45,23 +60,11 @@ export default function PageMetadata(props) {
             className="form-control-plaintext"
             type="text"
           />
-        </label>
+        </FullWidthLabel>
       </div>
       <div className="form-group">
-        <label style={{ width: "100%" }}>
-          Last Modified
-          {props.chosenPost.cmsPost.lastModified ? (
-            <input
-              style={{ color: "white" }}
-              value={props.chosenPost.cmsPost.lastModified}
-              readOnly
-              className="form-control-plaintext"
-              type="datetime-local"
-            />
-          ) : (
-            <p style={{ color: "white" }}>N/A</p>
-          )}
-        </label>
+        <FullWidthLabel>Last Modified</FullWidthLabel>
+        <p style={{ color: "white" }}>{lastModified}</p>
       </div>
     </>
   );
