@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import PageMetadataForm from "./page-metadata-form";
-import {
-  ValidationModal,
-  SavePostModal,
-  DeleteConfirmationModal
-} from "./modal-collection";
 import isEqual from "react-fast-compare";
 import { validatePost } from "./../post-util";
 import Spinner from "./spinner";
+import {
+  ValidationModal,
+  SavePostModal,
+  DeleteConfirmationModal,
+  PublishModal
+} from "./modal-collection";
 
 const BackBtn = styled.button`
   background: none;
@@ -59,12 +60,14 @@ export default function ChosenPostManager(props) {
     setModalOpen(modalStates);
   }
 
+  // Validation
   const [validationErrors, setValidationErrors] = useState([]);
   const closeValidationModal = () => {
     toggleModal("validation", false);
     setValidationErrors([]);
   };
 
+  // Delete
   const openDeleteModal = () => {
     toggleModal("delete", true);
   };
@@ -81,11 +84,45 @@ export default function ChosenPostManager(props) {
     });
   };
 
+  // Save and Close
   const closeSaveModal = () => {
     toggleModal("saveAndClose", false);
   };
   const onSaveAndClose = () => {
     baseSave(null, back);
+  };
+  const goBack = () => {
+    if (!hasChanged) {
+      back();
+    } else {
+      toggleModal("saveAndClose", true);
+    }
+  };
+  const back = () => {
+    props.setViewAllPosts();
+  };
+
+  // Publish
+  const closePublishModal = () => {
+    toggleModal("publish", false);
+  };
+  const togglePublish = () => {
+    let newPublishStatus = !isPublished;
+    if (!validate(newPublishStatus)) {
+      return;
+    }
+    toggleModal("publish", true);
+  };
+  const publishConfirm = () => {
+    toggleModal("publish", false);
+    setFormDisabled(true);
+    setActionPending("publish");
+    let newPublishStatus = !isPublished;
+    if (newPublishStatus) {
+      publish();
+    } else {
+      unpublish();
+    }
   };
 
   // Functions
@@ -103,18 +140,6 @@ export default function ChosenPostManager(props) {
       toggleModal("validation", true);
     }
     return valid;
-  }
-
-  function goBack() {
-    if (!hasChanged) {
-      back();
-    } else {
-      toggleModal("saveAndClose", true);
-    }
-  }
-
-  function back() {
-    props.setViewAllPosts();
   }
 
   function baseSave(e, onSuccess) {
@@ -137,25 +162,20 @@ export default function ChosenPostManager(props) {
     props.onChange(e.currentTarget.dataset.val, e.currentTarget.value);
   }
 
-  function togglePublish() {
-    let newPublishStatus = !isPublished;
-    if (!validate(newPublishStatus)) {
-      return;
-    }
-    let confirmationMsg = newPublishStatus
-      ? "You are about to publish this post and any changes you have made this " +
-        "session. The post will be visible to the general public. Continue?"
-      : "You are about to unpublish this post, as well as save any changes you have " +
-        "made this session. The general public will not be able to see this post anymore. Continue?";
+  function publish() {
+    alert("TODO: publish");
+    // props.onPublish(true, () => {
+    //   setFormDisabled(false);
+    //   setActionPending("");
+    // });
+  }
 
-    if (window.confirm(confirmationMsg)) {
-      setFormDisabled(true);
-      setActionPending("publish");
-      props.onPublish(newPublishStatus, () => {
-        setFormDisabled(false);
-        setActionPending("");
-      });
-    }
+  function unpublish() {
+    alert("TODO: unpublish");
+    // props.onPublish(false, () => {
+    //   setFormDisabled(false);
+    //   setActionPending("");
+    // });
   }
 
   return (
@@ -175,6 +195,12 @@ export default function ChosenPostManager(props) {
         handleClose={closeSaveModal}
         onNoClick={back}
         onYesClick={onSaveAndClose}
+      />
+      <PublishModal
+        open={modalOpen.publish}
+        handleClose={closePublishModal}
+        newPublishStatus={!isPublished}
+        onConfirm={publishConfirm}
       />
 
       <BackBtn type="button" className="mb-4" onClick={goBack}>

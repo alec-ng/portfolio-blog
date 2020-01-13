@@ -1,6 +1,59 @@
 import React from "react";
 import Modal from "./modal";
 
+// Publish
+///////////////////////////////////////////////////////////////
+
+export function PublishModal(props) {
+  const PublishBody = (
+    <>
+      <h2>Publish</h2>
+      <p>
+        You are about to publish this post and any changes you have made this
+        session. The post will be visible to the general public.
+      </p>
+    </>
+  );
+  const UnpublishBody = (
+    <>
+      <h2>Unpublish</h2>
+      <p>
+        You are about to unpublish this post, as well as save any changes you
+        have made this session. The general public will not be able to see this
+        post anymore.
+      </p>
+    </>
+  );
+  const onConfirm = props.newPublishStatus
+    ? props.onPublish
+    : props.onUnpublish;
+
+  return (
+    <Modal open={props.open} handleClose={props.handleClose}>
+      {props.newPublishStatus ? PublishBody : UnpublishBody}
+      <div className="text-right">
+        <button
+          type="button"
+          className="mr-2 btn btn-info"
+          onClick={props.handleClose}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={props.onConfirm}
+        >
+          Confirm
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
+// Save and Exit
+///////////////////////////////////////////////////////////////
+
 export function SavePostModal(props) {
   function onNoClick() {
     props.handleClose();
@@ -34,8 +87,11 @@ export function SavePostModal(props) {
   );
 }
 
+// Validation Errors
+///////////////////////////////////////////////////////////////
+
 export function ValidationModal(props) {
-  const errorList = props.errors.map(error => <li>{error}</li>);
+  const errorList = props.errors.map((error, i) => <li key={i}>{error}</li>);
 
   return (
     <Modal open={props.open} handleClose={props.handleClose}>
@@ -44,6 +100,9 @@ export function ValidationModal(props) {
     </Modal>
   );
 }
+
+// Delete
+///////////////////////////////////////////////////////////////
 
 export function DeleteConfirmationModal(props) {
   function PublishedBody(props) {
