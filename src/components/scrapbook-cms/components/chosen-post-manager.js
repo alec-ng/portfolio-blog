@@ -118,11 +118,10 @@ export default function ChosenPostManager(props) {
     setFormDisabled(true);
     setActionPending("publish");
     let newPublishStatus = !isPublished;
-    if (newPublishStatus) {
-      publish();
-    } else {
-      unpublish();
-    }
+    props.onPublish(newPublishStatus, () => {
+      setFormDisabled(false);
+      setActionPending("");
+    });
   };
 
   // Functions
@@ -162,22 +161,6 @@ export default function ChosenPostManager(props) {
     props.onChange(e.currentTarget.dataset.val, e.currentTarget.value);
   }
 
-  function publish() {
-    alert("TODO: publish");
-    // props.onPublish(true, () => {
-    //   setFormDisabled(false);
-    //   setActionPending("");
-    // });
-  }
-
-  function unpublish() {
-    alert("TODO: unpublish");
-    // props.onPublish(false, () => {
-    //   setFormDisabled(false);
-    //   setActionPending("");
-    // });
-  }
-
   return (
     <>
       <ValidationModal
@@ -189,6 +172,7 @@ export default function ChosenPostManager(props) {
         open={modalOpen.delete}
         handleClose={closeDeleteModal}
         onDelete={onDeleteModal}
+        isPublished={isPublished}
       />
       <SavePostModal
         open={modalOpen.saveAndClose}

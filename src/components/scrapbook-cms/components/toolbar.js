@@ -131,7 +131,30 @@ export default function Toolbar(props) {
   }
 
   // on publish / unpublish button click
-  function onPublish(publishStatus) {}
+  function onPublish(publishStatus, onCalloutComplete) {
+    let cmsAction = publishStatus ? "publish" : "unpublish";
+    chosenPost.cmsPost.post.isPublished = publishStatus;
+    onAction(cmsAction, {
+      id: chosenPost.key,
+      cmsPost: chosenPost.cmsPost
+    })
+      .then(() => {
+        setSnackbarMessage(
+          getSnackbarMessage(cmsAction, chosenPost.cmsPost.post.title)
+        );
+        setShowSnackbar(true);
+        let dispatchAction = publishStatus
+          ? ACTION_TYPES.PUBLISH_CURRENT_POST
+          : ACTION_TYPES.UNPUBLISH_CURRENT_POST;
+        dispatch({ type: dispatchAction });
+      })
+      .catch(failure => {
+        setSnackbarMessage(getSnackbarMessage("error", failure));
+      })
+      .finally(() => {
+        onCalloutComplete();
+      });
+  }
 
   return (
     <>
@@ -153,6 +176,7 @@ export default function Toolbar(props) {
           onDelete={onPostDelete}
           onChange={onChange}
           setViewAllPosts={setViewAllPosts}
+          onPublish={onPublish}
         />
       )}
       {showSnackbar && (

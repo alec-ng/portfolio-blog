@@ -30,6 +30,8 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.CREATE_POST:
     case ACTION_TYPES.DELETE_POST:
     case ACTION_TYPES.SAVE_CURRENT_POST:
+    case ACTION_TYPES.PUBLISH_CURRENT_POST:
+    case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
       return Object.assign({}, state, dataReducer(state, action));
 
     case ACTION_TYPES.UPDATE_CURRENT_POSTDATA:
@@ -37,12 +39,6 @@ export const MainReducer = function(state, action) {
     case ACTION_TYPES.SELECT_POST:
     case ACTION_TYPES.CLOSE_CURRENT_POST:
       return Object.assign({}, state, chosenPostReducer(state, action));
-
-    case ACTION_TYPES.PUBLISH_CURRENT_POST:
-      return state;
-    case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
-      return state;
-
     default:
       throw new Error(`Unrecognized action type: ${action.type}`);
   }
@@ -86,6 +82,11 @@ function dataReducer(state, action) {
   let localData = Object.assign({}, state.data);
   let chosenPost;
 
+  function copyCurrentPostToData(currentPost) {
+    let cmsPostDupe = JSON.parse(JSON.stringify(currentPost));
+    localData[state.chosenPost.key] = cmsPostDupe;
+  }
+
   switch (action.type) {
     case ACTION_TYPES.CREATE_POST:
       localData[action.payload.id] = action.payload.cmsPost;
@@ -99,8 +100,17 @@ function dataReducer(state, action) {
       chosenPost = null;
       break;
     case ACTION_TYPES.SAVE_CURRENT_POST:
-      let cmsPostDupe = JSON.parse(JSON.stringify(state.chosenPost.cmsPost));
-      localData[state.chosenPost.key] = cmsPostDupe;
+      copyCurrentPostToData(state.chosenPost.cmsPost);
+      break;
+    case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
+      chosenPost = Object.assign({}, state.chosenPost);
+      chosenPost.cmsPost.post.isPublished = false;
+      copyCurrentPostToData(chosenPost.cmsPost);
+      break;
+    case ACTION_TYPES.PUBLISH_CURRENT_POST:
+      chosenPost = Object.assign({}, state.chosenPost);
+      chosenPost.cmsPost.post.isPublished = true;
+      copyCurrentPostToData(chosenPost.cmsPost);
       break;
     default:
       throw new Error(`Unknown action: ${action.type}`);
