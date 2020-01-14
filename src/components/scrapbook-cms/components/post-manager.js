@@ -67,8 +67,7 @@ export default function PostManager(props) {
   // If not a leaf, expand and show its children
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf()) {
-      const [year, month, day, id] = e.node.props.eventKey.split("-");
-      props.onNodeSelect(id);
+      props.onNodeSelect(e.node.props.eventKey);
     } else {
       setExpandedKeys(
         e.node.props.expanded

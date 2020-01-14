@@ -1,78 +1,104 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { createTreeData } from "../components/rc-tree/util";
+import { withFirebase } from "../components/firebase";
+import styled from "styled-components";
 import Layout from "../components/photography-layout";
+import { useLocation } from "react-router-dom";
+import { getKeyFromLocation, getKeyFromIndex } from "./../util/url-util";
+
+const OverlayContainer = styled.div`
+  position: absolute;
+  display: ${props => (props.show ? "flex" : "none")};
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 50%;
+  left: 25%;
+  right: 25%;
+  background-color: white;
+`;
 
 /**
  * Page level component for photography section
  * (TEMPORARY) Data layer component
  */
-export default function Photography(props) {
-  const { pageList, dataMap } = getTestData();
-  const { isLoading, setIsLoading } = useState(true); // TODO: implement
+export default withFirebase(Photography);
+
+function Photography(props) {
+  const [loading, setLoading] = React.useState(true);
+  const [treeData, setTreeData] = React.useState([]);
+  const [initialPost, setInitialPost] = React.useState(null);
+  const [idToPostMap, setIdToPostMap] = React.useState({});
+
+  const initialPostKey = getKeyFromLocation(useLocation().pathname);
+
+  // One time firebase callout for post index for all published posts
+  useEffect(() => {
+    // firebase callout for post index for all published posts
+    props.firebase
+      .postIndex()
+      .get()
+      .then(doc => {
+        // Create nodes for treeview
+        let posts = doc.data().index;
+        let treeData = createTreeData(posts);
+        setTreeData(treeData);
+
+        // Mapping of Id -> post, used selecting and rendering different posts
+        let localKeyDataMap = {};
+        posts.forEach(post => {
+          localKeyDataMap[post.postDataId] = post;
+        });
+        setIdToPostMap(localKeyDataMap);
+
+        // Decide which post to show first
+        // default to latest post in treeData if no valid initial post provided
+        let chosenPost;
+        if (initialPostKey) {
+          chosenPost = posts.find(
+            post =>
+              getKeyFromIndex(post).toUpperCase() ===
+              initialPostKey.toUpperCase()
+          );
+        }
+        if (chosenPost) {
+          setInitialPost(chosenPost.postDataId);
+        } else {
+          let mostRecentPostId = treeData[0].children[0].children[0].key;
+          setInitialPost(mostRecentPostId);
+        }
+
+        setLoading(false);
+      })
+      .catch(failure => {
+        alert(failure);
+        setLoading(false);
+      });
+  }, []);
+
+  // ON EVERY RE-RENDER --
+  // analyze URL -- does it already have a path?
+  // YES --> see if path corresponds to valid post in index
+  // YES --> mark that as default selected, and callout for postData to render
+  // NO --> re-direct to index
+  // NO --> default to latest post available. change URL to match and callout for postData to render
 
   return (
-    <div className="container-fluid p-0">
-      <Layout pageList={pageList} dataMap={dataMap} />
-    </div>
+    <>
+      <OverlayContainer show={loading}>
+        <LinearProgress />
+      </OverlayContainer>
+      {!loading && (
+        <div className="container-fluid p-0">
+          <Layout
+            treeData={treeData}
+            initialPost={initialPost}
+            idToPostMap={idToPostMap}
+          />
+        </div>
+      )}
+      }
+    </>
   );
 }
-
-/**
- * generates pageList and dataMap
- */
-const getTestData = function() {
-  let dataMap = {};
-  let pageList = [];
-
-  // generate a unique ID for each page. In this case, it should be the title
-  // The title is used as an ID for photography. If a duplicate is detected, omit it
-  // Assume that TItle is always populated and required
-  TEST_DATA.forEach(page => {
-    if (!page.header.title) {
-      console.log(`No title was found for this page: ${page}`);
-      return;
-    }
-
-    let pageId = page.header.title.toLowerCase().replace(/ /g, "-");
-    if (dataMap[pageId]) {
-      console.log("Duplicate page detected ----");
-      console.log(`Original page: ${dataMap[pageId].header}`);
-      console.log(`Duplicate page: ${page.header}`);
-      console.log(
-        `The duplicate page will be skipped and will not be rendered.`
-      );
-      return;
-    }
-
-    dataMap[pageId] = page;
-    pageList.push({
-      label: page.header.title,
-      id: pageId
-    });
-  });
-
-  return {
-    pageList: pageList,
-    dataMap: dataMap
-  };
-};
-
-/**
- * Expect format in db to be stringified JSON, and data to provide to scrapbook-editor to be parsed
- */
-const header1 = `{"title":"Test","subTitle":"My Test","displayDate1":"2019-12-06","displayDate2":"2019-12-13"}`;
-const blocks1 = `[{"name":"image","baseAttrs":{"size":"large","urlSource":"https://i.imgur.com/riz9PNB.jpg"},"variation":"image_caption","variationAttrs":{"image_default":{},"image_caption":{"primaryText":"This is my first test","secondaryText":"This is my secondary test"}},"uuid":"66f540d0-2aa9-11ea-b29a-41afb9d7311f","isFocused":false},{"name":"markdown","baseAttrs":{"source":"Damn why won't this markdown work\\n\\nIt's so hard to get this to render correectly"},"variation":"markdown_default","variationAttrs":{"markdown_default":{}},"uuid":"8216e6c0-2aa9-11ea-b29a-41afb9d7311f","isFocused":true}]`;
-
-const FIRST_TEST_PAGE = {
-  header: JSON.parse(header1),
-  blocks: JSON.parse(blocks1)
-};
-
-const header2 = `{"title":"My Other Test Page","subTitle":"Let's see how this one turns out","displayDate1":null,"displayDate2":null}`;
-const blocks2 = `[{"name":"markdown","baseAttrs":{"source":"# Harhar\n## Harhar\n### Har\n\n"},"variation":"markdown_default","variationAttrs":{"markdown_default":{}}},{"name":"image","baseAttrs":{"size":"large","urlSource":"https://i.imgur.com/KOBT4nk.jpg"},"variation":"image_default","variationAttrs":{"image_default":{}}}]`;
-
-const SECOND_TEST_PAGE = {
-  header: JSON.parse(header2),
-  blocks: JSON.parse(blocks2.replace(/\n/g, "\\n"))
-};
-
-const TEST_DATA = [FIRST_TEST_PAGE, SECOND_TEST_PAGE];

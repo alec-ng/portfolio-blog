@@ -1,62 +1,61 @@
-import React, { useState, useEffect } from "react";
-
-import ReactSidebar from "react-sidebar";
-import Sidebar from "./sidebar";
-import SidebarLinks from "./sidebar-links";
+import React from "react";
+import ResponsiveDrawer from "./responsive-drawer";
 import ContentRenderer from "./content-renderer";
-import ContentHeader from "../components/content-header";
+import TreeView from "./rc-tree/treeview";
+import { getInitialExpandedKeys } from "./rc-tree/util";
+import { Redirect } from "react-router-dom";
+import { getPathnameFromIndex } from "./../util/url-util";
 
-/**
- * UI composition component for photography section
- */
-const mql = window.matchMedia(`(min-width: 992px)`); // Large devices using Bootstrap responsive breakpoint
-const tolerancePixel = 40; // for auto-playing videos when scrolling
+const BASE_PAGE = "/photography";
 
 export default function PhotographyLayout(props) {
-  const [isSidebarDocked, setIsSidebarDocked] = useState(mql.matches); // if on desktop, auto open sidebar
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [chosenPost, setChosenPost] = React.useState(props.initialPost);
 
-  // Media query listener to auto expand/collapse sidebar
-  useEffect(() => {
-    mql.addListener(mediaQueryChanged);
-    return () => {
-      mql.addListener(mediaQueryChanged);
-    };
-  });
+  // fully controlled tree state
+  let dateToExpand = props.idToPostMap[chosenPost].date;
+  const [expandedKeys, setExpandedKeys] = React.useState(
+    getInitialExpandedKeys(dateToExpand, props.treeData)
+  );
 
-  // Callback for react-side setopen event
-  function onSetSidebarOpen(open) {
-    setIsSidebarOpen(open);
+  // If leaf, make callout to get chosen post
+  // If not a leaf, expand and show its children
+  function onNodeSelect(selectedKeys, e) {
+    if (e.node.isLeaf()) {
+      alert("todo!");
+    } else {
+      setExpandedKeys(
+        e.node.props.expanded
+          ? expandedKeys.filter(k => k !== e.node.props.eventKey)
+          : expandedKeys.concat(e.node.props.eventKey)
+      );
+    }
   }
 
-  // Callback for media query change
-  function mediaQueryChanged() {
-    setIsSidebarDocked(mql.matches);
-    setIsSidebarOpen(false);
+  function onExpand(expandedKeys) {
+    setExpandedKeys(expandedKeys);
   }
+
+  const Sidebar = (
+    <>
+      <TreeView
+        treeData={props.treeData}
+        onNodeSelect={onNodeSelect}
+        expandedKeys={expandedKeys}
+        selectedKeys={[chosenPost]}
+        onExpand={onExpand}
+      />
+    </>
+  );
+
+  const Content = (
+    <>
+      <h1>Just a test</h1>
+    </>
+  );
 
   return (
-    <div>
-      <ReactSidebar
-        sidebar={<Sidebar pageList={props.pageList} />}
-        open={isSidebarOpen}
-        docked={isSidebarDocked}
-        onSetOpen={onSetSidebarOpen}
-        contentId="react-sidebar-content"
-        styles={{
-          sidebar: {
-            width: "250px",
-            backgroundColor: "#eeeeee"
-          }
-        }}
-      >
-        <ContentHeader />
-        <ContentRenderer
-          pageList={props.pageList}
-          dataMap={props.dataMap}
-          sectionPath="photography"
-        />
-      </ReactSidebar>
-    </div>
+    <>
+      <ResponsiveDrawer content={Content} sidebar={Sidebar} />
+    </>
   );
 }

@@ -11,7 +11,7 @@ import Admin from "./pages/admin";
 import Login from "./pages/login";
 import NotFound from "./pages/not-found";
 
-const BaseApp = function(props) {
+function BaseApp(props) {
   return (
     <Router>
       <Switch>
@@ -42,7 +42,7 @@ const BaseApp = function(props) {
       </Switch>
     </Router>
   );
-};
+}
 
 const App = withAuthentication(BaseApp);
 export default App;

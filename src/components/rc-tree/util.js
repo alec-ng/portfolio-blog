@@ -12,45 +12,35 @@ export const motion = {
 };
 
 /**
- * Given a chosenKey that exists in treeData, returns back two arrays - initially selected
- * key comprising of just the chosenkey, and expandedKeys that open all sub nodes leading up to
- * the chosen key
- * treeData is an array of the form returned by createTreeData()
+ * Given a date, verify that treeData has the appropriate year and month nodes
+ * and if so, return their keys to be used as initially expanded nodes
  */
-export function getInitialKeys(chosenNode, treeData) {
-  let initialSelectedKeys = [];
-  let initialExpandedKeys = [];
-  let returnVal = [initialSelectedKeys, initialExpandedKeys];
-
-  if (!chosenNode || !treeData) {
-    return returnVal;
+export function getInitialExpandedKeys(date, treeData) {
+  if (!date || !treeData) {
+    return [];
   }
 
-  // node key, format: ${year}-${month}-${day}-${dbId}
-  const [year, month] = chosenNode.split("-");
+  const [year, month] = date.split("-");
   let yearNode = treeData.find(node => node.key === `year-${year}`);
   if (!yearNode) {
-    return returnVal;
+    return [];
   }
   let monthNode = yearNode.children.find(
     node => node.key === `month-${year}-${month}`
   );
   if (!monthNode) {
-    return returnVal;
+    return [];
   }
-  initialSelectedKeys.push(`post-${chosenNode}`);
-  initialExpandedKeys.push(yearNode.key);
-  initialExpandedKeys.push(monthNode.key);
-  return returnVal;
+
+  return [yearNode.key, monthNode.key];
 }
 
 /**
- * From an array of posts, returns an array of node objects to be used as treeData
- * for the rc-tree component
+ * Given the postIndex.index, returns an array of node objects to be used as treeData
  */
-export function createTreeData(data) {
+export function createTreeData(indexArr) {
   // Group all data by yyyy, mm, dd
-  let keyData = getGroupedPostData(data);
+  let keyData = getGroupedPostData(indexArr);
   let treeData = [];
 
   function reverse(a, b) {
@@ -99,10 +89,9 @@ export function createTreeData(data) {
 }
 
 // groups all posts by year, then by each year's month, then by each month's date
-function getGroupedPostData(data) {
+function getGroupedPostData(indexArr) {
   let keyData = {}; // yy -> {mm -> {post}}
-  Object.keys(data).forEach(id => {
-    let post = data[id].post;
+  indexArr.forEach(post => {
     let [year, month, day] = post.date.split("-"); // yyyy-mm-dd
     if (!keyData[year]) {
       keyData[year] = {};
@@ -115,7 +104,7 @@ function getGroupedPostData(data) {
     }
     keyData[year][month][day].push({
       title: post.title,
-      key: id
+      key: post.postDataId
     });
   });
   return keyData;
