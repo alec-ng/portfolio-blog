@@ -3,7 +3,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { createTreeData } from "../components/rc-tree/util";
 import { withFirebase } from "../components/firebase";
 import styled from "styled-components";
-import Layout from "../components/photography-layout";
+import PageManager from "../components/page-manager";
 import { useLocation, Redirect } from "react-router-dom";
 import {
   getKeyFromLocation,
@@ -32,10 +32,14 @@ export default withFirebase(Photography);
 
 function Photography(props) {
   const [loading, setLoading] = React.useState(true);
+
+  // Props for page manager
   const [treeData, setTreeData] = React.useState([]);
   const [initialPost, setInitialPost] = React.useState(null);
   const [idToPostMap, setIdToPostMap] = React.useState({});
   const [keyToPostMap, setKeyToPostMap] = React.useState({});
+
+  // If initial page loaded is invalid, default to first valid page
   const [doInitialRedirect, setDoInitialRedirect] = React.useState(false);
   const [initialRedirectPath, setInitialRedirectPath] = React.useState(null);
 
@@ -97,14 +101,16 @@ function Photography(props) {
 
   return (
     <>
+      {doInitialRedirect && <Redirect to={initialRedirectPath} />}
+
       <OverlayContainer show={loading}>
         <LinearProgress />
       </OverlayContainer>
-      {doInitialRedirect && <Redirect to={initialRedirectPath} />}
+
       {!loading && (
         <>
           <div className="container-fluid p-0">
-            <Layout
+            <PageManager
               treeData={treeData}
               initialPost={initialPost}
               idToPostMap={idToPostMap}

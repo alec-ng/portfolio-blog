@@ -2,19 +2,13 @@ import React, { useEffect } from "react";
 import ResponsiveDrawer from "./responsive-drawer";
 import TreeManager from "./tree-manager";
 import { useLocation, useHistory } from "react-router-dom";
-import {
-  getKeyFromLocation,
-  getKeyFromIndex,
-  getPathnameFromIndex
-} from "./../util/url-util";
+import { getKeyFromLocation, getPathnameFromIndex } from "../util/url-util";
 
 /**
  * - Composition component for responsive drawer
  * - on Render, fetch postData based off of URL
  */
 export default function PhotographyLayout(props) {
-  console.log("LayoutRender");
-
   let location = useLocation();
   let history = useHistory();
 
@@ -22,7 +16,6 @@ export default function PhotographyLayout(props) {
   const [chosenPostData, setChosenPostData] = React.useState(null);
 
   function assignNewChosenPost(postId) {
-    console.log(`Assigning new post ... ${props.idToPostMap[postId].title}`);
     setChosenPost(postId);
     let chosenPost = props.idToPostMap[postId];
     history.push(getPathnameFromIndex(chosenPost, "photography"));
@@ -32,7 +25,12 @@ export default function PhotographyLayout(props) {
     let key = getKeyFromLocation(location.pathname);
     let currPost = props.keyToPostMap[key];
     setChosenPost(currPost.postDataId);
-    console.log(`Time to get data with ${currPost.title}`);
+
+    console.log(
+      `Initiating callout for ... ${
+        props.idToPostMap[currPost.postDataId].title
+      }`
+    );
   }, [location]);
 
   const Content = (

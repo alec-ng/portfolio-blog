@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TreeView from "./rc-tree/treeview";
 import { getInitialExpandedKeys } from "./rc-tree/util";
-import { useLocation, useHistory } from "react-router-dom";
-import {
-  getKeyFromLocation,
-  getKeyFromIndex,
-  getPathnameFromIndex
-} from "./../util/url-util";
 
 /**
- * Renders a treeview with all published posts
- * Handles URL redirection based off post to show
+ * Rc-tree with fully controlled selected node state
  */
 export default function TreeManager(props) {
   // fully controlled tree state
