@@ -19,35 +19,31 @@ export function deletePost(payload, firebase) {
 // Append post to postIndex, and update cms-post, post, postData documents
 export function publish(payload, firebase) {
   return new Promise((resolve, reject) => {
-    payload.cmsPost.lastModified = firebase.timestamp();
+    let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
+    cmsPost.lastModified = firebase.timestamp();
+
     firebase.runTransaction(transaction => {
       return transaction
         .get(firebase.postIndex())
         .then(postIndex => {
           let index = postIndex.data().index || [];
           index.push({
-            title: payload.cmsPost.post.title,
-            date: payload.cmsPost.post.date,
+            title: cmsPost.post.title,
+            date: cmsPost.post.date,
             postDataId: payload.id
           });
           transaction.update(firebase.postIndex(), { index: index });
         })
         .then(() => {
-          transaction.update(
-            firebase.cmsPosts().doc(payload.id),
-            payload.cmsPost
-          );
+          transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
         })
         .then(() => {
-          transaction.update(
-            firebase.posts().doc(payload.id),
-            payload.cmsPost.post
-          );
+          transaction.update(firebase.posts().doc(payload.id), cmsPost.post);
         })
         .then(() => {
           transaction.update(
             firebase.postData().doc(payload.id),
-            payload.cmsPost.postData
+            cmsPost.postData
           );
         })
         .then(() => {
@@ -63,7 +59,9 @@ export function publish(payload, firebase) {
 // Remove post from postIndex, and update cms-post, post, postData documents
 export function unpublish(payload, firebase) {
   return new Promise((resolve, reject) => {
-    payload.cmsPost.lastModified = firebase.timestamp();
+    let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
+    cmsPost.lastModified = firebase.timestamp();
+
     firebase.runTransaction(transaction => {
       return transaction
         .get(firebase.postIndex())
@@ -76,21 +74,15 @@ export function unpublish(payload, firebase) {
           transaction.update(firebase.postIndex(), { index: index });
         })
         .then(() => {
-          transaction.update(
-            firebase.cmsPosts().doc(payload.id),
-            payload.cmsPost
-          );
+          transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
         })
         .then(() => {
-          transaction.update(
-            firebase.posts().doc(payload.id),
-            payload.cmsPost.post
-          );
+          transaction.update(firebase.posts().doc(payload.id), cmsPost.post);
         })
         .then(() => {
           transaction.update(
             firebase.postData().doc(payload.id),
-            payload.cmsPost.postData
+            cmsPost.postData
           );
         })
         .then(() => {
@@ -108,7 +100,9 @@ export function unpublish(payload, firebase) {
 export function updatePost(payload, firebase) {
   let doUpdateIndex = payload.cmsPost.post.isPublished;
   return new Promise((resolve, reject) => {
-    payload.cmsPost.lastModified = firebase.timestamp();
+    let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
+    cmsPost.lastModified = firebase.timestamp();
+
     if (doUpdateIndex) {
       firebase.runTransaction(transaction => {
         return transaction
@@ -118,26 +112,20 @@ export function updatePost(payload, firebase) {
             let postIndexEle = index.find(
               post => post.postDataId === payload.id
             );
-            postIndexEle.title = payload.cmsPost.post.title;
-            postIndexEle.date = payload.cmsPost.post.date;
+            postIndexEle.title = cmsPost.post.title;
+            postIndexEle.date = cmsPost.post.date;
             transaction.update(firebase.postIndex(), { index: index });
           })
           .then(() => {
-            transaction.update(
-              firebase.cmsPosts().doc(payload.id),
-              payload.cmsPost
-            );
+            transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
           })
           .then(() => {
-            transaction.update(
-              firebase.posts().doc(payload.id),
-              payload.cmsPost.post
-            );
+            transaction.update(firebase.posts().doc(payload.id), cmsPost.post);
           })
           .then(() => {
             transaction.update(
               firebase.postData().doc(payload.id),
-              payload.cmsPost.postData
+              cmsPost.postData
             );
           })
           .then(() => {
@@ -149,12 +137,9 @@ export function updatePost(payload, firebase) {
       });
     } else {
       let batch = firebase.batch();
-      batch.update(firebase.cmsPosts().doc(payload.id), payload.cmsPost);
-      batch.update(firebase.posts().doc(payload.id), payload.cmsPost.post);
-      batch.update(
-        firebase.postData().doc(payload.id),
-        payload.cmsPost.postData
-      );
+      batch.update(firebase.cmsPosts().doc(payload.id), cmsPost);
+      batch.update(firebase.posts().doc(payload.id), cmsPost.post);
+      batch.update(firebase.postData().doc(payload.id), cmsPost.postData);
       batch
         .commit()
         .then(() => {

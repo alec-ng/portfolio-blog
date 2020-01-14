@@ -1,4 +1,5 @@
 import { generateKeyFromPost } from "./../post-util";
+import moment from "moment";
 
 export const ACTION_TYPES = {
   // new post is created and chosen post is set to it
@@ -87,6 +88,12 @@ function dataReducer(state, action) {
     localData[state.chosenPost.key] = cmsPostDupe;
   }
 
+  function copyCurrentPost(post) {
+    let shallowCopy = Object.assign({}, post);
+    shallowCopy.cmsPost.lastModified = moment();
+    return shallowCopy;
+  }
+
   switch (action.type) {
     case ACTION_TYPES.CREATE_POST:
       localData[action.payload.id] = action.payload.cmsPost;
@@ -100,15 +107,17 @@ function dataReducer(state, action) {
       chosenPost = null;
       break;
     case ACTION_TYPES.SAVE_CURRENT_POST:
+      // TODO
+      chosenPost = copyCurrentPost(state.chosenPost);
       copyCurrentPostToData(state.chosenPost.cmsPost);
       break;
     case ACTION_TYPES.UNPUBLISH_CURRENT_POST:
-      chosenPost = Object.assign({}, state.chosenPost);
+      chosenPost = copyCurrentPost(state.chosenPost);
       chosenPost.cmsPost.post.isPublished = false;
       copyCurrentPostToData(chosenPost.cmsPost);
       break;
     case ACTION_TYPES.PUBLISH_CURRENT_POST:
-      chosenPost = Object.assign({}, state.chosenPost);
+      chosenPost = copyCurrentPost(state.chosenPost);
       chosenPost.cmsPost.post.isPublished = true;
       copyCurrentPostToData(chosenPost.cmsPost);
       break;

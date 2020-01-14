@@ -11,13 +11,20 @@ const FullWidthLabel = styled.label`
 /**
  * Inputs for page metadata of current selected page
  */
+
 export default function PageMetadata(props) {
-  // lastModified is a Firestore Timestamp value
-  let lastModified = props.chosenPost.cmsPost.lastModified
-    ? moment
-        .unix(props.chosenPost.cmsPost.lastModified.seconds)
-        .format(datetimeFormat)
-    : "N/A";
+  // lastModified -- expect one of
+  // - 1. Firestore timestamp value (loaded from db),
+  // - 2. Moment object (saved at some point during this session),
+  // - 3. null (created but not edited at all)
+
+  debugger;
+  let lastModified = props.chosenPost.cmsPost.lastModified;
+  let lastModifiedStr = !lastModified
+    ? "N/A"
+    : moment.isMoment(lastModified)
+    ? lastModified.format(datetimeFormat)
+    : moment.unix(lastModified.seconds).format(datetimeFormat);
 
   return (
     <>
@@ -64,7 +71,7 @@ export default function PageMetadata(props) {
       </div>
       <div className="form-group">
         <FullWidthLabel>Last Modified</FullWidthLabel>
-        <p style={{ color: "white" }}>{lastModified}</p>
+        <p style={{ color: "white" }}>{lastModifiedStr}</p>
       </div>
     </>
   );
