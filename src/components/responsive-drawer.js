@@ -100,7 +100,7 @@ export default function ResponsiveDrawer(props) {
             classes={{ paper: classes.drawerPaper }}
             ModalProps={{ keepMounted: true }} // Better open performance on mobile.
           >
-            <DrawerContainer>{props.sidebar}</DrawerContainer>
+            <DrawerContainer>{/* {props.children} */}</DrawerContainer>
           </Drawer>
         </Hidden>
 
@@ -111,7 +111,7 @@ export default function ResponsiveDrawer(props) {
             variant="permanent"
             open
           >
-            <DrawerContainer>{props.sidebar}</DrawerContainer>
+            <DrawerContainer>{props.children}</DrawerContainer>
           </Drawer>
         </Hidden>
       </nav>

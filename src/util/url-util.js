@@ -5,7 +5,12 @@ export function getKeyFromLocation(pathname) {
     console.warning("The pathname provided was empty");
     return "";
   }
-  const [, page, date, title] = pathname.split("/"); // e.g. /photography/2019-12-11/Test-Post
+  let pathArr = pathname.split("/");
+  if (pathArr.length !== 4) {
+    // e.g. /photography/2019-12-11/Test-Post
+    return;
+  }
+  const [, page, date, title] = pathArr;
   if (!date || !title) {
     return;
   }
@@ -26,7 +31,7 @@ export function getPathnameFromIndex(postIndexElement, page) {
   // just convert spaces to hyphens to make it url friendly
   let title = postIndexElement.title.trim().replace(/ /g, "-");
 
-  return `${page}/${postIndexElement.date.trim()}/${title}`;
+  return `/${page}/${postIndexElement.date.trim()}/${title}`;
 }
 
 // Given an array element from postIndex.index, generate a key from its

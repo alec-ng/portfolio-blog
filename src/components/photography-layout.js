@@ -1,51 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ResponsiveDrawer from "./responsive-drawer";
-import ContentRenderer from "./content-renderer";
-import TreeView from "./rc-tree/treeview";
-import { getInitialExpandedKeys } from "./rc-tree/util";
-import { Redirect } from "react-router-dom";
-import { getPathnameFromIndex } from "./../util/url-util";
+import TreeManager from "./tree-manager";
+import { useLocation } from "react-router-dom";
+import {
+  getKeyFromLocation,
+  getKeyFromIndex,
+  getPathnameFromIndex
+} from "./../util/url-util";
 
-const BASE_PAGE = "/photography";
-
+/**
+ * - Composition component for responsive drawer
+ * - on Render, fetch postData based off of URL
+ */
 export default function PhotographyLayout(props) {
-  const [chosenPost, setChosenPost] = React.useState(props.initialPost);
+  console.log("LayoutRender");
 
-  // fully controlled tree state
-  let dateToExpand = props.idToPostMap[chosenPost].date;
-  const [expandedKeys, setExpandedKeys] = React.useState(
-    getInitialExpandedKeys(dateToExpand, props.treeData)
-  );
+  const [chosenPostData, setChosenPostData] = React.useState(null);
 
-  // If leaf, make callout to get chosen post
-  // If not a leaf, expand and show its children
-  function onNodeSelect(selectedKeys, e) {
-    if (e.node.isLeaf()) {
-      alert("todo!");
-    } else {
-      setExpandedKeys(
-        e.node.props.expanded
-          ? expandedKeys.filter(k => k !== e.node.props.eventKey)
-          : expandedKeys.concat(e.node.props.eventKey)
-      );
-    }
+  const urlKey = getKeyFromLocation(useLocation().pathname);
+  if (props.keyToPostMap[urlKey]) {
+    console.log("Time to get data");
   }
-
-  function onExpand(expandedKeys) {
-    setExpandedKeys(expandedKeys);
-  }
-
-  const Sidebar = (
-    <>
-      <TreeView
-        treeData={props.treeData}
-        onNodeSelect={onNodeSelect}
-        expandedKeys={expandedKeys}
-        selectedKeys={[chosenPost]}
-        onExpand={onExpand}
-      />
-    </>
-  );
 
   const Content = (
     <>
@@ -54,8 +29,12 @@ export default function PhotographyLayout(props) {
   );
 
   return (
-    <>
-      <ResponsiveDrawer content={Content} sidebar={Sidebar} />
-    </>
+    <ResponsiveDrawer content={Content}>
+      <TreeManager
+        treeData={props.treeData}
+        idToPostMap={props.idToPostMap}
+        initialPost={props.initialPost}
+      />
+    </ResponsiveDrawer>
   );
 }

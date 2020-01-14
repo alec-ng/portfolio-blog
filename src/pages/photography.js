@@ -21,7 +21,8 @@ const OverlayContainer = styled.div`
 
 /**
  * Page level component for photography section
- * (TEMPORARY) Data layer component
+ * - one time fetch of post index data
+ * - determine initial post to show + URL
  */
 export default withFirebase(Photography);
 
@@ -30,6 +31,7 @@ function Photography(props) {
   const [treeData, setTreeData] = React.useState([]);
   const [initialPost, setInitialPost] = React.useState(null);
   const [idToPostMap, setIdToPostMap] = React.useState({});
+  const [keyToPostMap, setKeyToPostMap] = React.useState({});
 
   const initialPostKey = getKeyFromLocation(useLocation().pathname);
 
@@ -45,12 +47,15 @@ function Photography(props) {
         let treeData = createTreeData(posts);
         setTreeData(treeData);
 
-        // Mapping of Id -> post, used selecting and rendering different posts
+        // Mapping of Id -> post
+        let localIdDataMap = {};
         let localKeyDataMap = {};
         posts.forEach(post => {
-          localKeyDataMap[post.postDataId] = post;
+          localIdDataMap[post.postDataId] = post;
+          localKeyDataMap[getKeyFromIndex(post)] = post;
         });
-        setIdToPostMap(localKeyDataMap);
+        setIdToPostMap(localIdDataMap);
+        setKeyToPostMap(localKeyDataMap);
 
         // Decide which post to show first
         // default to latest post in treeData if no valid initial post provided
@@ -77,13 +82,6 @@ function Photography(props) {
       });
   }, []);
 
-  // ON EVERY RE-RENDER --
-  // analyze URL -- does it already have a path?
-  // YES --> see if path corresponds to valid post in index
-  // YES --> mark that as default selected, and callout for postData to render
-  // NO --> re-direct to index
-  // NO --> default to latest post available. change URL to match and callout for postData to render
-
   return (
     <>
       <OverlayContainer show={loading}>
@@ -95,10 +93,10 @@ function Photography(props) {
             treeData={treeData}
             initialPost={initialPost}
             idToPostMap={idToPostMap}
+            keyToPostMap={keyToPostMap}
           />
         </div>
       )}
-      }
     </>
   );
 }
