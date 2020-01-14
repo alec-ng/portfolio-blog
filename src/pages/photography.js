@@ -4,8 +4,12 @@ import { createTreeData } from "../components/rc-tree/util";
 import { withFirebase } from "../components/firebase";
 import styled from "styled-components";
 import Layout from "../components/photography-layout";
-import { useLocation } from "react-router-dom";
-import { getKeyFromLocation, getKeyFromIndex } from "./../util/url-util";
+import { useLocation, Redirect } from "react-router-dom";
+import {
+  getKeyFromLocation,
+  getKeyFromIndex,
+  getPathnameFromIndex
+} from "./../util/url-util";
 
 const OverlayContainer = styled.div`
   position: absolute;
@@ -32,6 +36,8 @@ function Photography(props) {
   const [initialPost, setInitialPost] = React.useState(null);
   const [idToPostMap, setIdToPostMap] = React.useState({});
   const [keyToPostMap, setKeyToPostMap] = React.useState({});
+  const [doInitialRedirect, setDoInitialRedirect] = React.useState(false);
+  const [initialRedirectPath, setInitialRedirectPath] = React.useState(null);
 
   const initialPostKey = getKeyFromLocation(useLocation().pathname);
 
@@ -72,6 +78,13 @@ function Photography(props) {
         } else {
           let mostRecentPostId = treeData[0].children[0].children[0].key;
           setInitialPost(mostRecentPostId);
+          setInitialRedirectPath(
+            getPathnameFromIndex(
+              localIdDataMap[mostRecentPostId],
+              "photography"
+            )
+          );
+          setDoInitialRedirect(true);
         }
 
         setLoading(false);
@@ -87,15 +100,18 @@ function Photography(props) {
       <OverlayContainer show={loading}>
         <LinearProgress />
       </OverlayContainer>
+      {doInitialRedirect && <Redirect to={initialRedirectPath} />}
       {!loading && (
-        <div className="container-fluid p-0">
-          <Layout
-            treeData={treeData}
-            initialPost={initialPost}
-            idToPostMap={idToPostMap}
-            keyToPostMap={keyToPostMap}
-          />
-        </div>
+        <>
+          <div className="container-fluid p-0">
+            <Layout
+              treeData={treeData}
+              initialPost={initialPost}
+              idToPostMap={idToPostMap}
+              keyToPostMap={keyToPostMap}
+            />
+          </div>
+        </>
       )}
     </>
   );

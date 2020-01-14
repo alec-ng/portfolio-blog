@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import TreeView from "./rc-tree/treeview";
 import { getInitialExpandedKeys } from "./rc-tree/util";
-import { useLocation, Redirect } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import {
   getKeyFromLocation,
   getKeyFromIndex,
@@ -14,16 +14,18 @@ import {
  */
 export default function TreeManager(props) {
   // fully controlled tree state
-  const [chosenPost, setChosenPost] = React.useState([props.initialPost]);
   const [expandedKeys, setExpandedKeys] = React.useState(
-    getInitialExpandedKeys(props.idToPostMap[chosenPost].date, props.treeData)
+    getInitialExpandedKeys(
+      props.idToPostMap[props.chosenPost].date,
+      props.treeData
+    )
   );
 
   // If leaf, make callout to get chosen post
   // If not a leaf, expand and show its children
   function onNodeSelect(selectedKeys, e) {
-    if (e.node.isLeaf()) {
-      setChosenPost(selectedKeys);
+    if (e.node.isLeaf() && selectedKeys[0] !== props.chosenPost) {
+      props.assignNewChosenPost(selectedKeys[0]);
     } else {
       setExpandedKeys(
         e.node.props.expanded
@@ -37,25 +39,13 @@ export default function TreeManager(props) {
     setExpandedKeys(expandedKeys);
   }
 
-  const currIndexElement = props.idToPostMap[chosenPost];
-  const currChosenKey = getKeyFromIndex(currIndexElement);
-  const urlKey = getKeyFromLocation(useLocation().pathname);
-  const doRedirect = urlKey !== currChosenKey;
-  const expectedCurrentPath = getPathnameFromIndex(
-    currIndexElement,
-    "photography"
-  );
-  console.log("doRedirect: " + doRedirect);
-  console.log(`chosenPost: ${chosenPost}`);
-
   return (
     <>
-      {doRedirect && <Redirect push to={expectedCurrentPath} />}
       <TreeView
         treeData={props.treeData}
         onNodeSelect={onNodeSelect}
         expandedKeys={expandedKeys}
-        selectedKeys={chosenPost}
+        selectedKeys={[props.chosenPost]}
         onExpand={onExpand}
       />
     </>
