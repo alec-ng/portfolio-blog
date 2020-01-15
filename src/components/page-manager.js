@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
-import ResponsiveDrawer from "./responsive-drawer";
-import TreeManager from "./tree-manager";
 import { useLocation, useHistory } from "react-router-dom";
 import { getKeyFromLocation, getPathnameFromIndex } from "../util/url-util";
 import { withFirebase } from "./firebase";
+
+import ResponsiveDrawer from "./responsive-drawer";
+import NavLinkGroup from "./nav-link-group";
+import TreeManager from "./tree-manager";
+import LoadingOverlay from "./loading-overlay";
 
 import { ScrapbookEditor } from "./scrapbook-editor/scrapbook-editor";
 import Image from "./scrapbook-editor/plugins/image/index";
@@ -16,8 +19,8 @@ import Video from "./scrapbook-editor/plugins/video/index";
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 
 /**
- * - Composition component for responsive drawer
- * - on Render, fetch postData based off of URL
+ * Top level component for tree / content synchronization
+ * Adjusts url based on tree node chosen, and fetches the corresponding data
  */
 export default withFirebase(PhotographyLayout);
 
@@ -27,6 +30,7 @@ function PhotographyLayout(props) {
 
   const [chosenPost, setChosenPost] = React.useState(props.initialPost);
   const [chosenPostData, setChosenPostData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   function assignNewChosenPost(postId) {
     setChosenPost(postId);
@@ -39,19 +43,23 @@ function PhotographyLayout(props) {
     let key = getKeyFromLocation(location.pathname);
     let currPost = props.keyToPostMap[key];
     setChosenPost(currPost.postDataId);
+    setLoading(true);
     props.firebase
       .singlePostData(chosenPost)
       .get()
       .then(doc => {
         setChosenPostData(doc.data());
+        setLoading(false);
       })
       .catch(failure => {
         alert(failure);
+        setLoading(false);
       });
   }, [location]);
 
   const Content = (
     <>
+      <LoadingOverlay type="circular" visible={loading} />
       {chosenPostData && (
         <ScrapbookEditor
           readOnly={true}
@@ -65,6 +73,9 @@ function PhotographyLayout(props) {
 
   return (
     <ResponsiveDrawer content={Content}>
+      <div className="mb-4 p-2">
+        <NavLinkGroup pageName={props.pageName} />
+      </div>
       <TreeManager
         assignNewChosenPost={assignNewChosenPost}
         treeData={props.treeData}

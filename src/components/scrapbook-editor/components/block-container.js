@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 /**
- * Wraps a block in a container that provides focus functionality
- * via CSS class and dispatch action
+ * Wraps a block in a container that provides focus/draggable functionality
  */
 
 const FocusDiv = styled.div`
@@ -45,10 +44,11 @@ function BlockContainer(props) {
     e.dataTransfer.setData("targetBlockId", props.uuid);
   };
   const BlockElement = props.blockElement;
+  const isDraggable = props.locked ? {} : { draggable: true };
 
   return (
     <FocusDiv
-      draggable="true"
+      {...isDraggable}
       onDragStart={onDragStart}
       onClick={props.onBlockClick}
       isFocused={props.isFocused}
@@ -66,5 +66,5 @@ function BlockContainer(props) {
     </FocusDiv>
   );
 }
-//export default BlockContainer;
+
 export default React.memo(BlockContainer, isPropsEqual);

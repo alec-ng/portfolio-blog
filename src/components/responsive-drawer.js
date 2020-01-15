@@ -12,11 +12,14 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 // permanent drawer on dresktop, no header
 // temporary drawer on mobile, with header + toggle button
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    [theme.breakpoints.up("sm")]: {
+      height: "100%"
+    }
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -44,8 +47,15 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
+  paperAnchorDockedLeft: {
+    borderRight: "none"
+  },
   content: {
-    flexGrow: 1
+    flexGrow: 1,
+    position: "relative",
+    [theme.breakpoints.up("sm")]: {
+      height: "100%"
+    }
   }
 }));
 
@@ -97,17 +107,23 @@ export default function ResponsiveDrawer(props) {
             anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
-            classes={{ paper: classes.drawerPaper }}
+            classes={{
+              paper: classes.drawerPaper,
+              paperAnchorDockedLeft: classes.paperAnchorDockedLeft
+            }}
             ModalProps={{ keepMounted: true }} // Better open performance on mobile.
           >
-            <DrawerContainer>{/* {props.children} */}</DrawerContainer>
+            <DrawerContainer>{props.children}</DrawerContainer>
           </Drawer>
         </Hidden>
 
         {/* DESKTOP VIEW */}
         <Hidden xsDown implementation="css">
           <Drawer
-            classes={{ paper: classes.drawerPaper }}
+            classes={{
+              paper: classes.drawerPaper,
+              paperAnchorDockedLeft: classes.paperAnchorDockedLeft
+            }}
             variant="permanent"
             open
           >

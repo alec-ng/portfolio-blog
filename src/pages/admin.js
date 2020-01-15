@@ -7,7 +7,7 @@ import {
   publish,
   unpublish,
   updatePost
-} from "./admin-util";
+} from "../util/firebase-post-util";
 
 import Image from "../components/scrapbook-editor/plugins/image/index";
 import Markdown from "../components/scrapbook-editor/plugins/markdown/index";

@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import { createTreeData } from "../components/rc-tree/util";
 import { withFirebase } from "../components/firebase";
-import styled from "styled-components";
-import PageManager from "../components/page-manager";
 import { useLocation, Redirect } from "react-router-dom";
 import {
   getKeyFromLocation,
@@ -11,17 +8,11 @@ import {
   getPathnameFromIndex
 } from "./../util/url-util";
 
-const OverlayContainer = styled.div`
-  position: absolute;
-  display: ${props => (props.show ? "flex" : "none")};
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  width: 50%;
-  left: 25%;
-  right: 25%;
-  background-color: white;
-`;
+import PageManager from "../components/page-manager";
+import Fade from "@material-ui/core/Fade";
+import LoadingOverlay from "../components/loading-overlay";
+
+const pageName = "photography";
 
 /**
  * Page level component for photography section
@@ -103,21 +94,20 @@ function Photography(props) {
     <>
       {doInitialRedirect && <Redirect to={initialRedirectPath} />}
 
-      <OverlayContainer show={loading}>
-        <LinearProgress />
-      </OverlayContainer>
+      <LoadingOverlay type="linear" visible={loading} />
 
       {!loading && (
-        <>
+        <Fade in={!loading}>
           <div className="container-fluid p-0">
             <PageManager
               treeData={treeData}
               initialPost={initialPost}
               idToPostMap={idToPostMap}
               keyToPostMap={keyToPostMap}
+              pageName={pageName}
             />
           </div>
-        </>
+        </Fade>
       )}
     </>
   );
