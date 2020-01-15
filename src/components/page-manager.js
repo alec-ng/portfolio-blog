@@ -48,6 +48,7 @@ function PhotographyLayout(props) {
       .singlePostData(chosenPost)
       .get()
       .then(doc => {
+        document.title = currPost.title;
         setChosenPostData(doc.data());
         setLoading(false);
       })

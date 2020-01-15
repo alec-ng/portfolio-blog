@@ -73,7 +73,7 @@ export default function Canvas(props) {
    * Each block is displayed with a dropzone
    */
   let list = [];
-  blocks.forEach(block => {
+  blocks.forEach((block, index) => {
     let BlockElement = pluginMap[block.name].canvasElement;
 
     if (renderDropzones) {
@@ -87,6 +87,7 @@ export default function Canvas(props) {
     }
     list.push(
       <BlockContainer
+        omitBottomMargin={index === blocks.length - 1}
         locked={readOnly || inPreviewMode}
         verticalBlockMargin={verticalBlockMargin}
         key={block.uuid}

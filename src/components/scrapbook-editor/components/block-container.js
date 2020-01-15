@@ -11,7 +11,9 @@ const FocusDiv = styled.div`
   border: ${props =>
     props.isFocused && !props.locked ? "2pt solid rgba(0,0,0,0.5)" : "none"};
   margin-bottom: ${props =>
-    props.locked && props.verticalBlockMargin ? props.verticalBlockMargin : 0};
+    props.locked && props.verticalBlockMargin && !props.omitBottomMargin
+      ? props.verticalBlockMargin
+      : 0};
 `;
 
 // Only refresh if focus is different
@@ -56,6 +58,7 @@ function BlockContainer(props) {
       locked={props.locked}
       ref={containerDivRef}
       data-uuid={props.uuid}
+      omitBottomMargin={props.omitBottomMargin}
     >
       <BlockElement
         isEditable={!props.locked}

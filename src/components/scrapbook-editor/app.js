@@ -38,6 +38,8 @@ const CanvasContainer = styled.div`
   overflow-y: auto;
   flex: ${props => (props.readOnly ? "100%" : "75%")};
   padding: ${props => (props.readOnly || props.inPreviewMode ? "0" : "0 10px")};
+  padding-bottom: ${props =>
+    props.readOnly || props.inPreviewMode ? "0" : "20px"};
 `;
 
 export default function App(props) {
