@@ -10,7 +10,7 @@ const OverlayContainer = styled.div`
   flex-direction: column;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: ${props => (props.type === "linear" ? "initial" : "center")};
   width: 100%;
   padding: 0 20%;
   background-color: white;
@@ -19,7 +19,7 @@ const OverlayContainer = styled.div`
 export default function LoadingOverlay(props) {
   return (
     <Fade in={props.visible}>
-      <OverlayContainer>
+      <OverlayContainer type={props.type}>
         {props.type === "linear" && <LinearProgress />}
         {props.type === "circular" && <CircularProgress />}
       </OverlayContainer>

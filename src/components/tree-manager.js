@@ -17,7 +17,7 @@ export default function TreeManager(props) {
   // If leaf, make callout to get chosen post
   // If not a leaf, expand and show its children
   function onNodeSelect(selectedKeys, e) {
-    if (e.node.isLeaf() && selectedKeys[0] !== props.chosenPost) {
+    if (e.node.isLeaf() && selectedKeys.length) {
       props.assignNewChosenPost(selectedKeys[0]);
     } else {
       setExpandedKeys(
