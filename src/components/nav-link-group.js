@@ -1,5 +1,4 @@
 import React from "react";
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
 import CameraAltOutlinedIcon from "@material-ui/icons/CameraAltOutlined";
@@ -15,7 +14,7 @@ export default function NavLinkGroup(props) {
   return (
     <div style={{ lineHeight: DEFAULT_LINE_HEIGHT }}>
       <Link to="/">
-        <HomeOutlinedIcon /> Home
+        <WorkOutlineOutlinedIcon /> Portfolio
       </Link>
       <br />
       {props.pageName !== "tripreports" && (
@@ -30,14 +29,6 @@ export default function NavLinkGroup(props) {
         <>
           <Link to="/photography">
             <CameraAltOutlinedIcon /> Photography
-          </Link>
-          <br />
-        </>
-      )}
-      {props.pageName !== "portfolio" && (
-        <>
-          <Link to="/portfolio">
-            <WorkOutlineOutlinedIcon /> Portfolio
           </Link>
           <br />
         </>
