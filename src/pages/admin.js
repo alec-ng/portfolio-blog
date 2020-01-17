@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { withAuthorization } from "../components/session";
 import { ScrapbookCMS } from "../components/scrapbook-cms/scrapbook-cms";
 import {
@@ -6,7 +7,9 @@ import {
   deletePost,
   publish,
   unpublish,
-  updatePost
+  updatePost,
+  PHOTOGRAPHY_KEY,
+  TRIPREPORT_KEY
 } from "../util/firebase-post-util";
 
 import Image from "../components/scrapbook-editor/plugins/image/index";
@@ -16,39 +19,56 @@ import Spacer from "../components/scrapbook-editor/plugins/spacer/index";
 import Carousel from "../components/scrapbook-editor/plugins/carousel/index";
 import Video from "../components/scrapbook-editor/plugins/video/index";
 
+const InitContainer = styled.div`
+  display: flex;
+  text-align: center;
+  height: 80vh;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 const Admin = function(props) {
   const [loading, setLoading] = useState(true);
+  const [cmsPostData, setCmsPostData] = useState(null);
+  const [postGroup, setPostGroup] = useState(null);
 
-  // read all cms-posts in from database
-  // create mapping between each id and and the cms-post
-  let data = {};
-  props.firebase
-    .cmsPosts()
-    .get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        data[doc.id] = doc.data();
+  // read all cms-posts in from database that match post grouping chosen
+  function onPostGroupClick(e) {
+    let postGroup = e.currentTarget.dataset.post;
+    setPostGroup(postGroup);
+
+    let data = {};
+    props.firebase
+      .cmsPosts()
+      .where("post.grouping", "==", e.currentTarget.dataset.post)
+      .get()
+      .then(snapshot => {
+        // create mapping between each id and and the cms-post
+        snapshot.forEach(doc => {
+          data[doc.id] = doc.data();
+        });
+        setCmsPostData(data);
+      })
+      .catch(error => {
+        alert(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    })
-    .catch(error => {
-      alert(error);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+  }
 
   // fired whenever the editor needs to synchronize CRUD actions with the database
   // this should return a promise.
   const onCMSAction = function(action, payload) {
     switch (action) {
       case "create":
-        return createPost(payload, props.firebase);
+        return createPost(payload, props.firebase, postGroup);
       case "update":
-        return updatePost(payload, props.firebase);
+        return updatePost(payload, props.firebase, postGroup);
       case "publish":
-        return publish(payload, props.firebase);
+        return publish(payload, props.firebase, postGroup);
       case "unpublish":
-        return unpublish(payload, props.firebase);
+        return unpublish(payload, props.firebase, postGroup);
       case "delete":
         return deletePost(payload, props.firebase);
       default:
@@ -58,17 +78,42 @@ const Admin = function(props) {
 
   return (
     <>
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <div className="container-fluid p-0">
-          <ScrapbookCMS
-            onAction={onCMSAction}
-            data={data}
-            plugins={plugins}
-            showPluginDescription={false}
-          />
-        </div>
+      {!postGroup && (
+        <InitContainer>
+          <h3>Select a post grouping to work with</h3>
+          <button
+            className="btn btn-info"
+            type="button"
+            onClick={onPostGroupClick}
+            data-post={PHOTOGRAPHY_KEY}
+          >
+            Photography
+          </button>
+          <button
+            className="btn btn-info"
+            type="button"
+            onClick={onPostGroupClick}
+            data-post={TRIPREPORT_KEY}
+          >
+            Trip Reports
+          </button>
+        </InitContainer>
+      )}
+      {postGroup && (
+        <>
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <div className="container-fluid p-0">
+              <ScrapbookCMS
+                onAction={onCMSAction}
+                data={cmsPostData}
+                plugins={plugins}
+                showPluginDescription={false}
+              />
+            </div>
+          )}
+        </>
       )}
     </>
   );

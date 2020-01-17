@@ -1,4 +1,16 @@
 // Delete cmsPost, post, postData documents
+export const PHOTOGRAPHY_KEY = "photography";
+export const TRIPREPORT_KEY = "tripreport";
+
+function getIndexFromGrouping(grouping, firebase) {
+  switch (grouping) {
+    case PHOTOGRAPHY_KEY:
+      return firebase.photographyIndex();
+    case TRIPREPORT_KEY:
+      return firebase.tripreportIndex();
+  }
+}
+
 export function deletePost(payload, firebase) {
   let batch = firebase.batch();
   batch.delete(firebase.cmsPosts().doc(payload.id));
@@ -17,14 +29,15 @@ export function deletePost(payload, firebase) {
 }
 
 // Append post to postIndex, and update cms-post, post, postData documents
-export function publish(payload, firebase) {
+export function publish(payload, firebase, grouping) {
   return new Promise((resolve, reject) => {
     let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
     cmsPost.lastModified = firebase.timestamp();
 
     firebase.runTransaction(transaction => {
+      let indexCollection = getIndexFromGrouping(grouping, firebase);
       return transaction
-        .get(firebase.postIndex())
+        .get(indexCollection)
         .then(postIndex => {
           let index = postIndex.data().index || [];
           index.push({
@@ -32,7 +45,7 @@ export function publish(payload, firebase) {
             date: cmsPost.post.date,
             postDataId: payload.id
           });
-          transaction.update(firebase.postIndex(), { index: index });
+          transaction.update(indexCollection, { index: index });
         })
         .then(() => {
           transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
@@ -57,21 +70,22 @@ export function publish(payload, firebase) {
 }
 
 // Remove post from postIndex, and update cms-post, post, postData documents
-export function unpublish(payload, firebase) {
+export function unpublish(payload, firebase, grouping) {
   return new Promise((resolve, reject) => {
     let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
     cmsPost.lastModified = firebase.timestamp();
 
     firebase.runTransaction(transaction => {
+      let indexCollection = getIndexFromGrouping(grouping, firebase);
       return transaction
-        .get(firebase.postIndex())
+        .get(indexCollection)
         .then(postIndex => {
           let index = postIndex.data().index;
           let indToRemove = index.findIndex(
             post => post.postDataId === payload.id
           );
           index.splice(indToRemove, 1);
-          transaction.update(firebase.postIndex(), { index: index });
+          transaction.update(indexCollection, { index: index });
         })
         .then(() => {
           transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
@@ -97,7 +111,7 @@ export function unpublish(payload, firebase) {
 
 // if post is published, update corresponding entry in postIndex
 // update cms-post, post, postData documents
-export function updatePost(payload, firebase) {
+export function updatePost(payload, firebase, grouping) {
   let doUpdateIndex = payload.cmsPost.post.isPublished;
   return new Promise((resolve, reject) => {
     let cmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
@@ -105,8 +119,9 @@ export function updatePost(payload, firebase) {
 
     if (doUpdateIndex) {
       firebase.runTransaction(transaction => {
+        let indexCollection = getIndexFromGrouping(grouping, firebase);
         return transaction
-          .get(firebase.postIndex())
+          .get(indexCollection)
           .then(postIndex => {
             let index = postIndex.data().index;
             let postIndexEle = index.find(
@@ -114,7 +129,7 @@ export function updatePost(payload, firebase) {
             );
             postIndexEle.title = cmsPost.post.title;
             postIndexEle.date = cmsPost.post.date;
-            transaction.update(firebase.postIndex(), { index: index });
+            transaction.update(indexCollection, { index: index });
           })
           .then(() => {
             transaction.update(firebase.cmsPosts().doc(payload.id), cmsPost);
@@ -154,20 +169,20 @@ export function updatePost(payload, firebase) {
 
 // create new cms-post document and use its auto-gen id as Ids for newly created
 // post and postData documents
-export function createPost(payload, firebase) {
+export function createPost(payload, firebase, grouping) {
+  let newCmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
+  newCmsPost.post.grouping = grouping;
+
   return new Promise((resolve, reject) => {
     let newId;
     firebase
       .cmsPosts()
-      .add(payload.cmsPost)
+      .add(newCmsPost)
       .then(docRef => {
         newId = docRef.id;
         let batchCreate = firebase.batch();
-        batchCreate.set(firebase.posts().doc(newId), payload.cmsPost.post);
-        batchCreate.set(
-          firebase.postData().doc(newId),
-          payload.cmsPost.postData
-        );
+        batchCreate.set(firebase.posts().doc(newId), newCmsPost.post);
+        batchCreate.set(firebase.postData().doc(newId), newCmsPost.postData);
         batchCreate.commit();
       })
       .then(() => {

@@ -40,7 +40,7 @@ function Photography(props) {
   useEffect(() => {
     // firebase callout for post index for all published posts
     props.firebase
-      .postIndex()
+      .photographyIndex()
       .get()
       .then(doc => {
         // Create nodes for treeview

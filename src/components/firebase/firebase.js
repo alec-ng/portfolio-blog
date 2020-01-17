@@ -16,7 +16,8 @@ const config = {
 const COLLECTION_CMS_POST = "cms-post";
 const COLLECTION_POST = "post";
 const COLLECTION_POST_DATA = "post-data";
-const COLLECTION_POST_INDEX = "post-index";
+const COLLECTION_PHOTOGRAPHY_INDEX = "photography-index";
+const COLLECTION_TRIPREPORT_INDEX = "tripreport-index";
 
 class Firebase {
   constructor() {
@@ -48,7 +49,9 @@ class Firebase {
   cmsPosts = () => this.db.collection(`${COLLECTION_CMS_POST}`);
   singlePostData = id => this.db.doc(`${COLLECTION_POST_DATA}/${id}`);
   postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
-  postIndex = () => this.db.doc(`${COLLECTION_POST_INDEX}/root`);
+  photographyIndex = () => this.db.doc(`${COLLECTION_PHOTOGRAPHY_INDEX}/root`);
+  tripreportIndex = () => this.db.doc(`${COLLECTION_TRIPREPORT_INDEX}/root`);
+
   batch = () => this.db.batch();
   runTransaction = transactionCb => {
     return this.db.runTransaction(transactionCb);
