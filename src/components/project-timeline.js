@@ -23,7 +23,7 @@ const content = [
   {
     data: (
       <>
-        <h2>React Application</h2>
+        <h2>npm package / React Library</h2>
         <h3>scapbook-editor</h3>
         <UnorderedList>
           <li>Some points</li>
@@ -32,13 +32,13 @@ const content = [
         </UnorderedList>
       </>
     ),
-    dateLabel: "Jan-Sep 2019"
+    dateLabel: "Jan 2020"
   },
   {
     data: (
       <>
         <h2>React Application</h2>
-        <h3>scapbook-editor</h3>
+        <h3>scapbook-cms</h3>
         <UnorderedList>
           <li>Some points</li>
           <li>Github logo override</li>
@@ -46,7 +46,33 @@ const content = [
         </UnorderedList>
       </>
     ),
-    dateLabel: "Jan-Sep 2019"
+    dateLabel: "Jan 2020"
+  },
+  {
+    data: (
+      <>
+        <h2>React Application</h2>
+        <h3>https://alecng.ca</h3>
+        <UnorderedList>
+          <li>Some points</li>
+          <li>Github logo override</li>
+        </UnorderedList>
+      </>
+    ),
+    dateLabel: "Dec 2019"
+  },
+  {
+    data: (
+      <>
+        <h2>Computer Vision Script</h2>
+        <h3>fully-convolutional-network-semantic-segmentation</h3>
+        <UnorderedList>
+          <li>Some points</li>
+          <li>Github logo override</li>
+        </UnorderedList>
+      </>
+    ),
+    dateLabel: "Jan 2017"
   }
 ];
 

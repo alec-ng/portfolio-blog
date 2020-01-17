@@ -4,11 +4,12 @@ import styled from "styled-components";
 
 import headshot from "./../assets/home/headshot.jpg";
 import bg_main from "./../assets/home/home-bg-main.jpg";
+import resume from "../assets/home/resume.pdf";
 
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import MailIcon from "@material-ui/icons/Mail";
 import WorkIcon from "@material-ui/icons/Work";
-import DescriptionIcon from "@material-ui/icons/Description";
+import DescriptionOutlinedIcon from "@material-ui/icons/Description";
 
 import "./../pages/home.css";
 
@@ -49,7 +50,8 @@ export default function AboutSplash(props) {
                 <div>
                   <span className="name-style">alec ng</span>
                   <br />
-                  <LocationOnIcon /> Vancouver, Canada
+                  <LocationOnIcon />
+                  &nbsp;&nbsp;Vancouver, Canada
                   <br />
                   <MailIcon />
                   <a href="mailto:alecng94@gmail.com">
@@ -65,8 +67,10 @@ export default function AboutSplash(props) {
                     &nbsp;&nbsp;LinkedIn
                   </a>
                   <br />
-                  <DescriptionIcon />
-                  Resume
+                  <DescriptionOutlinedIcon />
+                  <a target="_blank" rel="noopener noreferrer" href={resume}>
+                    &nbsp;&nbsp;Resume
+                  </a>
                 </div>
               </div>
             </div>

@@ -15,7 +15,7 @@ const ColouredDiv = styled.div`
 export default function ColouredContainer(props) {
   return (
     <ColouredDiv
-      className="p-xs-1 p-sm-2 p-md-4 p-lg-5"
+      className="p-5"
       bgColour={props.bgColour}
       colour={props.colour}
     >
