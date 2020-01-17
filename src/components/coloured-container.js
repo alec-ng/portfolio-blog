@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-const DEFAULT_PADDING = "20px";
-
 const ColouredDiv = styled.div`
   background-color: ${props => props.bgColour};
   color: ${props => props.colour};

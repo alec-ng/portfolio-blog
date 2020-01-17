@@ -64,6 +64,7 @@ const content = [
             <a
               href="https://www.youtube.com/watch?v=epQQdM29UFU"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {" "}
               20 minute talk{" "}

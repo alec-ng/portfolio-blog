@@ -24,9 +24,6 @@ export function PublishModal(props) {
       </p>
     </>
   );
-  const onConfirm = props.newPublishStatus
-    ? props.onPublish
-    : props.onUnpublish;
 
   return (
     <Modal open={props.open} handleClose={props.handleClose}>

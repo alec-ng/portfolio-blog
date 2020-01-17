@@ -43,7 +43,7 @@ const CanvasContainer = styled.div`
 `;
 
 export default function App(props) {
-  const [{ header, inPreviewMode, readOnly }] = useStateValue();
+  const [{ inPreviewMode, readOnly }] = useStateValue();
 
   return (
     <BaseContainer readOnly={readOnly} inPreviewMode={inPreviewMode}>

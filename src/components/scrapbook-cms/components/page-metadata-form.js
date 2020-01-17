@@ -18,7 +18,6 @@ export default function PageMetadata(props) {
   // - 2. Moment object (saved at some point during this session),
   // - 3. null (created but not edited at all)
 
-  debugger;
   let lastModified = props.chosenPost.cmsPost.lastModified;
   let lastModifiedStr = !lastModified
     ? "N/A"

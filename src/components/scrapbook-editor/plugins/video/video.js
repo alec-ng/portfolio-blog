@@ -7,8 +7,6 @@ export const VARIATION_DEFAULT = "video_default";
 
 export function VideoElement(props) {
   let sizeClassName = `scrapbookeditor-width_${props.baseAttrs.size}`;
-  let Content;
-
   return <Variation {...props} sizeClassName={sizeClassName} />;
 }
 
@@ -55,7 +53,7 @@ const Variation = function(props) {
           {props.baseAttrs.sourceType === "url" ? (
             <HTMLVideo {...props} />
           ) : (
-            <IFrame {...props} />
+            <IFrame title={props.baseAttrs.src} {...props} />
           )}
         </VideoContainer>
       </AlignmentContainer>
@@ -72,6 +70,7 @@ const PlaceholderImage = function(props) {
 const IFrame = function(props) {
   return (
     <iframe
+      title={props.baseAttrs.src}
       src={props.baseAttrs.src}
       className="embed-responsive-item"
       frameBorder="0"

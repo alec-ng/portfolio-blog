@@ -9,6 +9,7 @@ import ProjectTimeline from "../components/project-timeline";
 import ResumePath from "../assets/home/resume.pdf";
 
 export default function Home(props) {
+  document.title = "Alec Ng";
   let sectionRef = React.useRef(null);
   function scrollToContent() {
     sectionRef.current.scrollIntoView({
@@ -16,10 +17,6 @@ export default function Home(props) {
       block: "center"
     });
   }
-
-  useEffect(() => {
-    document.title = "Alec Ng";
-  });
 
   return (
     <>

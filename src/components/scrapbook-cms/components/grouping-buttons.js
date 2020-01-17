@@ -24,6 +24,7 @@ export default function GroupingButtons(props) {
       type="button"
       onClick={props.onClick}
       data-post={key}
+      key={key}
     >
       {key}
     </GroupButton>
