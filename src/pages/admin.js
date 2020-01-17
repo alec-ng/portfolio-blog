@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { withAuthorization } from "../components/session";
 import { ScrapbookCMS } from "../components/scrapbook-cms/scrapbook-cms";
+import GroupingButtons from "../components/scrapbook-cms/components/grouping-buttons";
+import LoadingOverlay from "../components/loading-overlay";
 import {
   createPost,
   deletePost,
   publish,
   unpublish,
-  updatePost,
-  PHOTOGRAPHY_KEY,
-  TRIPREPORT_KEY
+  updatePost
 } from "../util/firebase-post-util";
 
 import Image from "../components/scrapbook-editor/plugins/image/index";
@@ -18,14 +17,6 @@ import CoverPhoto from "../components/scrapbook-editor/plugins/cover-photo/index
 import Spacer from "../components/scrapbook-editor/plugins/spacer/index";
 import Carousel from "../components/scrapbook-editor/plugins/carousel/index";
 import Video from "../components/scrapbook-editor/plugins/video/index";
-
-const InitContainer = styled.div`
-  display: flex;
-  text-align: center;
-  height: 80vh;
-  justify-content: center;
-  flex-direction: column;
-`;
 
 const Admin = function(props) {
   const [loading, setLoading] = useState(true);
@@ -78,31 +69,11 @@ const Admin = function(props) {
 
   return (
     <>
-      {!postGroup && (
-        <InitContainer>
-          <h3>Select a post grouping to work with</h3>
-          <button
-            className="btn btn-info"
-            type="button"
-            onClick={onPostGroupClick}
-            data-post={PHOTOGRAPHY_KEY}
-          >
-            Photography
-          </button>
-          <button
-            className="btn btn-info"
-            type="button"
-            onClick={onPostGroupClick}
-            data-post={TRIPREPORT_KEY}
-          >
-            Trip Reports
-          </button>
-        </InitContainer>
-      )}
+      {!postGroup && <GroupingButtons onClick={onPostGroupClick} />}
       {postGroup && (
         <>
           {loading ? (
-            <h1>Loading...</h1>
+            <LoadingOverlay type="linear" visible={loading} />
           ) : (
             <div className="container-fluid p-0">
               <ScrapbookCMS
