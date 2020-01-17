@@ -41,8 +41,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,10 +58,6 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.2.4",
-    "@storybook/addon-links": "^5.2.4",
-    "@storybook/addons": "^5.2.4",
-    "@storybook/react": "^5.2.4",
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
     "prettier": "^1.18.2"
