@@ -2,7 +2,7 @@
 
 A WYSIWYG-like editor for creating blogging content. [Try it out on Codepen](www.google.ca), or see a [live sample](www.alecng.ca), of some content produced and rendered with this editor.
 
-![react-block-content-editor overview](/overview.gif)
+![react-block-content-editor overview](https://github.com/alec-ng/react-repo/blob/master/src/components/scrapbook-editor/docs/features.gif)
 
 ** Features **
 
