@@ -27,8 +27,8 @@ export default function Home(props) {
           <h1 className="text-center pb-4">About</h1>
           <TextActionContainer
             text={`I am a software engineer with 3 years industry experience in custom web application 
-              development, technical architecture, and business consulting. My previous work experience 
-              involved leading the design and development of multiple Lightning Communities deployed to 
+              development, technical architecture, and business consulting. My accomplishments 
+              include leading the design and development of multiple Lightning Communities deployed to 
               over 100,000 combined users. For these projects, I acted as a tech lead and was involved 
               in the full development lifecycle from roadmap planning, requirement gathering, implementation, 
               release, and support.`}

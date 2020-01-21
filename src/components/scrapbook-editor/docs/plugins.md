@@ -115,10 +115,10 @@ Here are some examples of each element:
 
 ```javascript
 {
-      name: "urlSource",
-      label: "URL",
-      element: "input",
-      type: "text"
+    name: "urlSource",
+    label: "URL",
+    element: "input",
+    type: "text"
 }
 ```
 
@@ -144,10 +144,10 @@ Here are some examples of each element:
 
 ```javascript
 {
-      name: "source",
-      label: "Source",
-      element: "textarea"
-	  rows: 5
+  name: "source",
+  label: "Source",
+  element: "textarea",
+rows: 5
 }
 ```
 

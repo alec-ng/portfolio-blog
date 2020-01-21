@@ -1,22 +1,15 @@
 import React, { useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import { getKeyFromLocation, getPathnameFromIndex } from "../util/url-util";
+import { useHistory } from "react-router-dom";
+import { getPathnameFromIndex } from "../util/url-util";
 import { withFirebase } from "./firebase";
 
 import ResponsiveDrawer from "./responsive-drawer";
 import NavLinkGroup from "./nav-link-group";
 import TreeManager from "./tree-manager";
-import LoadingOverlay from "./loading-overlay";
+import BlogContent from "./blog-content";
 
-import { ScrapbookEditor } from "./scrapbook-editor/scrapbook-editor";
-import Image from "./scrapbook-editor/plugins/image/index";
-import Markdown from "./scrapbook-editor/plugins/markdown/index";
-import CoverPhoto from "./scrapbook-editor/plugins/cover-photo/index";
-import Spacer from "./scrapbook-editor/plugins/spacer/index";
-import Carousel from "./scrapbook-editor/plugins/carousel/index";
-import Video from "./scrapbook-editor/plugins/video/index";
-
-const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
+import useUrlPath from "./../hooks/useUrlPath";
+import usePostData from "./../hooks/usePostData";
 
 /**
  * Top level component for tree / content synchronization
@@ -25,12 +18,9 @@ const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 export default withFirebase(PhotographyLayout);
 
 function PhotographyLayout(props) {
-  let location = useLocation();
-  let history = useHistory();
+  const history = useHistory();
 
   const [chosenPost, setChosenPost] = React.useState(props.initialPost);
-  const [chosenPostData, setChosenPostData] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
 
   function assignNewChosenPost(postId) {
     setChosenPost(postId);
@@ -38,39 +28,21 @@ function PhotographyLayout(props) {
     history.push(getPathnameFromIndex(chosenPost, "photography"));
   }
 
-  // On location change, make a callout to get the chosen post's data and render it.
+  const { postKey } = useUrlPath();
   useEffect(() => {
-    let key = getKeyFromLocation(location.pathname);
-    let currPost = props.keyToPostMap[key];
-    setChosenPost(currPost.postDataId);
-    setLoading(true);
-    props.firebase
-      .singlePostData(chosenPost)
-      .get()
-      .then(doc => {
-        document.title = currPost.title;
-        setChosenPostData(doc.data());
-        setLoading(false);
-      })
-      .catch(failure => {
-        alert(failure);
-        setLoading(false);
-      });
-  }, [location]);
+    if (postKey) {
+      const currPost = props.keyToPostMap[postKey];
+      setChosenPost(currPost ? currPost.postDataId : null);
+      document.title = currPost.title;
+    }
+  }, [postKey]);
 
-  const Content = (
-    <>
-      <LoadingOverlay type="circular" visible={loading} />
-      {chosenPostData && (
-        <ScrapbookEditor
-          readOnly={true}
-          pageData={chosenPostData}
-          plugins={plugins}
-          key={JSON.stringify(chosenPostData)}
-        />
-      )}
-    </>
+  const { postData, postDataPending, postDataError } = usePostData(
+    chosenPost,
+    props.firebase
   );
+
+  const Content = <BlogContent postData={postData} loading={postDataPending} />;
 
   return (
     <ResponsiveDrawer content={Content}>
