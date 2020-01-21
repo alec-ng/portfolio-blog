@@ -1,15 +1,13 @@
 # react-block-content-editor
 
-A WYSIWYG-like editor for creating blogging content. [Try it out on Codepen](www.google.ca), or see a [live sample](www.alecng.ca), of some content produced and rendered with this editor.
-
-![react-block-content-editor overview](https://github.com/alec-ng/react-repo/blob/master/src/components/scrapbook-editor/docs/features.gif)
-
-** Features **
+A WYSIWYG-like editor for creating blogging content. Try it out on [codesandbox](https://codesandbox.io/s/react-block-content-editor-ld0lq), or see a [live sample](www.alecng.ca) of some content produced and rendered with this editor.
 
 - drag and drop UX
 - easily extensible plugin architecture
 - content represented as JSON
 - read-only mode
+
+![react-block-content-editor overview](https://github.com/alec-ng/react-repo/blob/master/src/components/scrapbook-editor/docs/features.gif)
 
 ### Quickstart
 
@@ -34,14 +32,14 @@ const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 export default function BlockEditor(props) {
 
   function onEditorChange(header, blocks) {
- 	// do something witih the most up to date data
+		// do something witih the most up to date data
   }
 
-  return (
-	 <ScrapbookEditor
-		 plugins={plugins}
-		 onChange={onEditorChange}
-	/>
+	return (
+		<ScrapbookEditor
+			plugins={plugins}
+			onChange={onEditorChange}
+		/>
 );
 
 ```
@@ -73,3 +71,9 @@ See the documentation on [plugins](/plugins.md) for more details.
 | plugins               | list of plugins you want to work with in editor mode or need to render according to `pageData`       | []                         | yes                                             |
 | showPluginDescription | show descriptive text beside plugins in editor mode                                                  | boolean                    | default `true`                                  |
 | verticalBlockMargin   | y-axis margin used on all canvas block elements during read only mode                                | text                       | default `'20px'`                                |
+
+### Roadmap
+
+- Remove depedency on bootstrap-react
+- Implement native HTML5 form validation on attributes
+- Support all HTML5 input attributes in attribute definitions, such as "min", "max", etc
