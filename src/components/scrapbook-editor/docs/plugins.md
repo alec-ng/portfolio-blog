@@ -28,7 +28,7 @@ const myPlugin = {
     {
       Full_Width_Variation: {
         label: "Full Width",
-        attrs: [] //(optional) variation specific attribute
+        attrs: []
       }
     }
   ],
@@ -50,26 +50,26 @@ Plugins are intended to represent a some sort of generic element, such as an "im
 Example -
 
 ```javascript
-  variations: [
-      {
-        VARIATION_DEFAULT: {
-          label: "Default",
-          attrs: [] ,
+variations: [
+  {
+    VARIATION_DEFAULT: {
+      label: "Default",
+      attrs: [] ,
+    }
+  },
+  {
+    VARIATION_LARGE: {
+      label: "Large Size",
+      attrs: [
+        {
+          name: "size_percentage",
+          label: "SIze (%)",
+          type: "number"
         }
-      },
-	  {
-	  	VARIATION_LARGE: {
-			label: "Large Size",
-			attrs: [
-				{
-					name: "size_percentage",
-					label: "SIze (%)",
-					type: "number"
-				}
-			]
-		}
-	  }
-    ],
+      ]
+    }
+  }
+],
 ```
 
 ### Canvas Element
@@ -124,21 +124,22 @@ Here are some examples of each element:
 
 ```javascript
 {
-      name: "size",
-      label: "Size",
-      element: "select",
-      defaultRequired: true,
-      defaultValue: "large",
-      options: [
-        {
-          name: "large",
-          label: "Large"
-        },
-        {
-          name: "medium",
-          label: "Medium"
-        },
-	]
+  name: "size",
+  label: "Size",
+  element: "select",
+  defaultRequired: true,
+  defaultValue: "large",
+  options: [
+    {
+      name: "large",
+      label: "Large"
+    },
+    {
+      name: "medium",
+      label: "Medium"
+    },
+  ]
+}
 ```
 
 ```javascript

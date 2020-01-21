@@ -30,10 +30,9 @@ import React from 'react';
 const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
 
 export default function BlockEditor(props) {
-
-  function onEditorChange(header, blocks) {
+	function onEditorChange(header, blocks) {
 		// do something witih the most up to date data
-  }
+	}
 
 	return (
 		<ScrapbookEditor
@@ -44,17 +43,7 @@ export default function BlockEditor(props) {
 
 ```
 
-### Examples
-
----
-
-**Working with previously saved content**
-
-**Rendering content read-only**
-
 ### Creating Your Own Plugins
-
----
 
 See the documentation on [plugins](/plugins.md) for more details.
 
