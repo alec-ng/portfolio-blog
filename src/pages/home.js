@@ -41,14 +41,14 @@ export default function Home(props) {
       <ColouredContainer bgColour="#e3e2df" colour="#ea5a4f">
         <h1 className="text-center">Professional Experience</h1>
         <h5 className="text-center pb-4">
-          View on
+          View on &nbsp;
           <a
             style={{ textDecoration: "underline" }}
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.linkedin.com/in/alecng"
           >
-            &nbsp;LinkedIn
+            LinkedIn
           </a>
         </h5>
         <WorkTimeline />

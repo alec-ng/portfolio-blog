@@ -19,12 +19,22 @@ const iconStyle = {
 };
 const icon = <WorkIcon />;
 
+const GroundswellLink = (
+  <a
+    href="https://gscloudsolutions.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Groundswell Cloud Solutions
+  </a>
+);
+
 const content = [
   {
     data: (
       <>
-        <h2>Groundswell Cloud Solutions</h2>
         <h3>Senior Technical Consultant</h3>
+        <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
             Acted as tech lead for a team of 6 in the design and development of
@@ -47,8 +57,8 @@ const content = [
   {
     data: (
       <>
-        <h2>Groundswell Cloud Solutions</h2>
         <h3>Technical Consultant</h3>
+        <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
             Designed the front end architecture, UI, and UX for a responsive
@@ -80,8 +90,8 @@ const content = [
   {
     data: (
       <>
-        <h2>Groundswell Cloud Solutions</h2>
         <h3>Software Engineer Co-op</h3>
+        <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
             Supported the development and release of a custom Stripe
