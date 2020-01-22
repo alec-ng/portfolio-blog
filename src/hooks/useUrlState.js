@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-// Parses the current URL and returns the collection + postKey found
+/**
+ * Parses the current URL and returns the collection, postKey, date, and title found
+ * The URL is the blog's source of truth to decide what content to show
+ */
 export default function useUrlPath() {
   const [collection, setCollection] = useState(null);
   const [postKey, setPostKey] = useState(null);

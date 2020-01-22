@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { getKeyFromIndex } from "./../util/url-util";
 
+/**
+ * Given the current collection of posts and a key of a specific post to show,
+ * fetches the post from Firebase
+ */
 export default function usePostData(firebase, postIndex, postKey) {
   const [postDataPending, setPending] = useState(false);
   const [postData, setPostData] = useState(null);

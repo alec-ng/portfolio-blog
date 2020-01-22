@@ -16,13 +16,11 @@ import usePostData from "../hooks/usePostData";
 import usePostRedirect from "../hooks/usePostRedirect";
 
 /**
- * Page level component for photography section
- * - one time fetch of post index data
- * - determine initial post to show + URL
+ * Page level component for Blog section
  */
-export default withFirebase(Photography);
+export default withFirebase(Blog);
 
-function Photography(props) {
+function Blog(props) {
   const { collection, postKey, postTitle } = useUrlState();
   useEffect(() => {
     if (postTitle) {
@@ -52,7 +50,7 @@ function Photography(props) {
         <div className="container-fluid p-0">
           <ResponsiveDrawer content={Content}>
             <div className="mb-4 p-2">
-              <NavLinkGroup pageName={collection} />
+              <NavLinkGroup currentCollection={collection} />
             </div>
             <TreeManager postIndex={postIndex} />
           </ResponsiveDrawer>

@@ -4,6 +4,11 @@ import { getUrlState } from "./useUrlState";
 import { getKeyFromIndex } from "./../util/url-util";
 import { PATH_BLOG } from "./../util/constants";
 
+/**
+ * Given the current collection to show, decide whether or not the post specified
+ * by the URL is valid. If not, redirect to the latest (chronological) post in the
+ * current collection
+ */
 export default function useIndexRedirect(postIndex) {
   const location = useLocation();
   const history = useHistory();

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import LoadingOverlay from "./loading-overlay";
 import TreeView from "./rc-tree/treeview";
 import useUrlState from "./../hooks/useUrlState";
 
@@ -9,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import { getKeyFromIndex, getPathnameFromIndex } from "./../util/url-util";
 
 /**
- * Rc-tree with fully controlled selected node state
+ * treeview whose selected node is synchronized with the URL post-key
  */
 export default function TreeManager(props) {
   // Data derived off of the collection index
@@ -72,8 +71,7 @@ export default function TreeManager(props) {
   }
 
   return (
-    <div style={{ position: "relative" }}>
-      <LoadingOverlay type="circular" visible={!treeData} />
+    <>
       {treeData && (
         <TreeView
           treeData={treeData}
@@ -83,6 +81,6 @@ export default function TreeManager(props) {
           onExpand={onExpand}
         />
       )}
-    </div>
+    </>
   );
 }
