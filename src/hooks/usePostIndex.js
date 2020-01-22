@@ -6,13 +6,17 @@ export default function usePostIndex(collection, firebase) {
   const [postIndexError, setPostIndexError] = useState(null);
 
   useEffect(() => {
-    if (!collection) {
-      return;
-    }
-    getIndexRef(collection, firebase)
+    let collectionToUse =
+      !collection || VALID_COLLECTIONS.indexOf(collection)
+        ? DEFAULT_COLLECTION
+        : collection;
+
+    setPostIndexPending(true);
+    setPostIndexError(null);
+    getIndexRef(collectionToUse, firebase)
       .get()
       .then(doc => {
-        setPostIndex(doc.data());
+        setPostIndex(doc.data().index);
         setPostIndexError(null);
       })
       .catch(failure => {
@@ -34,3 +38,7 @@ function getIndexRef(collection, firebase) {
   };
   return collectionMap[collection];
 }
+
+const VALID_COLLECTIONS = ["photography", "tripreports"];
+
+const DEFAULT_COLLECTION = "photography";

@@ -12,6 +12,9 @@ import PageManager from "../components/page-manager";
 import Fade from "@material-ui/core/Fade";
 import LoadingOverlay from "../components/loading-overlay";
 
+import useUrlState from "./../hooks/useUrlState";
+import usePostIndex from "./../hooks/usePostIndex";
+
 const pageName = "photography";
 
 /**
@@ -36,59 +39,56 @@ function Photography(props) {
 
   const initialPostKey = getKeyFromLocation(useLocation().pathname);
 
+  const { collection } = useUrlState();
+  const { postIndexPending, postIndex } = usePostIndex(
+    collection,
+    props.firebase
+  );
+
   // One time firebase callout for post index for all published posts
   useEffect(() => {
     // firebase callout for post index for all published posts
-    props.firebase
-      .photographyIndex()
-      .get()
-      .then(doc => {
-        // Create nodes for treeview
-        let posts = doc.data().index;
-        let treeData = createTreeData(posts);
-        setTreeData(treeData);
+    if (postIndexPending || !postIndex) {
+      return;
+    }
 
-        // Mapping of Id -> post
-        let localIdDataMap = {};
-        let localKeyDataMap = {};
-        posts.forEach(post => {
-          localIdDataMap[post.postDataId] = post;
-          localKeyDataMap[getKeyFromIndex(post)] = post;
-        });
-        setIdToPostMap(localIdDataMap);
-        setKeyToPostMap(localKeyDataMap);
+    debugger;
+    // Create nodes for treeview
+    let treeData = createTreeData(postIndex);
+    setTreeData(treeData);
 
-        // Decide which post to show first
-        // default to latest post in treeData if no valid initial post provided
-        let chosenPost;
-        if (initialPostKey) {
-          chosenPost = posts.find(
-            post =>
-              getKeyFromIndex(post).toUpperCase() ===
-              initialPostKey.toUpperCase()
-          );
-        }
-        if (chosenPost) {
-          setInitialPost(chosenPost.postDataId);
-        } else {
-          let mostRecentPostId = treeData[0].children[0].children[0].key;
-          setInitialPost(mostRecentPostId);
-          setInitialRedirectPath(
-            getPathnameFromIndex(
-              localIdDataMap[mostRecentPostId],
-              "photography"
-            )
-          );
-          setDoInitialRedirect(true);
-        }
+    // Mapping of Id -> post
+    let localIdDataMap = {};
+    let localKeyDataMap = {};
+    postIndex.forEach(post => {
+      localIdDataMap[post.postDataId] = post;
+      localKeyDataMap[getKeyFromIndex(post)] = post;
+    });
+    setIdToPostMap(localIdDataMap);
+    setKeyToPostMap(localKeyDataMap);
 
-        setLoading(false);
-      })
-      .catch(failure => {
-        alert(failure);
-        setLoading(false);
-      });
-  }, []);
+    // Decide which post to show first
+    // default to latest post in treeData if no valid initial post provided
+    let chosenPost;
+    if (initialPostKey) {
+      chosenPost = postIndex.find(
+        post =>
+          getKeyFromIndex(post).toUpperCase() === initialPostKey.toUpperCase()
+      );
+    }
+    if (chosenPost) {
+      setInitialPost(chosenPost.postDataId);
+    } else {
+      let mostRecentPostId = treeData[0].children[0].children[0].key;
+      setInitialPost(mostRecentPostId);
+      setInitialRedirectPath(
+        getPathnameFromIndex(localIdDataMap[mostRecentPostId], "photography")
+      );
+      setDoInitialRedirect(true);
+    }
+
+    setLoading(false);
+  }, [postIndexPending, postIndex]);
 
   return (
     <>

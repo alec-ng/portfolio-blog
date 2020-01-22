@@ -8,7 +8,7 @@ import NavLinkGroup from "./nav-link-group";
 import TreeManager from "./tree-manager";
 import BlogContent from "./blog-content";
 
-import useUrlPath from "./../hooks/useUrlPath";
+import useUrlState from "./../hooks/useUrlState";
 import usePostData from "./../hooks/usePostData";
 
 /**
@@ -28,7 +28,7 @@ function PhotographyLayout(props) {
     history.push(getPathnameFromIndex(chosenPost, "photography"));
   }
 
-  const { postKey } = useUrlPath();
+  const { postKey } = useUrlState();
   useEffect(() => {
     if (postKey) {
       const currPost = props.keyToPostMap[postKey];
