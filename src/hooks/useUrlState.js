@@ -5,15 +5,22 @@ import { useLocation } from "react-router-dom";
 export default function useUrlPath() {
   const [collection, setCollection] = useState(null);
   const [postKey, setPostKey] = useState(null);
+  const [postDate, setPostDate] = useState(null);
+  const [postTitle, setPostTitle] = useState(null);
+
   const location = useLocation();
 
   useEffect(() => {
-    const { urlCollection, urlKey } = getUrlState(location.pathname);
+    const { urlCollection, urlKey, date, title } = getUrlState(
+      location.pathname
+    );
     setCollection(urlCollection);
     setPostKey(urlKey);
+    setPostDate(date);
+    setPostTitle(title ? title.trim() : title);
   }, [location]);
 
-  return { collection, postKey };
+  return { collection, postKey, postDate, postTitle };
 }
 
 // Imperative method of the above for first-time load, when we don't want to wait
@@ -28,5 +35,5 @@ export function getUrlState(pathname) {
     urlKey = `${date.trim()}-${title.trim().replace(/-/g, " ")}`;
   }
 
-  return { urlCollection, urlKey };
+  return { urlCollection, urlKey, date, title };
 }

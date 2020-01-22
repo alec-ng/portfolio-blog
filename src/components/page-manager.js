@@ -21,44 +21,25 @@ export default withFirebase(PhotographyLayout);
 function PhotographyLayout(props) {
   usePostRedirect(props.postIndex);
 
-  const history = useHistory();
-
-  const [chosenPost, setChosenPost] = React.useState();
   const { postData, postDataPending } = usePostData(
     props.firebase,
     props.postIndex
   );
-
   const Content = <BlogContent postData={postData} loading={postDataPending} />;
-  const { postKey } = useUrlState();
 
+  const { postKey, postTitle } = useUrlState();
   useEffect(() => {
-    if (postKey) {
-      const currPost = props.keyToPostMap[postKey];
-      setChosenPost(currPost ? currPost.postDataId : null);
-      document.title = currPost.title;
+    if (postTitle) {
+      document.title = postTitle;
     }
-  }, [postKey]);
-
-  function assignNewChosenPost(postId) {
-    setChosenPost(postId);
-    let chosenPost = props.idToPostMap[postId];
-    history.push("/blog" + getPathnameFromIndex(chosenPost, props.pageName));
-  }
+  }, [postTitle]);
 
   return (
     <ResponsiveDrawer content={Content}>
       <div className="mb-4 p-2">
         <NavLinkGroup pageName={props.pageName} />
       </div>
-      {chosenPost && (
-        <TreeManager
-          assignNewChosenPost={assignNewChosenPost}
-          treeData={props.treeData}
-          idToPostMap={props.idToPostMap}
-          chosenPost={chosenPost}
-        />
-      )}
+      <TreeManager postIndex={props.postIndex} />
     </ResponsiveDrawer>
   );
 }

@@ -12,13 +12,13 @@ export default function usePostData(firebase, postIndex) {
     if (!postKey || !postIndex) {
       return;
     }
-    debugger;
     let chosenPost = postIndex.find(
       post => getKeyFromIndex(post).toUpperCase() === postKey.toUpperCase()
     );
     if (!chosenPost) {
       return;
     }
+
     setPending(true);
     setPostData(null);
     firebase
