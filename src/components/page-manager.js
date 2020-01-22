@@ -21,14 +21,13 @@ function PhotographyLayout(props) {
   const history = useHistory();
 
   const [chosenPost, setChosenPost] = React.useState(props.initialPost);
-
-  function assignNewChosenPost(postId) {
-    setChosenPost(postId);
-    let chosenPost = props.idToPostMap[postId];
-    history.push(getPathnameFromIndex(chosenPost, "photography"));
-  }
-
+  const { postData, postDataPending, postDataError } = usePostData(
+    chosenPost,
+    props.firebase
+  );
+  const Content = <BlogContent postData={postData} loading={postDataPending} />;
   const { postKey } = useUrlState();
+
   useEffect(() => {
     if (postKey) {
       const currPost = props.keyToPostMap[postKey];
@@ -37,12 +36,11 @@ function PhotographyLayout(props) {
     }
   }, [postKey]);
 
-  const { postData, postDataPending, postDataError } = usePostData(
-    chosenPost,
-    props.firebase
-  );
-
-  const Content = <BlogContent postData={postData} loading={postDataPending} />;
+  function assignNewChosenPost(postId) {
+    setChosenPost(postId);
+    let chosenPost = props.idToPostMap[postId];
+    history.push("/blog" + getPathnameFromIndex(chosenPost, "photography"));
+  }
 
   return (
     <ResponsiveDrawer content={Content}>

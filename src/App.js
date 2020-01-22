@@ -16,10 +16,10 @@ function BaseApp(props) {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/blog">
+        {/* <Route path="/blog">
           <Blog />
-        </Route>
-        <Route path="/photography">
+        </Route> */}
+        <Route path="/blog">
           <Photography />
         </Route>
         <Route path="/login">

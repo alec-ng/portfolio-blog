@@ -8,9 +8,9 @@ export default function useUrlPath() {
   const location = useLocation();
 
   useEffect(() => {
-    // e.g. /photography/2019-12-11/test-post
+    // e.g. /blog/photography/2019-12-11/test-post
     let pathname = location.pathname;
-    const [, urlCollection, date, title] = pathname.split("/");
+    const [, , urlCollection, date, title] = pathname.split("/");
 
     let urlKey;
     if (date && title) {

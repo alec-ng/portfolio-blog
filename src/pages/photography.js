@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { createTreeData } from "../components/rc-tree/util";
 import { withFirebase } from "../components/firebase";
-import { useLocation, Redirect } from "react-router-dom";
+import { useLocation, useHistory, Redirect } from "react-router-dom";
 import {
   getKeyFromLocation,
   getKeyFromIndex,
@@ -40,19 +40,17 @@ function Photography(props) {
   const initialPostKey = getKeyFromLocation(useLocation().pathname);
 
   const { collection } = useUrlState();
-  const { postIndexPending, postIndex } = usePostIndex(
+  const { postIndexPending, postIndex, postIndexRedirect } = usePostIndex(
     collection,
     props.firebase
   );
 
   // One time firebase callout for post index for all published posts
   useEffect(() => {
-    // firebase callout for post index for all published posts
     if (postIndexPending || !postIndex) {
       return;
     }
 
-    debugger;
     // Create nodes for treeview
     let treeData = createTreeData(postIndex);
     setTreeData(treeData);
@@ -82,13 +80,14 @@ function Photography(props) {
       let mostRecentPostId = treeData[0].children[0].children[0].key;
       setInitialPost(mostRecentPostId);
       setInitialRedirectPath(
-        getPathnameFromIndex(localIdDataMap[mostRecentPostId], "photography")
+        "/blog" +
+          getPathnameFromIndex(localIdDataMap[mostRecentPostId], "photography")
       );
       setDoInitialRedirect(true);
     }
 
     setLoading(false);
-  }, [postIndexPending, postIndex]);
+  }, [postIndexPending, postIndex, postIndexRedirect]);
 
   return (
     <>
