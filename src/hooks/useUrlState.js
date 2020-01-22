@@ -8,19 +8,25 @@ export default function useUrlPath() {
   const location = useLocation();
 
   useEffect(() => {
-    // e.g. /blog/photography/2019-12-11/test-post
-    let pathname = location.pathname;
-    const [, , urlCollection, date, title] = pathname.split("/");
-
-    let urlKey;
-    if (date && title) {
-      // hyphens onvert back to spaces
-      urlKey = `${date.trim()}-${title.trim().replace(/-/g, " ")}`;
-    }
-
+    const { urlCollection, urlKey } = getUrlState(location.pathname);
     setCollection(urlCollection);
     setPostKey(urlKey);
   }, [location]);
 
   return { collection, postKey };
+}
+
+// Imperative method of the above for first-time load, when we don't want to wait
+// for the state to be set on the second render
+export function getUrlState(pathname) {
+  // e.g. /blog/photography/2019-12-11/test-post
+  const [, , urlCollection, date, title] = pathname.split("/");
+
+  let urlKey;
+  if (date && title) {
+    // hyphens onvert back to spaces
+    urlKey = `${date.trim()}-${title.trim().replace(/-/g, " ")}`;
+  }
+
+  return { urlCollection, urlKey };
 }

@@ -10,6 +10,7 @@ import BlogContent from "./blog-content";
 
 import useUrlState from "./../hooks/useUrlState";
 import usePostData from "./../hooks/usePostData";
+import usePostRedirect from "./../hooks/usePostRedirect";
 
 /**
  * Top level component for tree / content synchronization
@@ -18,13 +19,16 @@ import usePostData from "./../hooks/usePostData";
 export default withFirebase(PhotographyLayout);
 
 function PhotographyLayout(props) {
+  usePostRedirect(props.postIndex);
+
   const history = useHistory();
 
-  const [chosenPost, setChosenPost] = React.useState(props.initialPost);
-  const { postData, postDataPending, postDataError } = usePostData(
-    chosenPost,
-    props.firebase
+  const [chosenPost, setChosenPost] = React.useState();
+  const { postData, postDataPending } = usePostData(
+    props.firebase,
+    props.postIndex
   );
+
   const Content = <BlogContent postData={postData} loading={postDataPending} />;
   const { postKey } = useUrlState();
 
@@ -39,7 +43,7 @@ function PhotographyLayout(props) {
   function assignNewChosenPost(postId) {
     setChosenPost(postId);
     let chosenPost = props.idToPostMap[postId];
-    history.push("/blog" + getPathnameFromIndex(chosenPost, "photography"));
+    history.push("/blog" + getPathnameFromIndex(chosenPost, props.pageName));
   }
 
   return (
@@ -47,12 +51,14 @@ function PhotographyLayout(props) {
       <div className="mb-4 p-2">
         <NavLinkGroup pageName={props.pageName} />
       </div>
-      <TreeManager
-        assignNewChosenPost={assignNewChosenPost}
-        treeData={props.treeData}
-        idToPostMap={props.idToPostMap}
-        chosenPost={chosenPost}
-      />
+      {chosenPost && (
+        <TreeManager
+          assignNewChosenPost={assignNewChosenPost}
+          treeData={props.treeData}
+          idToPostMap={props.idToPostMap}
+          chosenPost={chosenPost}
+        />
+      )}
     </ResponsiveDrawer>
   );
 }

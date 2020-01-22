@@ -1,24 +1,3 @@
-// Given the current pathname from useLocation().pathname,
-// generate a key used to find the corresponding post
-export function getKeyFromLocation(pathname) {
-  if (!pathname) {
-    console.warning("The pathname provided was empty");
-    return "";
-  }
-  let pathArr = pathname.split("/");
-  if (pathArr.length !== 4) {
-    // e.g. /photography/2019-12-11/Test-Post
-    return;
-  }
-  const [, page, date, title] = pathArr;
-  if (!date || !title) {
-    return;
-  }
-
-  let urlTitle = title.trim().replace(/-/g, " "); // hyphens converted back to spaces
-  return `${date.trim()}-${urlTitle}`;
-}
-
 // Given an array element from postIndex.index, generate a unique pathname
 // used for redirect
 export function getPathnameFromIndex(postIndexElement, page) {

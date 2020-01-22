@@ -19,7 +19,7 @@ export default function NavLinkGroup(props) {
       <br />
       {props.pageName !== "tripreports" && (
         <>
-          <Link to="/trip-reports">
+          <Link to="/blog/tripreports">
             <FilterHdrOutlinedIcon /> Trip Reports
           </Link>
           <br />
@@ -27,7 +27,7 @@ export default function NavLinkGroup(props) {
       )}
       {props.pageName !== "photography" && (
         <>
-          <Link to="/photography">
+          <Link to="/blog/photography">
             <CameraAltOutlinedIcon /> Photography
           </Link>
           <br />

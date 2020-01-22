@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { VALID_COLLECTIONS } from "./../util/constants";
 
 export default function usePostIndex(collection, firebase) {
   const [postIndexPending, setPostIndexPending] = useState(true);
   const [postIndex, setPostIndex] = useState(null);
-  const [postIndexError, setPostIndexError] = useState(null);
 
   useEffect(() => {
-    let collectionToUse =
-      !collection || VALID_COLLECTIONS.indexOf(collection)
-        ? DEFAULT_COLLECTION
-        : collection;
+    if (!collection || VALID_COLLECTIONS.indexOf(collection) === -1) {
+      return;
+    }
 
     setPostIndexPending(true);
-    setPostIndexError(null);
-    getIndexRef(collectionToUse, firebase)
+    getIndexRef(collection, firebase)
       .get()
       .then(doc => {
         setPostIndex(doc.data().index);
-        setPostIndexError(null);
       })
       .catch(failure => {
-        setPostIndexError(failure);
+        alert(
+          `Sorry, something went wrong with fetching this collection. Please refresh and try again.`
+        );
+        console.error(failure);
         setPostIndex(null);
       })
       .finally(() => {
@@ -28,17 +28,13 @@ export default function usePostIndex(collection, firebase) {
       });
   }, [collection]);
 
-  return { postIndexPending, postIndex, postIndexError };
+  return { postIndexPending, postIndex };
 }
 
 function getIndexRef(collection, firebase) {
   const collectionMap = {
     photography: firebase.photographyIndex(),
-    tripreport: firebase.tripreportIndex()
+    tripreports: firebase.tripreportIndex()
   };
   return collectionMap[collection];
 }
-
-const VALID_COLLECTIONS = ["photography", "tripreports"];
-
-const DEFAULT_COLLECTION = "photography";

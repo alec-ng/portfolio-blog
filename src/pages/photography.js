@@ -14,8 +14,7 @@ import LoadingOverlay from "../components/loading-overlay";
 
 import useUrlState from "./../hooks/useUrlState";
 import usePostIndex from "./../hooks/usePostIndex";
-
-const pageName = "photography";
+import useIndexRedirect from "./../hooks/useIndexRedirect";
 
 /**
  * Page level component for photography section
@@ -25,22 +24,18 @@ const pageName = "photography";
 export default withFirebase(Photography);
 
 function Photography(props) {
+  // If collection isn't valid, replace url path with default collection to render
+  useIndexRedirect();
+
   const [loading, setLoading] = React.useState(true);
 
   // Props for page manager
   const [treeData, setTreeData] = React.useState([]);
-  const [initialPost, setInitialPost] = React.useState(null);
   const [idToPostMap, setIdToPostMap] = React.useState({});
   const [keyToPostMap, setKeyToPostMap] = React.useState({});
 
-  // If initial page loaded is invalid, default to first valid page
-  const [doInitialRedirect, setDoInitialRedirect] = React.useState(false);
-  const [initialRedirectPath, setInitialRedirectPath] = React.useState(null);
-
-  const initialPostKey = getKeyFromLocation(useLocation().pathname);
-
   const { collection } = useUrlState();
-  const { postIndexPending, postIndex, postIndexRedirect } = usePostIndex(
+  const { postIndexPending, postIndex } = usePostIndex(
     collection,
     props.firebase
   );
@@ -50,6 +45,7 @@ function Photography(props) {
     if (postIndexPending || !postIndex) {
       return;
     }
+    setLoading(true);
 
     // Create nodes for treeview
     let treeData = createTreeData(postIndex);
@@ -65,45 +61,22 @@ function Photography(props) {
     setIdToPostMap(localIdDataMap);
     setKeyToPostMap(localKeyDataMap);
 
-    // Decide which post to show first
-    // default to latest post in treeData if no valid initial post provided
-    let chosenPost;
-    if (initialPostKey) {
-      chosenPost = postIndex.find(
-        post =>
-          getKeyFromIndex(post).toUpperCase() === initialPostKey.toUpperCase()
-      );
-    }
-    if (chosenPost) {
-      setInitialPost(chosenPost.postDataId);
-    } else {
-      let mostRecentPostId = treeData[0].children[0].children[0].key;
-      setInitialPost(mostRecentPostId);
-      setInitialRedirectPath(
-        "/blog" +
-          getPathnameFromIndex(localIdDataMap[mostRecentPostId], "photography")
-      );
-      setDoInitialRedirect(true);
-    }
-
     setLoading(false);
-  }, [postIndexPending, postIndex, postIndexRedirect]);
+  }, [postIndexPending, postIndex]);
 
   return (
     <>
-      {doInitialRedirect && <Redirect to={initialRedirectPath} />}
-
       <LoadingOverlay type="linear" visible={loading} />
 
       {!loading && (
         <Fade in={!loading}>
           <div className="container-fluid p-0">
             <PageManager
+              postIndex={postIndex}
               treeData={treeData}
-              initialPost={initialPost}
               idToPostMap={idToPostMap}
               keyToPostMap={keyToPostMap}
-              pageName={pageName}
+              pageName={collection}
             />
           </div>
         </Fade>

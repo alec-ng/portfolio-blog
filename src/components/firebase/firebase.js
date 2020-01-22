@@ -17,7 +17,7 @@ const COLLECTION_CMS_POST = "cms-post";
 const COLLECTION_POST = "post";
 const COLLECTION_POST_DATA = "post-data";
 const COLLECTION_PHOTOGRAPHY_INDEX = "photography-index";
-const COLLECTION_TRIPREPORT_INDEX = "tripreport-index";
+const COLLECTION_TRIPREPORT_INDEX = "tripreports-index";
 
 class Firebase {
   constructor() {
