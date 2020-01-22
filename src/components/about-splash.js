@@ -78,7 +78,7 @@ export default function AboutSplash(props) {
               <hr />
             </div>
             <div className="row">
-              <div className="col-sm-4 col-xs-12 text-center p-0">
+              <div className="offset-sm-2 col-sm-4 col-xs-12 text-center p-0">
                 <button
                   onClick={props.scrollToContent}
                   type="button"
@@ -88,14 +88,7 @@ export default function AboutSplash(props) {
                 </button>
               </div>
               <div className="col-sm-4 col-xs-12 text-center p-0">
-                <Link data-bg="photography" to="/photography">
-                  <button type="button" className="section-btn clear">
-                    Photography
-                  </button>
-                </Link>
-              </div>
-              <div className="col-sm-4 col-xs-12 text-center p-0">
-                <Link data-bg="tripreports" to="/blog">
+                <Link to="/blog">
                   <button type="button" className="section-btn clear">
                     Blog
                   </button>
