@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Home from "./pages/home";
 import Blog from "./pages/blog";
-import Photography from "./pages/photography";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
 import NotFound from "./pages/not-found";
@@ -16,11 +15,8 @@ function BaseApp(props) {
         <Route exact path="/">
           <Home />
         </Route>
-        {/* <Route path="/blog">
-          <Blog />
-        </Route> */}
         <Route path="/blog">
-          <Photography />
+          <Blog />
         </Route>
         <Route path="/login">
           <Login />

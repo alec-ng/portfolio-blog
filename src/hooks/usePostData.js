@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import useUrlState from "./useUrlState";
 import { getKeyFromIndex } from "./../util/url-util";
 
-export default function usePostData(firebase, postIndex) {
+export default function usePostData(firebase, postIndex, postKey) {
   const [postDataPending, setPending] = useState(false);
   const [postData, setPostData] = useState(null);
-  const { postKey } = useUrlState();
 
   useEffect(() => {
     // Determine whether there is a post in the URL, and if it's valid in the current collection
