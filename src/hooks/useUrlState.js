@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 // Parses the current URL and returns the collection + postKey found
@@ -11,13 +11,13 @@ export default function useUrlPath() {
   const location = useLocation();
 
   useEffect(() => {
-    const { urlCollection, urlKey, date, title } = getUrlState(
+    const { urlCollection, urlKey, date, originalTitle } = getUrlState(
       location.pathname
     );
     setCollection(urlCollection);
     setPostKey(urlKey);
     setPostDate(date);
-    setPostTitle(title ? title.trim() : title);
+    setPostTitle(originalTitle);
   }, [location]);
 
   return { collection, postKey, postDate, postTitle };
@@ -30,10 +30,12 @@ export function getUrlState(pathname) {
   const [, , urlCollection, date, title] = pathname.split("/");
 
   let urlKey;
+  let originalTitle;
   if (date && title) {
+    originalTitle = title.trim().replace(/-/g, " ");
     // hyphens onvert back to spaces
-    urlKey = `${date.trim()}-${title.trim().replace(/-/g, " ")}`;
+    urlKey = `${date.trim()}-${originalTitle}`;
   }
 
-  return { urlCollection, urlKey, date, title };
+  return { urlCollection, urlKey, date, originalTitle };
 }

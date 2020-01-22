@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { VALID_COLLECTIONS } from "./../util/constants";
+import { VALID_COLLECTIONS, getIndexRef } from "./../util/constants";
 
 export default function usePostIndex(collection, firebase) {
   const [postIndexPending, setPostIndexPending] = useState(true);
@@ -26,15 +26,7 @@ export default function usePostIndex(collection, firebase) {
       .finally(() => {
         setPostIndexPending(false);
       });
-  }, [collection]);
+  }, [collection, firebase]);
 
   return { postIndexPending, postIndex };
-}
-
-function getIndexRef(collection, firebase) {
-  const collectionMap = {
-    photography: firebase.photographyIndex(),
-    tripreports: firebase.tripreportIndex()
-  };
-  return collectionMap[collection];
 }

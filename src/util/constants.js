@@ -7,3 +7,11 @@ export const VALID_COLLECTIONS = [
 ];
 
 export const PATH_BLOG = "/blog";
+
+export function getIndexRef(collection, firebase) {
+  const collectionMap = {
+    photography: firebase.photographyIndex(),
+    tripreports: firebase.tripreportIndex()
+  };
+  return collectionMap[collection];
+}

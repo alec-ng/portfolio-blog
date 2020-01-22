@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import LoadingOverlay from "./loading-overlay";
 import TreeView from "./rc-tree/treeview";
+import useUrlState from "./../hooks/useUrlState";
+
 import { getInitialExpandedKeys, createTreeData } from "./rc-tree/util";
 import { useHistory } from "react-router-dom";
-import useUrlState from "./../hooks/useUrlState";
 import { getKeyFromIndex, getPathnameFromIndex } from "./../util/url-util";
 
 /**
@@ -41,13 +43,13 @@ export default function TreeManager(props) {
   useEffect(() => {
     // Check for case of initial redirect, where treeData and postKey may refer to different
     // collections
-    if (postKey && keyToPostMap[postKey]) {
+    if (postKey && treeData && keyToPostMap[postKey]) {
       setSelectedKey(keyToPostMap[postKey].postDataId);
       if (!expandedKeys || expandedKeys.length === 0) {
         setExpandedKeys(getInitialExpandedKeys(postDate, treeData));
       }
     }
-  }, [postKey, postDate, treeData, expandedKeys]);
+  }, [postKey, postDate, treeData, expandedKeys, keyToPostMap]);
 
   // If leaf, make callout to get chosen post
   // If not a leaf, expand and show its children

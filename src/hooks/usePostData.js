@@ -37,7 +37,7 @@ export default function usePostData(firebase, postIndex) {
       .finally(() => {
         setPending(false);
       });
-  }, [postKey, postIndex]);
+  }, [postKey, postIndex, firebase]);
 
   return { postData, postDataPending };
 }

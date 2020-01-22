@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { getPathnameFromIndex } from "../util/url-util";
 import { withFirebase } from "./firebase";
 
 import ResponsiveDrawer from "./responsive-drawer";
@@ -27,7 +25,7 @@ function PhotographyLayout(props) {
   );
   const Content = <BlogContent postData={postData} loading={postDataPending} />;
 
-  const { postKey, postTitle } = useUrlState();
+  const { postTitle } = useUrlState();
   useEffect(() => {
     if (postTitle) {
       document.title = postTitle;
