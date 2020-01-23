@@ -16,9 +16,9 @@ const drawerWidth = 270;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
     [theme.breakpoints.up("sm")]: {
-      height: "100%"
+      height: "100%",
+      marginLeft: drawerWidth
     }
   },
   drawer: {

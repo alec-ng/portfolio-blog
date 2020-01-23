@@ -1,6 +1,6 @@
 // index collection names
 export const PHOTOGRAPHY_KEY = "photography";
-export const TRIPREPORT_KEY = "tripreport";
+export const TRIPREPORT_KEY = "tripreports";
 export const GROUPING_KEYS = [PHOTOGRAPHY_KEY, TRIPREPORT_KEY];
 
 // The post key is unique but separate from the database id

@@ -38,12 +38,12 @@ const content = [
         <UnorderedList>
           <li>
             Acted as tech lead for a team of 6 in the design and development of
-            a mobile app feature deployed to over TODO> users
+            a mobile app feature deployed to over 13,000 users
           </li>
           <li>
             Led and facilitated software architecture discussions between the
             company and the client for a global lightning community to be rolled
-            out to TODO users
+            out to 200,000 users across 3 continents
           </li>
           <li>
             Formalized and documented the company’s security guidelines for

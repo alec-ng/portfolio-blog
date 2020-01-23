@@ -1,6 +1,6 @@
 // Delete cmsPost, post, postData documents
 export const PHOTOGRAPHY_KEY = "photography";
-export const TRIPREPORT_KEY = "tripreport";
+export const TRIPREPORT_KEY = "tripreports";
 
 function getIndexFromGrouping(grouping, firebase) {
   switch (grouping) {

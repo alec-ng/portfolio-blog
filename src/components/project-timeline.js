@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import VerticalTimeline from "./vertical-timeline";
 import GitHubIcon from "@material-ui/icons/GitHub";
-
+import CodeIcon from "@material-ui/icons/Code";
 import EditorGif from "./../assets/home/brandywine-editor.gif";
 import CmsGif from "./../assets/home/brandywine-cms.gif";
 import ProjectConvolutionalPhoto from "./../assets/home/fully-convolutional.png";
@@ -15,7 +15,7 @@ const iconStyle = {
   background: "#ea5a4f",
   color: "#fff"
 };
-const icon = <GitHubIcon />;
+const icon = <CodeIcon />;
 
 const StyledTitle = styled.h3`
   color: #ea5a4f;
