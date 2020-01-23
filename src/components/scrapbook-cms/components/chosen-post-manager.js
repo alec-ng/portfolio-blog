@@ -34,15 +34,21 @@ export default function ChosenPostManager(props) {
   const [actionPending, setActionPending] = useState("");
 
   // Utilities
-  const hasChanged = !isEqual(
-    props.data[props.chosenPost.key],
-    props.chosenPost.cmsPost
-  );
+  const hasChanged = () => {
+    let currChosenPost = JSON.parse(JSON.stringify(props.chosenPost.cmsPost));
+    let storedPost = JSON.parse(
+      JSON.stringify(props.data[props.chosenPost.key])
+    );
+    delete currChosenPost.lastModified; // moment/firestore objects shouldn't be compared
+    delete storedPost.lastModified;
+    return !isEqual(currChosenPost, storedPost);
+  };
+
   const isPublished = props.chosenPost.cmsPost.post.isPublished;
 
   // UI
   const formRef = useRef(null);
-  const saveButtonAttribues = hasChanged ? {} : { disabled: true };
+  const saveButtonAttribues = hasChanged() ? {} : { disabled: true };
 
   // Modals
   ////////////////////////////////////////////////
@@ -92,7 +98,7 @@ export default function ChosenPostManager(props) {
     baseSave(null, back);
   };
   const goBack = () => {
-    if (!hasChanged) {
+    if (!hasChanged()) {
       back();
     } else {
       toggleModal("saveAndClose", true);

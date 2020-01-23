@@ -13,17 +13,19 @@ const FullWidthLabel = styled.label`
  */
 
 export default function PageMetadata(props) {
-  // lastModified -- expect one of
-  // - 1. Firestore timestamp value (loaded from db),
-  // - 2. Moment object (saved at some point during this session),
-  // - 3. null (created but not edited at all)
-
   let lastModified = props.chosenPost.cmsPost.lastModified;
-  let lastModifiedStr = !lastModified
-    ? "N/A"
-    : moment.isMoment(lastModified)
-    ? lastModified.format(datetimeFormat)
-    : moment.unix(lastModified.seconds).format(datetimeFormat);
+  let lastModifiedStr;
+  if (!lastModified) {
+    lastModifiedStr = "N/A";
+  }
+  if (typeof lastModified === "string") {
+    // ISO 8601 string from moment object being stringified
+    lastModifiedStr = moment(lastModified).format(datetimeFormat);
+  } else {
+    lastModifiedStr = moment.isMoment(lastModified)
+      ? lastModified.format(datetimeFormat) // most recently saved with moment object
+      : moment.unix(lastModified.seconds).format(datetimeFormat); // firestore value
+  }
 
   return (
     <>
