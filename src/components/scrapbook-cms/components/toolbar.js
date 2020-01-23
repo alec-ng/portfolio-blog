@@ -19,7 +19,7 @@ const VIEW_POSTDATA = "postData";
  * 2. if a page is chosen, shows its metadata<Menu>
  */
 export default function Toolbar(props) {
-  const [{ chosenPost, data, onAction }, dispatch] = useStateValue();
+  const [{ chosenPost, data, onAction, postGroup }, dispatch] = useStateValue();
   const [view, setView] = useState(chosenPost ? VIEW_POSTDATA : VIEW_POSTS);
   const [showSnackbar, setShowSnackbar] = useState();
   const [snackbarMessage, setSnackbarMessage] = useState();
@@ -50,7 +50,7 @@ export default function Toolbar(props) {
 
   // on successful create modal form submission
   function onPostCreate(newPost, onCalloutComplete) {
-    let cmsPost = generateNewCmsPost(newPost.date, newPost.title);
+    let cmsPost = generateNewCmsPost(newPost.date, newPost.title, postGroup);
     onAction("create", { cmsPost: cmsPost })
       .then(dbId => {
         setSnackbarMessage(getSnackbarMessage("create", cmsPost.post.title));

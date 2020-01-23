@@ -13,7 +13,7 @@ export function generateKeyFromPost(post) {
 }
 
 // Used to generate a new cms-post document when a new post is created.
-export function generateNewCmsPost(postDate, postTitle) {
+export function generateNewCmsPost(postDate, postTitle, grouping) {
   let cmsPost = {};
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, "0");
@@ -25,7 +25,8 @@ export function generateNewCmsPost(postDate, postTitle) {
     title: postTitle,
     date: postDate,
     key: generateKey(postDate, postTitle),
-    isPublished: false
+    isPublished: false,
+    grouping: grouping
   };
 
   cmsPost.post = post;

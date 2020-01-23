@@ -53,7 +53,7 @@ const Admin = function(props) {
   const onCMSAction = function(action, payload) {
     switch (action) {
       case "create":
-        return createPost(payload, props.firebase, postGroup);
+        return createPost(payload, props.firebase);
       case "update":
         return updatePost(payload, props.firebase, postGroup);
       case "publish":
@@ -81,6 +81,7 @@ const Admin = function(props) {
                 data={cmsPostData}
                 plugins={plugins}
                 showPluginDescription={false}
+                postGroup={postGroup}
               />
             </div>
           )}

@@ -12,8 +12,14 @@ export function ScrapbookCMS(props) {
       "You must supply at least one plugin to use with Scrapbook-Editor."
     );
   }
+  if (!props.postGroup) {
+    console.error(
+      "You must supply the name of the post grouping you're working with."
+    );
+  }
 
   const globalState = Object.assign({}, DefaultState);
+  globalState.postGroup = props.postGroup;
   globalState.onAction = props.onAction;
   if (props.data) {
     globalState.data = props.data;

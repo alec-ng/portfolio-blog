@@ -169,10 +169,8 @@ export function updatePost(payload, firebase, grouping) {
 
 // create new cms-post document and use its auto-gen id as Ids for newly created
 // post and postData documents
-export function createPost(payload, firebase, grouping) {
+export function createPost(payload, firebase) {
   let newCmsPost = JSON.parse(JSON.stringify(payload.cmsPost));
-  newCmsPost.post.grouping = grouping;
-
   return new Promise((resolve, reject) => {
     let newId;
     firebase
