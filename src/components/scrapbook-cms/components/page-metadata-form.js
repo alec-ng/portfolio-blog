@@ -17,8 +17,7 @@ export default function PageMetadata(props) {
   let lastModifiedStr;
   if (!lastModified) {
     lastModifiedStr = "N/A";
-  }
-  if (typeof lastModified === "string") {
+  } else if (typeof lastModified === "string") {
     // ISO 8601 string from moment object being stringified
     lastModifiedStr = moment(lastModified).format(datetimeFormat);
   } else {

@@ -20,12 +20,14 @@ export default function BlogContent(props) {
     <>
       <LoadingOverlay type="circular" visible={props.loading} />
       {props.postData && (
-        <ScrapbookEditor
-          readOnly={true}
-          pageData={props.postData}
-          plugins={plugins}
-          key={JSON.stringify(props.postData)}
-        />
+        <div className="mb-5">
+          <ScrapbookEditor
+            readOnly={true}
+            pageData={props.postData}
+            plugins={plugins}
+            key={JSON.stringify(props.postData)}
+          />
+        </div>
       )}
     </>
   );

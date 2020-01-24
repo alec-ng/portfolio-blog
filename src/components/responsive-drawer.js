@@ -12,35 +12,35 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 // permanent drawer on dresktop, no header
 // temporary drawer on mobile, with header + toggle button
 
-const drawerWidth = 270;
+const drawerWidth = 315;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       height: "100%",
       marginLeft: drawerWidth
     }
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0
     }
   },
   appBar: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
     }
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none"
     }
   },
   toolbar: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       ...theme.mixins.toolbar
     }
   },
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     position: "relative",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       height: "100%"
     }
   }
@@ -88,7 +88,7 @@ export default function ResponsiveDrawer(props) {
       <CssBaseline />
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* MOBILE VIEW */}
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
               <IconButton
@@ -118,7 +118,7 @@ export default function ResponsiveDrawer(props) {
         </Hidden>
 
         {/* DESKTOP VIEW */}
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,
