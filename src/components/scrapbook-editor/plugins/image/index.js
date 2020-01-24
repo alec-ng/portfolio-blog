@@ -1,4 +1,4 @@
-import { ImageElement, VARIATION_DEFAULT, VARIATION_CAPTION } from "./image";
+import { ImageElement, VARIATION_DEFAULT } from "./image";
 
 /**
  * Plugin definition for Image
@@ -55,24 +55,6 @@ const Image = {
       name: VARIATION_DEFAULT,
       label: "Base Image",
       attrs: []
-    },
-    {
-      name: VARIATION_CAPTION,
-      label: "Captioned Image",
-      attrs: [
-        {
-          name: "primaryText",
-          label: "Primary Text",
-          element: "input",
-          type: "text"
-        },
-        {
-          name: "secondaryText",
-          label: "Secondary Text",
-          element: "input",
-          type: "text"
-        }
-      ]
     }
   ],
   defaultVariation: VARIATION_DEFAULT,

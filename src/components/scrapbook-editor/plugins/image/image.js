@@ -3,7 +3,6 @@ import PlaceholderImgURL from "./placeholder.jpg";
 
 const DEFAULT_SIZE = "large";
 export const VARIATION_DEFAULT = "image_default";
-export const VARIATION_CAPTION = "image_caption";
 
 export function ImageElement(props) {
   const imgSize = props.baseAttrs.size || DEFAULT_SIZE;
@@ -15,7 +14,7 @@ export function ImageElement(props) {
       <img
         alt=""
         src={urlSource}
-        className={`${sizeClassName.sizeClassName} img-fluid d-block mx-auto`}
+        className={`${sizeClassName} img-fluid d-block mx-auto`}
       />
       {(props.baseAttrs.primaryText || props.baseAttrs.secondaryText) && (
         <div className={`${props.sizeClassName} text-center mx-auto`}>
