@@ -36,7 +36,8 @@
     }
   },
   "scripts": {
-    "deploy": "react-scripts build && firebase deploy",
+    "deployToStaging": "node ./deploySbx",
+    "deployToProduction": "node ./deployProd",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
