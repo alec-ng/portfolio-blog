@@ -103,10 +103,10 @@ export default function Canvas(props) {
   });
 
   return (
-    <>
+    <React.Fragment>
       <PageHeader />
       {list}
       {renderDropzones && <DropZone onDrop={handleOnDrop} />}
-    </>
+    </React.Fragment>
   );
 }

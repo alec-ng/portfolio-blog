@@ -13,7 +13,8 @@ const Image = {
     {
       name: "source",
       label: "Source",
-      element: "textarea"
+      element: "textarea",
+      rows: 7
     }
   ],
   variations: [

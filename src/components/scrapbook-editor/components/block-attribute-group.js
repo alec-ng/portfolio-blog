@@ -62,16 +62,10 @@ export default function BlockAttributeGroup(props) {
     }
   });
   return (
-    <>
+    <React.Fragment>
       {props.isBase
         ? attrList
-        : attrList.length > 0 && (
-            <>
-              {" "}
-              <br />
-              {attrList}{" "}
-            </>
-          )}
-    </>
+        : attrList.length > 0 && <React.Fragment>{attrList}</React.Fragment>}
+    </React.Fragment>
   );
 }

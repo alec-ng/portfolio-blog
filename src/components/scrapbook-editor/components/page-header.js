@@ -27,13 +27,13 @@ export function PageHeader(props) {
   return (
     <div className="text-center mx-3 my-5">
       {headerExists ? (
-        <>
+        <React.Fragment>
           {header.title && (
             <h1 className="pb-3 pt-1 display-3">{header.title}</h1>
           )}
           {header.subTitle && <h3 className="py-1">{header.subTitle}</h3>}
           {displayDate && <h4 className="py-1">{displayDate}</h4>}
-        </>
+        </React.Fragment>
       ) : (
         <h1>Page header is shown here</h1>
       )}

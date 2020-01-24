@@ -1,7 +1,7 @@
 import React from "react";
 import LoadingOverlay from "./loading-overlay";
 
-import { ScrapbookEditor } from "./scrapbook-editor/scrapbook-editor";
+import { BrandywineEditor } from "./scrapbook-editor/";
 import Image from "./scrapbook-editor/plugins/image/index";
 import Markdown from "./scrapbook-editor/plugins/markdown/index";
 import CoverPhoto from "./scrapbook-editor/plugins/cover-photo/index";
@@ -21,7 +21,7 @@ export default function BlogContent(props) {
       <LoadingOverlay type="circular" visible={props.loading} />
       {props.postData && (
         <div className="mb-5">
-          <ScrapbookEditor
+          <BrandywineEditor
             readOnly={true}
             pageData={props.postData}
             plugins={plugins}

@@ -36,6 +36,18 @@ const Image = {
           label: "Small"
         }
       ]
+    },
+    {
+      name: "primaryText",
+      label: "Caption",
+      element: "input",
+      type: "text"
+    },
+    {
+      name: "secondaryText",
+      label: "Footnotes",
+      element: "input",
+      type: "text"
     }
   ],
   variations: [

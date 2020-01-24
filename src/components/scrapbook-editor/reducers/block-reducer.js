@@ -142,21 +142,26 @@ function addNewBlock(blockArr, plugin, uuid) {
     uuid: uuidv1(),
     isFocused: true
   };
-  plugin.baseAttrs.forEach(attr => {
-    if (attr.defaultValue) {
-      newBlock.baseAttrs[attr.name] = attr.defaultValue;
-    }
-  });
+  // populate any default attribute values
+  if (plugin.baseAttrs) {
+    plugin.baseAttrs.forEach(attr => {
+      if (attr.defaultValue) {
+        newBlock.baseAttrs[attr.name] = attr.defaultValue;
+      }
+    });
+  }
   newBlock.variationAttrs[plugin.defaultVariation] = {};
   let defaultVariation = plugin.variations.find(
     variation => variation.name === plugin.defaultVariation
   );
-  defaultVariation.attrs.forEach(attr => {
-    if (attr.defaultValue) {
-      newBlock.variationAttrs[plugin.defaultVariation][attr.name] =
-        attr.defaultValue;
-    }
-  });
+  if (defaultVariation.attrs) {
+    defaultVariation.attrs.forEach(attr => {
+      if (attr.defaultValue) {
+        newBlock.variationAttrs[plugin.defaultVariation][attr.name] =
+          attr.defaultValue;
+      }
+    });
+  }
 
   // Set all other blocks focus to false
   blockArr.forEach(block => {

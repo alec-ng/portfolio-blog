@@ -36,7 +36,7 @@ export default function Toolbar(props) {
   }
 
   /**
-   * Render all plugins passed into scrapbook-editor as draggable onto the canvas
+   * Render all plugins passed into the brandywine-editor instance as draggable onto the canvas
    */
   const PluginList = plugins.map(plugin => (
     <DraggablePlugin
@@ -47,7 +47,7 @@ export default function Toolbar(props) {
   ));
 
   return (
-    <div style={{ minHeight: "100%" }}>
+    <div>
       <section className="p-1">
         <Accordion title="Page Header">
           <PageHeaderControls />

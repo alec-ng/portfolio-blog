@@ -21,6 +21,7 @@ const BaseContainer = styled.div`
 const ToolbarContainer = styled.div`
   flex: 0 0 25%;
   overflow-y: auto;
+  height: 100vh;
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -40,6 +41,8 @@ const CanvasContainer = styled.div`
   padding: ${props => (props.readOnly || props.inPreviewMode ? "0" : "0 10px")};
   padding-bottom: ${props =>
     props.readOnly || props.inPreviewMode ? "0" : "20px"};
+  height: ${props =>
+    !props.readOnly && !props.inPreviewMode ? "100vh" : "initial"};
 `;
 
 export default function App(props) {

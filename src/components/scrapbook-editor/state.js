@@ -38,17 +38,17 @@ export const DefaultState = {
     displayDate2: ""
   },
   blocks: [],
-  readOnly: false,
   focusedBlock: undefined,
   inPreviewMode: false,
-  verticalBlockMargin: null,
+  readOnly: false,
+  verticalBlockMargin: "20px",
   showPluginDescription: true,
   onSave: null,
   onChange: null
 };
 
 /**
- * State management for ScrapbookEditor
+ * State management
  */
 export const StateContext = createContext();
 

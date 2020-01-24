@@ -6,7 +6,7 @@ import { VARIATION_AUTOPLAY, AutoplayElement } from "./variation-autoplay";
 export const VARIATION_DEFAULT = "video_default";
 
 export function VideoElement(props) {
-  let sizeClassName = `scrapbookeditor-width_${props.baseAttrs.size}`;
+  let sizeClassName = `brandywine-width_${props.baseAttrs.size}`;
   return <Variation {...props} sizeClassName={sizeClassName} />;
 }
 

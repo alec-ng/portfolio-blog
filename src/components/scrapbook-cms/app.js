@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrapbookEditor } from "../scrapbook-editor/scrapbook-editor";
+import { BrandywineEditor } from "../scrapbook-editor/";
 import { useStateValue } from "./state";
 import { ACTION_TYPES } from "./reducers/index";
 import styled from "styled-components";
@@ -30,7 +30,7 @@ export default function App(props) {
       </Header>
       {chosenPost != null ? (
         <EditorContainer>
-          <ScrapbookEditor
+          <BrandywineEditor
             showPluginDescription={props.showPluginDescription}
             plugins={props.plugins}
             key={chosenPost}

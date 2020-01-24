@@ -1,5 +1,5 @@
 /**
- * scrapbook-editor.js specific styles
+ * react-brandywine-editor.js specific styles
  * works on top of bootstrap and bootstrap-react
  */
 
@@ -8,52 +8,52 @@ Row {
   margin-right: 0;
 }
 
-.scrapbookeditor-width_stretch .scrapbookeditor-width_stretch,
-.scrapbookeditor-width_large,
-.scrapbookeditor-width_medium,
-.scrapbookeditor-width_small {
+.brandywine-width_stretch .brandywine-width_stretch,
+.brandywine-width_large,
+.brandywine-width_medium,
+.brandywine-width_small {
   width: 100%;
 }
 
-.scrapbookeditor-repsonsive-x-padding {
+.brandywine-responsive-x-padding {
   padding-right: 10%;
   padding-left: 10%;
 }
 
 @media (min-width: 576px) {
-  .scrapbookeditor-width_large,
-  .scrapbookeditor-width_medium,
-  .scrapbookeditor-width_small {
+  .brandywine-width_large,
+  .brandywine-width_medium,
+  .brandywine-width_small {
     width: 100%;
   }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .scrapbookeditor-width_large {
+  .brandywine-width_large {
     width: 80%;
   }
-  .scrapbookeditor-width_medium {
+  .brandywine-width_medium {
     width: 65%;
   }
-  .scrapbookeditor-width_small {
+  .brandywine-width_small {
     width: 50%;
   }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .scrapbookeditor-width_large {
+  .brandywine-width_large {
     width: 65%;
   }
-  .scrapbookeditor-width_medium {
+  .brandywine-width_medium {
     width: 50%;
   }
-  .scrapbookeditor-width_small {
+  .brandywine-width_small {
     width: 40%;
   }
 
-  .scrapbookeditor-repsonsive-x-padding {
+  .brandywine-responsive-x-padding {
     padding-right: 5%;
     padding-left: 5%;
   }
@@ -61,17 +61,17 @@ Row {
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .scrapbookeditor-width_large {
+  .brandywine-width_large {
     width: 60%;
   }
-  .scrapbookeditor-width_medium {
+  .brandywine-width_medium {
     width: 40%;
   }
-  .scrapbookeditor-width_small {
+  .brandywine-width_small {
     width: 30%;
   }
 
-  .scrapbookeditor-repsonsive-x-padding {
+  .brandywine-responsive-x-padding {
     padding-right: 0;
     padding-left: 0;
   }

@@ -20,16 +20,16 @@ const Carousel = {
     },
     {
       name: "height",
-      label: "Height (px)",
+      label: "Max Height (px)",
       element: "input",
       type: "range",
-      min: 150,
+      min: 200,
       max: 700,
-      defaultValue: 100
+      defaultValue: 400
     },
     {
       name: "urlSources",
-      label: "URL Sources (separate each link with new line)",
+      label: "URL Sources (separate each link with a new line)",
       element: "textarea"
     },
     {
@@ -52,6 +52,12 @@ const Carousel = {
           label: "Small"
         }
       ]
+    },
+    {
+      name: "caption",
+      label: "Caption",
+      element: "input",
+      type: "text"
     }
   ],
   variations: [

@@ -28,7 +28,7 @@ export default function PreviewButton(props) {
   }
 
   return (
-    <>
+    <React.Fragment>
       {inPreviewMode ? (
         <InPreviewModeButton
           type="button"
@@ -46,6 +46,6 @@ export default function PreviewButton(props) {
           Preview
         </button>
       )}
-    </>
+    </React.Fragment>
   );
 }

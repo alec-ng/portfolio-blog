@@ -13,7 +13,7 @@ export function Photoessay(props) {
   `;
 
   return (
-    <>
+    <React.Fragment>
       <PhotoessayImage
         className="img-fluid width-100"
         alt={props.text}
@@ -25,7 +25,7 @@ export function Photoessay(props) {
           content={props.text.content}
         ></TextOverlay>
       ) : null}
-    </>
+    </React.Fragment>
   );
 }
 

@@ -34,7 +34,7 @@ export default function VariationSelect(props) {
 
   // If only one variation (default), do not render anything
   if (optionsList.length < 2) {
-    return <></>;
+    return <React.Fragment></React.Fragment>;
   }
 
   let attributes = {
