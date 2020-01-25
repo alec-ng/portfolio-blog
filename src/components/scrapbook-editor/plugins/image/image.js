@@ -17,7 +17,7 @@ export function ImageElement(props) {
         className={`${sizeClassName} img-fluid d-block mx-auto`}
       />
       {(props.baseAttrs.primaryText || props.baseAttrs.secondaryText) && (
-        <div className={`${props.sizeClassName} text-center mx-auto`}>
+        <div className={`${sizeClassName} text-center mx-auto`}>
           {props.baseAttrs.primaryText && (
             <h6 className="mt-2 mb-0">{props.baseAttrs.primaryText}</h6>
           )}

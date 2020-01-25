@@ -28,11 +28,11 @@ const Spacer = {
               label: "Normal"
             },
             {
-              name: "2",
+              name: "3",
               label: "Medium"
             },
             {
-              name: "3",
+              name: "5",
               label: "Large"
             }
           ]

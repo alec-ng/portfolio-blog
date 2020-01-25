@@ -43,7 +43,10 @@ const Variation = function(props) {
     );
   }
   // variational data
-  if (props.variation === VARIATION_AUTOPLAY) {
+  if (
+    props.variation === VARIATION_AUTOPLAY &&
+    props.baseAttrs.sourceType === "url"
+  ) {
     return <AutoplayElement sizeClassName={props.sizeClassName} {...props} />;
   } else {
     // default case
@@ -68,6 +71,7 @@ const PlaceholderImage = function(props) {
 };
 
 const IFrame = function(props) {
+  console.log("Im here");
   return (
     <iframe
       title={props.baseAttrs.src}

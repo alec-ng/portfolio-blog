@@ -60,27 +60,39 @@ const CoverPhoto = {
         },
         {
           name: "top",
-          label: "Top - Absolute Position",
+          label: "Top Offset (%)",
           element: "input",
-          type: "text"
+          type: "range",
+          min: 0,
+          max: 100,
+          defaultValue: 1
         },
         {
           name: "right",
-          label: "Right - Absolute Position",
+          label: "Right Offset (%)",
           element: "input",
-          type: "text"
+          type: "range",
+          min: 0,
+          max: 100,
+          defaultValue: 1
         },
         {
           name: "bottom",
-          label: "Bottom - Absolute Position",
+          label: "Bottom OFfset (%)",
           element: "input",
-          type: "text"
+          type: "range",
+          min: 0,
+          max: 100,
+          defaultValue: 1
         },
         {
           name: "left",
-          label: "Left - Absolute Position",
+          label: "Left Offset (%)",
           element: "input",
-          type: "text"
+          type: "range",
+          min: 0,
+          max: 100,
+          defaultValue: 1
         }
       ]
     }

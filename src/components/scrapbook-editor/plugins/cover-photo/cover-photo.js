@@ -52,20 +52,18 @@ const OverlayContainer = styled.div`
   position: absolute;
   margin: 10px;
   color: #ffffff;
-  top: ${props => props.top};
-  right: ${props => props.right};
-  bottom: ${props => props.bottom};
-  left: ${props => props.left};
+  top: ${props => props.top + "%"};
+  right: ${props => props.right + "%"};
+  bottom: ${props => props.bottom + "%"};
+  left: ${props => props.left + "%"};
 `;
 function TextOverlayImage(props) {
-  let [top, right, bottom, left] = [
-    props.variationAttrs.top || "0",
-    props.variationAttrs.right || "0",
-    props.variationAttrs.bottom || "0",
-    props.variationAttrs.left || "0"
-  ];
-  // expect alignment to be one of either left, right, or center to match with CSS class
-  let alignmentClass = `text-${props.variationAttrs.align}`;
+  const alignmentClass = `text-${props.variationAttrs.align}`;
+  const offsetDefined =
+    props.variationAttrs.top !== 0 ||
+    props.variationAttrs.right !== 0 ||
+    props.variationAttrs.bottom !== 0 ||
+    props.variationAttrs.left !== 0;
 
   return (
     <div style={{ position: "relative" }}>
@@ -73,8 +71,13 @@ function TextOverlayImage(props) {
         urlSource={props.baseAttrs.urlSource}
         sizeClassName={props.sizeClassName}
       />
-      {(top !== "0" || right !== "0" || bottom !== "0" || left !== "0") && (
-        <OverlayContainer top={top} right={right} bottom={bottom} left={left}>
+      {offsetDefined && (
+        <OverlayContainer
+          top={props.variationAttrs.top}
+          right={props.variationAttrs.right}
+          bottom={props.variationAttrs.bottom}
+          left={props.variationAttrs.left}
+        >
           <h3 className={`${alignmentClass} text-overlay`}>
             {props.variationAttrs.text}
           </h3>
