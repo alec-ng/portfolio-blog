@@ -6,7 +6,7 @@
     "alec-ng-sandbox": {
       "hosting": {
         "sbx-site": [
-          "alecng-site"
+          "alec-ng-sandbox"
         ]
       }
     },
