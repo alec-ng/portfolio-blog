@@ -45,7 +45,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    backgroundColor: "#373a47"
   },
   paperAnchorDockedLeft: {
     borderRight: "none"
@@ -64,9 +65,7 @@ const DrawerContainer = function(props) {
     <div
       style={{
         padding: "30px 10px",
-        backgroundColor: "#373a47",
-        color: "rgb(184, 183, 173)",
-        height: "100%"
+        color: "rgb(184, 183, 173)"
       }}
     >
       {props.children}
