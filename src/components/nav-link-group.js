@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
-import CameraAltOutlinedIcon from "@material-ui/icons/CameraAltOutlined";
+import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
 
 import { Link } from "react-router-dom";
 import {
   PATH_BLOG,
-  COLLECTION_PHOTOGRAPHY,
+  COLLECTION_TRAVELS,
   COLLECTION_TRIPREPORTS
 } from "./../util/constants";
 
@@ -19,10 +19,10 @@ const StyledStaticText = styled.b`
   color: rgb(255, 69, 0);
 `;
 
-const PhotographyText = (
+const TravelText = (
   <>
     {" "}
-    <CameraAltOutlinedIcon /> Photography{" "}
+    <PublicOutlinedIcon /> Travels{" "}
   </>
 );
 const TripreportsText = (
@@ -56,15 +56,15 @@ export default function NavLinkGroup(props) {
       </Link>
       <br />
       <NavLink
-        collection={COLLECTION_PHOTOGRAPHY}
-        currentCollection={props.currentCollection}
-        text={PhotographyText}
-      />
-      <br />
-      <NavLink
         collection={COLLECTION_TRIPREPORTS}
         currentCollection={props.currentCollection}
         text={TripreportsText}
+      />
+      <br />
+      <NavLink
+        collection={COLLECTION_TRAVELS}
+        currentCollection={props.currentCollection}
+        text={TravelText}
       />
       <br />
     </div>

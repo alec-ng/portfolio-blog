@@ -3,7 +3,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { getUrlState } from "./useUrlState";
 import {
   VALID_COLLECTIONS,
-  COLLECTION_PHOTOGRAPHY,
+  COLLECTION_TRIPREPORTS,
   PATH_BLOG
 } from "./../util/constants";
 
@@ -14,7 +14,7 @@ export default function useIndexRedirect() {
 
   useEffect(() => {
     if (VALID_COLLECTIONS.indexOf(urlCollection) === -1) {
-      history.replace(`${PATH_BLOG}/${COLLECTION_PHOTOGRAPHY}`);
+      history.replace(`${PATH_BLOG}/${COLLECTION_TRIPREPORTS}`);
     }
   }, [urlCollection, history]);
 }
