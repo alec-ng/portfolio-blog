@@ -2,7 +2,6 @@
 .vscode
 .firebase
 *.code-workspace
-.firebaserc
 
 # dependencies
 /node_modules

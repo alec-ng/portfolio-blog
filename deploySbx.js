@@ -28,4 +28,4 @@ execSync('react-scripts build', {stdio: 'inherit'});
 
 console.log('\n>> Deploying...');
 console.log('-------------------------------------------------------\n');
-execSync('firebase deploy', {stdio: 'inherit'});
+execSync('firebase deploy --only hosting:sbx-site', {stdio: 'inherit'});
