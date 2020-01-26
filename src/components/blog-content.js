@@ -1,5 +1,6 @@
 import React from "react";
 import LoadingOverlay from "./loading-overlay";
+import FancyHr from "./blog-post-hr";
 
 import { BrandywineEditor } from "./scrapbook-editor/";
 import Image from "./scrapbook-editor/plugins/image/index";
@@ -27,6 +28,7 @@ export default function BlogContent(props) {
             plugins={plugins}
             key={JSON.stringify(props.postData)}
           />
+          <FancyHr />
         </div>
       )}
     </>
