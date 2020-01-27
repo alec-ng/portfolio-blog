@@ -11,6 +11,7 @@ const WhiteBtn = styled.button`
   border: 1px solid white;
   background-color: rgb(97, 129, 182);
   font-weight: bold;
+  color: white;
 `;
 
 /**
@@ -25,16 +26,9 @@ export default function TextActionContainer(props) {
         </div>
       </div>
       <div className="text-center">
-        <WhiteBtn type="button">
-          <a
-            href={props.linkPath}
-            rel="noopener noreferrer"
-            target="_blank"
-            style={{ color: "white" }}
-          >
-            {props.linkText}
-          </a>
-        </WhiteBtn>
+        <a href={props.linkPath} rel="noopener noreferrer" target="_blank">
+          <WhiteBtn type="button">{props.linkText}</WhiteBtn>
+        </a>
       </div>
     </>
   );
