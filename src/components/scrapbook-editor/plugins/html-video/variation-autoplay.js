@@ -19,11 +19,6 @@ const OverlayContainer = styled.div`
 `;
 
 export function AutoplayElement(props) {
-  const [DOMLoaded, setDOMLoaded] = useState(false);
-  useEffect(() => {
-    setDOMLoaded(true);
-  }, []);
-
   const alignmentClass = props.variationAttrs.align
     ? `text-${props.variationAttrs.align}`
     : "";
@@ -43,13 +38,10 @@ export function AutoplayElement(props) {
 
   // For autoplay variation- if video is visible, play. If not, pause
   function onChange(isVisible) {
-    if (!DOMLoaded) {
-      return;
-    }
     let video = this.children.ref.current.getElementsByTagName("video")[0];
     if (isVisible) {
       video.play();
-    } else if (video) {
+    } else if (video.playing) {
       video.pause();
     }
   }
