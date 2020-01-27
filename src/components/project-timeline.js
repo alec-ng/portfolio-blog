@@ -5,6 +5,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import CodeIcon from "@material-ui/icons/Code";
 import EditorGif from "./../assets/home/brandywine-editor.gif";
 import CmsGif from "./../assets/home/brandywine-cms.gif";
+import BlogGif from "./../assets/home/blog.gif";
 import ProjectConvolutionalPhoto from "./../assets/home/fully-convolutional.png";
 
 const contentStyle = {
@@ -79,7 +80,7 @@ const content = [
           src={CmsGif}
           alt="Brandywine Editor"
         />
-        <SourceLink link="https://github.com/alec-ng/portfolio" />
+        <SourceLink link="https://github.com/alec-ng/brandywine-cms/" />
       </>
     ),
     dateLabel: "Jan 2020"
@@ -95,6 +96,12 @@ const content = [
           page application approach was used for content navigation. See the
           live version <a href="/blog">here</a>.
         </p>
+        <br />
+        <img
+          className="img-fluid img-thumbnail"
+          src={BlogGif}
+          alt="Personal Blog"
+        />
         <SourceLink link="https://github.com/alec-ng/portfolio" />
       </>
     ),
