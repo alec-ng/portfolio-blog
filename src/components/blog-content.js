@@ -8,9 +8,18 @@ import Markdown from "./scrapbook-editor/plugins/markdown/index";
 import CoverPhoto from "./scrapbook-editor/plugins/cover-photo/index";
 import Spacer from "./scrapbook-editor/plugins/spacer/index";
 import Carousel from "./scrapbook-editor/plugins/carousel/index";
-import Video from "./scrapbook-editor/plugins/video/index";
+import EmbeddedVideo from "../components/scrapbook-editor/plugins/embedded-video/";
+import HTMLVideo from "../components/scrapbook-editor/plugins/html-video/";
 
-const plugins = [Image, Markdown, CoverPhoto, Spacer, Carousel, Video];
+const plugins = [
+  Image,
+  Markdown,
+  CoverPhoto,
+  Spacer,
+  Carousel,
+  EmbeddedVideo,
+  HTMLVideo
+];
 
 /**
  * Renders an instance of scrapbook-editor. If no valid data is provided,

@@ -7,7 +7,6 @@ const Image = {
   name: "image",
   label: "Image",
   description: "An image rendered from a URL source",
-  icon: null,
   canvasElement: ImageElement,
   baseAttrs: [
     {
@@ -57,8 +56,7 @@ const Image = {
       attrs: []
     }
   ],
-  defaultVariation: VARIATION_DEFAULT,
-  useDefaultControls: true
+  defaultVariation: VARIATION_DEFAULT
 };
 
 export default Image;

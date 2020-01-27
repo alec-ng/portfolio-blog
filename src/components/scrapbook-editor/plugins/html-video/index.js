@@ -1,34 +1,53 @@
-import {
-  CoverPhotoElement,
-  VARIATION_DEFAULT,
-  VARIATION_TEXT_OVERLAY
-} from "./cover-photo";
+import { VARIATION_DEFAULT, HTMLVideoElement } from "./html-video";
+import { VARIATION_AUTOPLAY } from "./variation-autoplay";
 
-/**
- * Plugin definition for Cover Photo
- */
-const CoverPhoto = {
-  name: "coverPhoto",
-  label: "Cover Photo",
-  description: "Full width image rendered from a URL source",
-  canvasElement: CoverPhotoElement,
+const HTMLVideo = {
+  name: "html_video",
+  label: "HTML Video",
+  description: "Renders an HTML5 Video element to play from a URL source",
+  canvasElement: HTMLVideoElement,
   baseAttrs: [
     {
       name: "urlSource",
-      label: "URL",
+      label: "URL Source",
       element: "input",
       type: "text"
+    },
+    {
+      name: "size",
+      label: "Size",
+      element: "select",
+      defaultRequired: true,
+      defaultValue: "large",
+      options: [
+        {
+          name: "stretch",
+          label: "Stretch"
+        },
+        {
+          name: "large",
+          label: "Large"
+        },
+        {
+          name: "medium",
+          label: "Medium"
+        },
+        {
+          name: "small",
+          label: "Small"
+        }
+      ]
     }
   ],
   variations: [
     {
       name: VARIATION_DEFAULT,
-      label: "Base Cover Photo",
+      label: "Video with Controls",
       attrs: []
     },
     {
-      name: VARIATION_TEXT_OVERLAY,
-      label: "Text Overlay",
+      name: VARIATION_AUTOPLAY,
+      label: "Autoplay video without controls or audio",
       attrs: [
         {
           name: "text",
@@ -77,7 +96,7 @@ const CoverPhoto = {
         },
         {
           name: "bottom",
-          label: "Bottom OFfset (%)",
+          label: "Bottom Offset (%)",
           element: "input",
           type: "range",
           min: 0,
@@ -98,5 +117,4 @@ const CoverPhoto = {
   ],
   defaultVariation: VARIATION_DEFAULT
 };
-
-export default CoverPhoto;
+export default HTMLVideo;
