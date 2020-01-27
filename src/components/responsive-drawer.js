@@ -15,6 +15,9 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 const drawerWidth = 315;
 
 const useStyles = makeStyles(theme => ({
+  colorPrimary: {
+    backgroundColor: "rgb(55, 58, 71)"
+  },
   root: {
     [theme.breakpoints.up("md")]: {
       height: "100%",
@@ -35,6 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: "rgb(255,69,0)",
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
@@ -99,7 +103,13 @@ export default function ResponsiveDrawer(props) {
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* MOBILE VIEW */}
         <Hidden mdUp implementation="css">
-          <AppBar position="fixed" className={classes.appBar}>
+          <AppBar
+            position="fixed"
+            classes={{
+              colorPrimary: classes.colorPrimary,
+              root: classes.appBar
+            }}
+          >
             <Toolbar>
               <IconButton
                 color="inherit"
