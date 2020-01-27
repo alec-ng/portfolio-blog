@@ -46,7 +46,18 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "#373a47"
+    backgroundColor: "#373a47",
+    "&::-webkit-scrollbar": {
+      width: "5px"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgb(255, 69, 0)",
+      borderRadius: "5px"
+    },
+    "&::-webkit-scrollbar-track": {
+      opacity: "0",
+      margin: "5px 0"
+    }
   },
   paperAnchorDockedLeft: {
     borderRight: "none"
