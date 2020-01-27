@@ -42,6 +42,7 @@ export function createTreeData(indexArr) {
   // Group all data by yyyy, mm, dd
   let keyData = getGroupedPostData(indexArr);
   let treeData = [];
+  let sequentialData = [];
 
   function reverse(a, b) {
     return b - a;
@@ -76,6 +77,7 @@ export function createTreeData(indexArr) {
             children: []
           };
           posts.push(postNode);
+          sequentialData.push(postNode);
         });
       });
 
@@ -84,6 +86,11 @@ export function createTreeData(indexArr) {
 
     treeData.push(yearNode);
   });
+
+  return {
+    treeData: treeData,
+    sequentialData: sequentialData
+  };
 
   return treeData;
 }

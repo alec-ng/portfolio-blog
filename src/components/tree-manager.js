@@ -21,7 +21,7 @@ export default function TreeManager(props) {
       return;
     }
 
-    setTreeData(createTreeData(props.postIndex));
+    setTreeData(createTreeData(props.postIndex).treeData);
     let localIdDataMap = {};
     let localKeyDataMap = {};
     props.postIndex.forEach(post => {

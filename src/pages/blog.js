@@ -41,7 +41,13 @@ function Blog(props) {
     postKey
   );
 
-  const Content = <BlogContent postData={postData} loading={postDataPending} />;
+  const Content = (
+    <BlogContent
+      postIndex={postIndex}
+      postData={postData}
+      loading={postDataPending}
+    />
+  );
 
   return (
     <>
