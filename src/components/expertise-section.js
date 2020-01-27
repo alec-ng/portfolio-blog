@@ -56,9 +56,8 @@ export default function ExpertiseSection(props) {
           <h2 className="text-center">Web Engineering</h2>
           <p>
             Extensive full stack web application experience using industry
-            standard tools. See some of my
-            <a href="#"> latest projects </a> built with React and available on
-            npm.
+            standard tools. Scroll down to see some of my latest projects built
+            with React and Firebase.
           </p>
           <section className="mt-3">
             <h4>Front-end</h4>

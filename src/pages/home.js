@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import TextActionContainer from "./../components/text-action-container";
 import AboutSplash from "./../components/about-splash";
@@ -6,11 +6,26 @@ import ColouredContainer from "./../components/coloured-container";
 import WorkTimeline from "./../components/work-timeline";
 import ExpertiseSection from "../components/expertise-section";
 import ProjectTimeline from "../components/project-timeline";
-import ResumePath from "../assets/home/resume.pdf";
+import ResumePath from "../assets/home/alec-ng-resume.pdf";
+
+const AboutBlurb = (
+  <>
+    I am a software engineer with 3 years industry experience in custom web
+    application development, technical architecture, and business consulting.
+    <br />
+    <br />
+    My accomplishments include leading the design and development of multiple
+    Lightning Communities deployed to over 50,000 combined live users. For these
+    projects, I acted as a tech lead and was involved in the full development
+    lifecycle from roadmap planning, requirement gathering, implementation,
+    release, and support.
+  </>
+);
 
 export default function Home(props) {
   document.title = "Alec Ng";
   let sectionRef = React.useRef(null);
+
   function scrollToContent() {
     sectionRef.current.scrollIntoView({
       behavior: "smooth",
@@ -26,12 +41,7 @@ export default function Home(props) {
         <ColouredContainer bgColour="rgb(97, 129, 182)" colour="white">
           <h1 className="text-center pb-4">About</h1>
           <TextActionContainer
-            text={`I am a software engineer with 3 years industry experience in custom web application 
-              development, technical architecture, and business consulting. My accomplishments 
-              include leading the design and development of multiple Lightning Communities deployed to 
-              over 50,000 combined live users. For these projects, I acted as a tech lead and was involved 
-              in the full development lifecycle from roadmap planning, requirement gathering, implementation, 
-              release, and support.`}
+            text={AboutBlurb}
             linkPath={ResumePath}
             linkText="View Resume"
           />
