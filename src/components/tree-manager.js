@@ -26,7 +26,7 @@ export default function TreeManager(props) {
     let localKeyDataMap = {};
     props.postIndex.forEach(post => {
       localIdDataMap[post.postDataId] = post;
-      localKeyDataMap[getKeyFromIndex(post)] = post;
+      localKeyDataMap[getKeyFromIndex(post).toUpperCase()] = post;
     });
     setIdToPostMap(localIdDataMap);
     setKeyToPostMap(localKeyDataMap);
@@ -42,8 +42,8 @@ export default function TreeManager(props) {
   useEffect(() => {
     // Check for case of initial redirect, where treeData and postKey may refer to different
     // collections
-    if (postKey && treeData && keyToPostMap[postKey]) {
-      setSelectedKey(keyToPostMap[postKey].postDataId);
+    if (postKey && treeData && keyToPostMap[postKey.toUpperCase()]) {
+      setSelectedKey(keyToPostMap[postKey.toUpperCase()].postDataId);
       if (!expandedKeys || expandedKeys.length === 0) {
         setExpandedKeys(getInitialExpandedKeys(postDate, treeData));
       }
