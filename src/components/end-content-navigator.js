@@ -49,7 +49,7 @@ export default function EndContentNavigator(props) {
       return;
     }
     const currentTreeId = props.index.find(
-      post => getKeyFromIndex(post) === postKey
+      post => getKeyFromIndex(post).toUpperCase() === postKey.toUpperCase()
     ).postDataId;
 
     // treeData key is the post data id.
