@@ -4,6 +4,7 @@ import {
   VerticalTimelineElement
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
+import "./vertical-timeline-style.css";
 
 export default function VerticalTimelineComp(props) {
   const timelineElements = props.content.map((timelineElement, index) => (
@@ -18,5 +19,9 @@ export default function VerticalTimelineComp(props) {
     </VerticalTimelineElement>
   ));
 
-  return <VerticalTimeline>{timelineElements}</VerticalTimeline>;
+  return (
+    <VerticalTimeline className="custom-vert-timeline">
+      {timelineElements}
+    </VerticalTimeline>
+  );
 }

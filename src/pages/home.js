@@ -55,9 +55,11 @@ export default function Home(props) {
       </ColouredContainer>
 
       <ColouredContainer bgColour="white" colour="black">
-        <h1 className="text-center pb-4">Expertise</h1>
-        <div className="px-2 px-sm-3 px-md-4 px-lg-5">
-          <ExpertiseSection />
+        <div style={{ maxWidth: "1600px", margin: "0 auto" }}>
+          <h1 className="text-center pb-4">Expertise</h1>
+          <div className="px-2 px-sm-3 px-md-4 px-lg-5">
+            <ExpertiseSection />
+          </div>
         </div>
       </ColouredContainer>
 
