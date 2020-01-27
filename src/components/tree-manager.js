@@ -35,7 +35,7 @@ export default function TreeManager(props) {
 
   // Data derived off the URL state
   // When chosen post changes, updated selected node in the tree
-  // If no nodes are expanded, open all nodes to reveal the selected node
+  // open all nodes to reveal the selected node
   const [selectedKey, setSelectedKey] = useState(null);
   const [expandedKeys, setExpandedKeys] = useState([]);
   const { collection, postKey, postDate } = useUrlState();
@@ -44,11 +44,22 @@ export default function TreeManager(props) {
     // collections
     if (postKey && treeData && keyToPostMap[postKey.toUpperCase()]) {
       setSelectedKey(keyToPostMap[postKey.toUpperCase()].postDataId);
-      if (!expandedKeys || expandedKeys.length === 0) {
-        setExpandedKeys(getInitialExpandedKeys(postDate, treeData));
+      const [yearNodeKey, monthNodeKey] = getInitialExpandedKeys(
+        postDate,
+        treeData
+      );
+      let newExpandedKeys = JSON.parse(JSON.stringify(expandedKeys));
+      if (expandedKeys.indexOf(yearNodeKey) === -1) {
+        newExpandedKeys.push(yearNodeKey);
+      }
+      if (expandedKeys.indexOf(monthNodeKey) === -1) {
+        newExpandedKeys.push(monthNodeKey);
+      }
+      if (expandedKeys.length < newExpandedKeys.length) {
+        setExpandedKeys(newExpandedKeys);
       }
     }
-  }, [postKey, postDate, treeData, expandedKeys, keyToPostMap]);
+  }, [postKey, postDate, treeData, keyToPostMap, expandedKeys]);
 
   // If leaf, make callout to get chosen post
   // If not a leaf, expand and show its children
