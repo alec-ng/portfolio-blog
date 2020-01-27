@@ -91,8 +91,6 @@ export function createTreeData(indexArr) {
     treeData: treeData,
     sequentialData: sequentialData
   };
-
-  return treeData;
 }
 
 // groups all posts by year, then by each year's month, then by each month's date

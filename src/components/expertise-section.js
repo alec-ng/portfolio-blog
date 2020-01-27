@@ -93,6 +93,7 @@ export default function ExpertiseSection(props) {
               <a
                 href="https://trailhead.salesforce.com/credentials/certification-detail-print?searchString=HFo8huVvKpFZQubeQ1Bg5ZYpXZBRcOLDxXKRmRuNdS0CrZ+aqb5MhHrfb+au79Ht"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Certifications
               </a>

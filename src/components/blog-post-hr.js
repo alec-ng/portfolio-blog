@@ -35,6 +35,9 @@ export default function FancyHr(props) {
     case COLLECTION_TRAVELS:
       logo = <PublicOutlinedIcon />;
       break;
+    case COLLECTION_TRIPREPORTS:
+      logo = <FilterHdrOutlinedIcon />;
+      break;
     default:
       logo = <FilterHdrOutlinedIcon />;
   }
