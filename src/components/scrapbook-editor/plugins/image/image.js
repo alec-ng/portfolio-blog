@@ -13,7 +13,7 @@ export function ImageElement(props) {
     <div
       className={`${sizeClassName} mx-auto text-center brandywine-responsive-x-padding`}
     >
-      <img alt="" src={urlSource} className="img-fluid d-block" />
+      <img alt="" src={urlSource} className="img-fluid" />
       {props.baseAttrs.primaryText && (
         <h6 className="mt-2 mx-3 mb-0">{props.baseAttrs.primaryText}</h6>
       )}
