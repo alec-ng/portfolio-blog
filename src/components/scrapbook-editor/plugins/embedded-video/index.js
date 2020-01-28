@@ -50,7 +50,9 @@ export default EmbeddedVideo;
 
 const AlignmentContainer = function(props) {
   return (
-    <div className={props.sizeClassName} style={{ margin: "0 auto" }}>
+    <div
+      className={`${props.sizeClassName} mx-auto brandywine-responsive-x-padding`}
+    >
       {props.children}
     </div>
   );
