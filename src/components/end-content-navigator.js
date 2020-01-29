@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const ButtonLink = styled.button`
-  background-color: white;
+  background: none;
   position: relative;
   outline: none;
   border: none;

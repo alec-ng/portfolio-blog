@@ -24,7 +24,7 @@ const IconContainer = styled.span`
   text-align: center;
   margin-top: -10px;
   padding: 0 5px;
-  background-color: white;
+  background-color: rgb(250, 250, 250);
   color: rgb(255, 69, 0);
 `;
 
