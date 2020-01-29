@@ -41,8 +41,15 @@ const content = [
         <StyledTitle>react-brandywine-editor</StyledTitle>
         <h2>npm package / React Library</h2>
         <p>
-          A WYSIWYG-like block editor for creating blogging content. Try it out
-          on
+          A WYSIWYG-like block editor for creating blogging content. Try out a
+          <a
+            href="https://ld0lq.csb.app/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            &nbsp;demo&nbsp;
+          </a>
+          hosted on
           <a
             href="https://codesandbox.io/s/react-brandywine-editor-ld0lq"
             rel="noopener noreferrer"
@@ -50,8 +57,8 @@ const content = [
           >
             &nbsp;codesandbox
           </a>
-          , check out a live demo of content produced and rendered with
-          brandywine on my <a href="/blog">blog</a>.
+          , our check out my <a href="/blog">blog</a> that uses content produced
+          and rendered with react-brandywine-editor.
         </p>
         <br />
         <img

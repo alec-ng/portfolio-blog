@@ -3,14 +3,14 @@ import LoadingOverlay from "./loading-overlay";
 import FancyHr from "./blog-post-hr";
 import EndContentNavigator from "./end-content-navigator";
 
-import { BrandywineEditor } from "./scrapbook-editor/";
-import Image from "./scrapbook-editor/plugins/image/index";
-import Markdown from "./scrapbook-editor/plugins/markdown/index";
-import CoverPhoto from "./scrapbook-editor/plugins/cover-photo/index";
-import Spacer from "./scrapbook-editor/plugins/spacer/index";
-import Carousel from "./scrapbook-editor/plugins/carousel/index";
-import EmbeddedVideo from "../components/scrapbook-editor/plugins/embedded-video/";
-import HTMLVideo from "../components/scrapbook-editor/plugins/html-video/";
+import { BrandywineEditor } from "react-brandywine-editor";
+import Image from "react-brandywine-editor/lib/plugins/image/";
+import Markdown from "react-brandywine-editor/lib/plugins/markdown/";
+import CoverPhoto from "react-brandywine-editor/lib/plugins/cover-photo/";
+import Spacer from "react-brandywine-editor/lib/plugins/spacer/";
+import Carousel from "react-brandywine-editor/lib/plugins/carousel/";
+import EmbeddedVideo from "react-brandywine-editor/lib/plugins/embedded-video/";
+import HTMLVideo from "react-brandywine-editor/lib/plugins/html-video/";
 
 const plugins = [
   Image,
