@@ -21,7 +21,7 @@ export default function TextActionContainer(props) {
   return (
     <>
       <div className="row pb-3">
-        <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3 text-center">
+        <div className="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 text-center">
           <WhiteParagraph>{props.text}</WhiteParagraph>
         </div>
       </div>
