@@ -42,24 +42,31 @@ export default function TreeManager(props) {
   useEffect(() => {
     // Check for case of initial redirect, where treeData and postKey may refer to different
     // collections
-    if (postKey && treeData && keyToPostMap[postKey.toUpperCase()]) {
-      setSelectedKey(keyToPostMap[postKey.toUpperCase()].postDataId);
-      const [yearNodeKey, monthNodeKey] = getInitialExpandedKeys(
-        postDate,
-        treeData
-      );
-      let newExpandedKeys = JSON.parse(JSON.stringify(expandedKeys));
-      if (expandedKeys.indexOf(yearNodeKey) === -1) {
-        newExpandedKeys.push(yearNodeKey);
-      }
-      if (expandedKeys.indexOf(monthNodeKey) === -1) {
-        newExpandedKeys.push(monthNodeKey);
-      }
-      if (expandedKeys.length < newExpandedKeys.length) {
-        setExpandedKeys(newExpandedKeys);
-      }
+    if (!postKey || !treeData || !keyToPostMap[postKey.toUpperCase()]) {
+      return;
     }
-  }, [postKey, postDate, treeData, keyToPostMap, expandedKeys]);
+    // Case where user was just interacting with tree but same post is being shown
+    const newKey = keyToPostMap[postKey.toUpperCase()].postDataId;
+    if (newKey === selectedKey) {
+      return;
+    }
+
+    setSelectedKey(newKey);
+    const [yearNodeKey, monthNodeKey] = getInitialExpandedKeys(
+      postDate,
+      treeData
+    );
+    let newExpandedKeys = JSON.parse(JSON.stringify(expandedKeys));
+    if (expandedKeys.indexOf(yearNodeKey) === -1) {
+      newExpandedKeys.push(yearNodeKey);
+    }
+    if (expandedKeys.indexOf(monthNodeKey) === -1) {
+      newExpandedKeys.push(monthNodeKey);
+    }
+    if (expandedKeys.length < newExpandedKeys.length) {
+      setExpandedKeys(newExpandedKeys);
+    }
+  }, [postKey, postDate, treeData, keyToPostMap, expandedKeys, selectedKey]);
 
   // If leaf, make callout to get chosen post
   // If not a leaf, expand and show its children
