@@ -20,6 +20,7 @@ const icon = <CodeIcon />;
 
 const StyledTitle = styled.h3`
   color: #ea5a4f;
+  overflow-wrap: break-word;
 `;
 
 function SourceLink(props) {
@@ -95,7 +96,7 @@ const content = [
   {
     data: (
       <>
-        <StyledTitle>https://alecng.ca/blog</StyledTitle>
+        <StyledTitle>alecng.ca/blog</StyledTitle>
         <h2>React Application</h2>
         <p>
           Custom blogging platform that showcases content managed with

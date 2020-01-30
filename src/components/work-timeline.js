@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 const UnorderedList = styled.ul`
   color: #303e49;
+  padding-inline-start: 20px;
   li {
     margin-bottom: 10px;
   }

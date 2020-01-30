@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
-import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
+import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
 
 import { Link } from "react-router-dom";
@@ -52,7 +52,7 @@ export default function NavLinkGroup(props) {
   return (
     <div style={{ lineHeight: DEFAULT_LINE_HEIGHT }}>
       <Link to="/">
-        <WorkOutlineOutlinedIcon /> Portfolio
+        <PersonOutlineOutlinedIcon /> About
       </Link>
       <br />
       <NavLink

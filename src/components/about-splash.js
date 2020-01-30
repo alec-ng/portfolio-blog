@@ -34,7 +34,7 @@ const LandingDiv = styled.div`
 export default function AboutSplash(props) {
   return (
     <LandingDiv className="aligner-container">
-      <div className="row">
+      <div className="row" style={{ margin: "0" }}>
         <div className="col-md-offset-4"></div>
         <div className="col-md-4">
           <div className="contact-card card">
