@@ -32,6 +32,18 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
+      - name: Use sandbox project
+        uses: w9jds/firebase-action@master
+        with:
+          args: use alec-ng-sandbox
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Set Firebase hosting deploy target
+        uses: w9jds/firebase-action@master
+        with:
+          args: traget:apply hosting sbx-site alec-ng-sandbox
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
