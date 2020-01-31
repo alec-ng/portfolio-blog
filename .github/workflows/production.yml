@@ -1,0 +1,62 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_ENV: production # readonly production data in sandbox
+      REACT_APP_FIREBASE_API_KEY:  ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+      REACT_APP_AUTH_DOMAIN:  ${{ secrets.REACT_APP_AUTH_DOMAIN }} 
+      REACT_APP_DATABASE_URL:  ${{ secrets.REACT_APP_DATABASE_URL }} 
+      REACT_APP_PROJECT_ID:  ${{ secrets.REACT_APP_PROJECT_ID }} 
+      REACT_APP_STORAGE_BUCKET:  ${{ secrets.REACT_APP_STORAGE_BUCKET }} 
+      REACT_APP_MESSENGER_SENDER_ID:  ${{ secrets.REACT_APP_MESSENGER_SENDER_ID }} 
+      REACT_APP_APP_ID:  ${{ secrets.REACT_APP_SBX_ID }} 
+      REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }} 
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: build
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: build
+      - name: Use sandbox project
+        uses: w9jds/firebase-action@master
+        with:
+          args: use alecng-site
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Set Firebase hosting deploy target
+        uses: w9jds/firebase-action@master
+        with:
+          args: target:apply hosting site alecng-site
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:site
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
