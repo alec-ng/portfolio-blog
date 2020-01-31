@@ -56,15 +56,11 @@ export default function TreeManager(props) {
       postDate,
       treeData
     );
-    let newExpandedKeys = JSON.parse(JSON.stringify(expandedKeys));
-    if (expandedKeys.indexOf(yearNodeKey) === -1) {
-      newExpandedKeys.push(yearNodeKey);
-    }
-    if (expandedKeys.indexOf(monthNodeKey) === -1) {
-      newExpandedKeys.push(monthNodeKey);
-    }
-    if (expandedKeys.length < newExpandedKeys.length) {
-      setExpandedKeys(newExpandedKeys);
+    if (
+      expandedKeys.indexOf(yearNodeKey) === -1 ||
+      expandedKeys.indexOf(monthNodeKey === -1)
+    ) {
+      setExpandedKeys([yearNodeKey, monthNodeKey]);
     }
   }, [postKey, postDate, treeData, keyToPostMap, expandedKeys, selectedKey]);
 
