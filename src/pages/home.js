@@ -10,15 +10,15 @@ import ResumePath from "../assets/home/alec-ng-resume.pdf";
 
 const AboutBlurb = (
   <>
-    I am a software engineer with 3 years industry experience in custom web
-    application development, technical architecture, and business consulting.
+    I am a full stack software engineer with 3.5 years industry experience in
+    web application development, technical architecture, and business
+    consulting.
     <br />
     <br />
-    My accomplishments include leading the design and development of multiple
-    Lightning Communities deployed to over 50,000 combined live users. For these
-    projects, I acted as a tech lead and was involved in the full development
-    lifecycle from roadmap planning, requirement gathering, implementation,
-    release, and support.
+    Delivered multiple web portal applications to over 50,000 users as a tech
+    lead responsible for the architecture and development. My expertise lies in
+    combining a technical foundation in full stack engineering with strong
+    client services and interpersonal skills.
   </>
 );
 
