@@ -92,7 +92,7 @@ export default function Home(props) {
       <ColouredContainer bgColour="rgb(97, 129, 182)" colour="white">
         <h1 className="text-center pb-4">Contact</h1>
         <TextActionContainer
-          text="I am currently open to remote, full time opportunities."
+          text="I am currently open to remote opportunities, full time or contract."
           linkPath="mailto:alecng94@gmail.com"
           linkText="Email"
         />
