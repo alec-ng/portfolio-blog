@@ -13,7 +13,7 @@ const OverlayContainer = styled.div`
   align-items: ${props => (props.type === "linear" ? "initial" : "center")};
   width: 100%;
   padding: 0 20%;
-  background-color: white;
+  background-color: rgb(250, 250, 250);
 `;
 
 export default function LoadingOverlay(props) {
