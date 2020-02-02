@@ -63,20 +63,25 @@ export default function ExpertiseSection(props) {
             <h4>Front-end</h4>
             <PrimaryChip label="React" />
             <PrimaryChip label="ES6 JavaScript" />
+            <PrimaryChip label="Lightning Web Components" />
             <PrimaryChip label="HTML5 / CSS3" />
-            <PrimaryChip label="Webpack" />
-            <PrimaryChip label="JavaScript Testing" />
             <PrimaryChip label="npm Package Development" />
             <PrimaryChip label="UI Design" />
           </section>
           <section className="mt-3">
             <h4>Back-end</h4>
             <PrimaryChip label="Object-oriented Programming" />
-            <PrimaryChip label="Relational Databases" />
+            <PrimaryChip label="Relational Database Design" />
             <PrimaryChip label="Query Optimization" />
             <PrimaryChip label="NoSQL Databases" />
-            <PrimaryChip label="Data Modelling" />
             <PrimaryChip label="Google Firebase" />
+          </section>
+          <section className="mt-3">
+            <h4>Software Practices</h4>
+            <PrimaryChip label="CI/CD" />
+            <PrimaryChip label="Agile Methodology" />
+            <PrimaryChip label="Git" />
+            <PrimaryChip label="TDD/BDD" />
           </section>
         </div>
       </Card>
