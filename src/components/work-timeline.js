@@ -42,9 +42,9 @@ const content = [
             a Salesforce mobile app feature deployed to over 13,000 users
           </li>
           <li>
-            Led client facing software architecture discussions on security,
-            scalability and data migration strategies for a customer portal to
-            be rolled out to 200,000 users across 3 continents
+            Led client facing software architecture engagements on security,
+            scalability and data migration strategies for a customer portal
+            designed to serve 600,000 users across 3 continents
           </li>
           <li>
             Formalized and documented the company’s security guidelines for
