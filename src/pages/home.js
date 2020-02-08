@@ -15,10 +15,10 @@ const AboutBlurb = (
     consulting.
     <br />
     <br />
-    Delivered multiple web portal applications to over 50,000 users as a tech
-    lead responsible for the architecture and development. My expertise lies in
-    combining a technical foundation in full stack engineering with strong
-    client services and interpersonal skills.
+    Delivered multiple web portal applications used by over 50,000 users as a
+    tech lead responsible for the design, implementation, and release. Expertise
+    lies in combining a technical foundation in full stack engineering with
+    strong client services and interpersonal skills.
   </>
 );
 

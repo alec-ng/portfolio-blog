@@ -38,17 +38,23 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Managed a team of 6 as a tech lead in the development and launch of
-            a Salesforce mobile app feature deployed to over 13,000 users
+            Managed a team of 6 as a tech lead in the implementation and release
+            of a mobile app feature deployed to over 13,000 users by reviewing
+            code, delegating tasks, and handling deployments
           </li>
           <li>
-            Led client facing software architecture discussions on security,
-            scalability and data migration strategies for a customer portal to
-            be rolled out to 200,000 users across 3 continents
+            Led client facing software architecture engagements on security,
+            scalability and data migration strategies for a customer portal
+            designed to serve 600,000 users across 3 continents
           </li>
           <li>
             Formalized and documented the company’s security guidelines for
             Salesforce development based on OWASP and Salesforce standards
+          </li>
+          <li>
+            Developed excellent communication and time management skills from
+            working with a partially distributed team alongside clients in
+            different time zones
           </li>
         </UnorderedList>
       </>
@@ -62,8 +68,9 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Designed the front end architecture for a customer portal launched
-            to 40,000 active users using Salesforce’s Aura Components framework
+            Collaborated with design teams to create the front end template for
+            a customer portal launched to 40,000 active users using Salesforce
+            Aura Components framework
           </li>
           <li>
             Acted as principal consultant for a client by planning future
@@ -116,7 +123,15 @@ const content = [
     data: (
       <>
         <h3>.NET Developer Co-op</h3>
-        <h2>Avanti Commerce</h2>
+        <h2>
+          <a
+            href="https://www.avanti.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Avanti Commerce
+          </a>
+        </h2>
         <UnorderedList>
           <li>
             Optimized an internal PDF exporting tool by converting it from a
