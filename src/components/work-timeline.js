@@ -116,7 +116,15 @@ const content = [
     data: (
       <>
         <h3>.NET Developer Co-op</h3>
-        <h2>Avanti Commerce</h2>
+        <h2>
+          <a
+            href="https://www.avanti.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Avanti Commerce
+          </a>
+        </h2>
         <UnorderedList>
           <li>
             Optimized an internal PDF exporting tool by converting it from a
