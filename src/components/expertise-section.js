@@ -41,6 +41,9 @@ const StyledChip = styled(Chip)`
     color: rgb(255, 69, 0);
     border: 1px solid rgb(255, 69, 0);
   }
+  &.MuiChip-label {
+    white-space: normal;
+  }
 `;
 
 function PrimaryChip(props) {

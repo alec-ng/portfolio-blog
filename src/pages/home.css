@@ -30,6 +30,12 @@ hr {
   opacity: 0.95;
   backface-visibility: hidden;
 }
+@media (max-width: 767px) {
+  .name-style {
+    text-align: center;
+  }
+}
+
 @media (min-width: 768px) {
   .contact-card.card {
     width: initial;

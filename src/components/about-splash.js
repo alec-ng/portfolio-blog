@@ -48,8 +48,7 @@ export default function AboutSplash(props) {
               </div>
               <div className="col-md-6 aligner-container custom-justify py-2">
                 <div>
-                  <span className="name-style">alec ng</span>
-                  <br />
+                  <div className="name-style">alec ng</div>
                   <LocationOnIcon />
                   &nbsp;&nbsp;Vancouver, Canada
                   <br />
