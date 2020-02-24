@@ -1,52 +1,25 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import Slide from "@material-ui/core/Slide";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-// Based off of https://github.com/mui-org/material-ui/blob/master/docs/src/pages/components/drawers/ResponsiveDrawer.js
-// permanent drawer on dresktop, no header
-// temporary drawer on mobile, with header + toggle button
-
 const drawerWidth = 315;
-
 const useStyles = makeStyles(theme => ({
   colorPrimary: {
     backgroundColor: "rgb(55, 58, 71)"
   },
-  root: {
-    [theme.breakpoints.up("md")]: {
-      height: "100%",
-      marginLeft: drawerWidth
-    }
-  },
-  drawer: {
-    [theme.breakpoints.up("md")]: {
-      width: drawerWidth,
-      flexShrink: 0
-    }
-  },
-  appBar: {
-    [theme.breakpoints.up("md")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth
-    }
-  },
   menuButton: {
     marginRight: theme.spacing(2),
-    color: "rgb(255,69,0)",
-    [theme.breakpoints.up("md")]: {
-      display: "none"
-    }
+    color: "rgb(255,69,0)"
   },
   toolbar: {
-    [theme.breakpoints.down("sm")]: {
-      ...theme.mixins.toolbar
-    }
+    ...theme.mixins.toolbar
   },
   drawerPaper: {
     width: drawerWidth,
@@ -68,10 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    position: "relative",
-    [theme.breakpoints.up("md")]: {
-      height: "100%"
-    }
+    position: "relative"
   }
 }));
 
@@ -88,75 +58,77 @@ const DrawerContainer = function(props) {
   );
 };
 
-export default function ResponsiveDrawer(props) {
+function HideOnScroll({ children }) {
+  const trigger = useScrollTrigger();
+  return (
+    <Slide direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
+export default function Drawer(props) {
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(isMobile ? false : true);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const openDrawer = () => {
+    setOpen(true);
+  };
+  const closeDrawer = () => {
+    setOpen(false);
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <CssBaseline />
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* MOBILE VIEW */}
-        <Hidden mdUp implementation="css">
-          <AppBar
-            position="fixed"
-            classes={{
-              colorPrimary: classes.colorPrimary,
-              root: classes.appBar
-            }}
-          >
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-              paperAnchorDockedLeft: classes.paperAnchorDockedLeft
-            }}
-            ModalProps={{ keepMounted: true }} // Better open performance on mobile.
-          >
-            <DrawerContainer>{props.children}</DrawerContainer>
-          </Drawer>
-        </Hidden>
 
-        {/* DESKTOP VIEW */}
-        <Hidden smDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-              paperAnchorDockedLeft: classes.paperAnchorDockedLeft
-            }}
-            variant="permanent"
-            open
-          >
-            <DrawerContainer>{props.children}</DrawerContainer>
-          </Drawer>
-        </Hidden>
-      </nav>
+      <HideOnScroll>
+        <AppBar
+          position="fixed"
+          classes={{
+            colorPrimary: classes.colorPrimary,
+            root: classes.appBar
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={openDrawer}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
 
-      {/* CONTENT */}
+      <SwipeableDrawer
+        variant="temporary"
+        anchor={theme.direction === "rtl" ? "right" : "left"}
+        open={open}
+        onOpen={openDrawer}
+        onClose={closeDrawer}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
+        classes={{
+          paper: classes.drawerPaper,
+          paperAnchorDockedLeft: classes.paperAnchorDockedLeft
+        }}
+      >
+        <DrawerContainer>{props.children}</DrawerContainer>
+      </SwipeableDrawer>
+
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {props.content}
       </main>
-    </div>
+    </>
   );
 }
