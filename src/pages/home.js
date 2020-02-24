@@ -10,15 +10,12 @@ import ResumePath from "../assets/home/alec-ng-resume.pdf";
 
 const AboutBlurb = (
   <>
-    I am a full stack software engineer with 3.5 years industry experience in
-    web application development, technical architecture, and business
-    consulting.
-    <br />
-    <br />
-    Delivered multiple web portal applications used by over 50,000 users as a
-    tech lead responsible for the design, implementation, and release. Expertise
-    lies in combining a technical foundation in full stack engineering with
-    strong client services and interpersonal skills.
+    Frontend Software Engineer with 3.5 years industry experience in web
+    application development, technical architecture, and business consulting.
+    Delivered multiple SaaS based solutions used by over 50,000 users as a tech
+    lead responsible for the full development lifecycle. Expertise lies in
+    combining a technical foundation in modern frontend development practices
+    with strong interpersonal skills to deliver innovative user experiences.
   </>
 );
 
@@ -92,7 +89,7 @@ export default function Home(props) {
       <ColouredContainer bgColour="rgb(97, 129, 182)" colour="white">
         <h1 className="text-center pb-4">Contact</h1>
         <TextActionContainer
-          text="I am currently open to remote opportunities, full time or contract."
+          text="I am currently open to frontend focused software engineering opportunities in Vancouver, BC, or remote."
           linkPath="mailto:alecng94@gmail.com"
           linkText="Email"
         />

@@ -38,23 +38,25 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Managed a team of 6 as a tech lead in the implementation and release
-            of a mobile app feature deployed to over 13,000 users by reviewing
-            code, delegating tasks, and handling deployments
+            Facilitated the technical design of a customer portal intended to
+            serve 600,000 users across 3 continents by leading client facing
+            software architecture sessions on security, scalability and data
+            migration strategies
           </li>
           <li>
-            Led client facing software architecture engagements on security,
-            scalability and data migration strategies for a customer portal
-            designed to serve 600,000 users across 3 continents
+            Led the implementation and release of a mobile app feature deployed
+            to over 13,000 users by performing code reviews, organizing sprints,
+            and handling deployments as the developer lead in a team of 6
           </li>
           <li>
-            Formalized and documented the company’s security guidelines for
-            Salesforce development based on OWASP and Salesforce standards
+            Spearheaded the formalization of the company’s development security
+            standards based on OWASP and Salesforce guidelines, resulting in the
+            company’s standardization of project security testing
           </li>
           <li>
             Developed excellent communication and time management skills from
-            working with a partially distributed team alongside clients in
-            different time zones
+            working in a partial remote capacity alongside colleagues and
+            clients operating in different time zones
           </li>
         </UnorderedList>
       </>
@@ -68,31 +70,30 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Collaborated with design teams to create the front end template for
-            a customer portal launched to 40,000 active users using Salesforce
-            Aura Components framework
+            Created the front end UI, UX, and architecture for a customer portal
+            launched to 40,000 active users by transforming designer mockups to
+            HTML, CSS, and JavaScript
           </li>
           <li>
-            Acted as principal consultant for a client by planning future
-            roadmaps, creating statements of work and supporting production
-            issues
+            Fostered a 1.5 year long relationship with a client where I acted as
+            the principal point of contact, led the delivery of two front end
+            applications, and created future project roadmaps
           </li>
           <li>
-            Selectively chosen by Salesforce to present a
+            Selectively chosen to present a
             <a
               href="https://www.youtube.com/watch?v=epQQdM29UFU"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {" "}
-              20 minute talk{" "}
+              &nbsp;20 minute talk&nbsp;
             </a>
-            at Dreamforce 2018 about JavaScript testing on the Lightning
-            Platform
+            to over 200 people at Dreamforce 2018, Salesforce’s annual user
+            conference, about JavaScript testing on the Lightning Platform
           </li>
           <li>
-            Developed a cross-browser, public facing Google Maps application
-            that has logged an average of 8,000 unique searches a day
+            Delivered a public facing Google Maps JavaScript application to a
+            client that logged an average of 8,000 unique searches a day
           </li>
         </UnorderedList>
       </>
@@ -106,13 +107,14 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Published a Salesforce managed package written in JavaScript and
-            Apex that improves developer productivity by providing dashboard
-            versioning capabilities for the Wave Analytics application
+            Published a Salesforce managed package written in JavaScript that
+            improves developer productivity by providing versioning capabilities
+            for Salesforce’s Wave Analytics dashboard application
           </li>
           <li>
-            Supported the development and release of a custom Stripe payment
-            subscription system built on Salesforce to a 300 person user base
+            Supported the development and release of a custom Salesforce
+            integrated subscription system, enabling the client to track
+            payments made through Stripe for their 300 person user base
           </li>
         </UnorderedList>
       </>
