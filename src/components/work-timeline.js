@@ -38,13 +38,12 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
-            Facilitated the technical design of a customer portal intended to
-            serve 600,000 users across 3 continents by leading client facing
-            software architecture sessions on security, scalability and data
-            migration strategies
+            Facilitated the technical architecture of a SaaS application
+            designed to serve 600,000 users by leading client facing sessions on
+            scalability and data modelling/migration strategies
           </li>
           <li>
-            Led the implementation and release of a mobile app feature deployed
+            Led the full development lifecycle of a mobile app feature deployed
             to over 13,000 users by performing code reviews, organizing sprints,
             and handling deployments as the developer lead in a team of 6
           </li>
@@ -70,14 +69,19 @@ const content = [
         <h2>{GroundswellLink}</h2>
         <UnorderedList>
           <li>
+            Fostered a 1.5 year long relationship with a client where I led the
+            development and delivery of 2 front end applications after
+            transforming high level business needs to project roadmaps
+          </li>
+          <li>
             Created the front end UI, UX, and architecture for a customer portal
             launched to 40,000 active users by transforming designer mockups to
             HTML, CSS, and JavaScript
           </li>
           <li>
-            Fostered a 1.5 year long relationship with a client where I acted as
-            the principal point of contact, led the delivery of two front end
-            applications, and created future project roadmaps
+            Delivered a public facing map application that enabled users to
+            search and interact with data housed in the client’s Salesforce org,
+            logging an average of 8,000 unique searches a day
           </li>
           <li>
             Selectively chosen to present a
@@ -90,10 +94,6 @@ const content = [
             </a>
             to over 200 people at Dreamforce 2018, Salesforce’s annual user
             conference, about JavaScript testing on the Lightning Platform
-          </li>
-          <li>
-            Delivered a public facing Google Maps JavaScript application to a
-            client that logged an average of 8,000 unique searches a day
           </li>
         </UnorderedList>
       </>
