@@ -25,7 +25,7 @@ export default function Treeview(props) {
           treeData={props.treeData}
         />
       ) : (
-        <p>You have no posts to show.</p>
+        <p>There are no posts to show.</p>
       )}
     </>
   );

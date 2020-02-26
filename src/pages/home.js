@@ -1,11 +1,12 @@
 import React from "react";
 
-import TextActionContainer from "./../components/text-action-container";
-import AboutSplash from "./../components/about-splash";
-import ColouredContainer from "./../components/coloured-container";
-import WorkTimeline from "./../components/work-timeline";
-import ExpertiseSection from "../components/expertise-section";
-import ProjectTimeline from "../components/project-timeline";
+import TextActionContainer from "../components/portfolio/text-action-container";
+import AboutSplash from "../components/portfolio/about-splash";
+import ColouredContainer from "../components/portfolio/coloured-container";
+import WorkTimeline from "../components/portfolio/work-timeline";
+import ExpertiseSection from "../components/portfolio/expertise-section";
+import ProjectTimeline from "../components/portfolio/project-timeline";
+
 import ResumePath from "../assets/home/alec-ng-resume.pdf";
 
 const AboutBlurb = (
@@ -19,7 +20,7 @@ const AboutBlurb = (
   </>
 );
 
-export default function Home(props) {
+export default function Home() {
   document.title = "Alec Ng";
   let sectionRef = React.useRef(null);
 

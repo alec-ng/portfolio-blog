@@ -6,6 +6,7 @@ import Fade from "@material-ui/core/Fade";
 
 const OverlayContainer = styled.div`
   position: absolute;
+  top: 0;
   display: flex;
   flex-direction: column;
   height: 100%;

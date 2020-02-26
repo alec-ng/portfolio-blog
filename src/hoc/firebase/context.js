@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const FirebaseContext = React.createContext(null);
 
 /**
- * Higher order component for providing firebase 
+ * Higher order component for providing firebase
  */
 export const withFirebase = function(Component) {
   return function(props) {
@@ -12,7 +12,7 @@ export const withFirebase = function(Component) {
         {firebase => <Component {...props} firebase={firebase} />}
       </FirebaseContext.Consumer>
     );
-  }
-}
+  };
+};
 
 export default FirebaseContext;

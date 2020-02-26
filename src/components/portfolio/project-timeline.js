@@ -3,10 +3,11 @@ import styled from "styled-components";
 import VerticalTimeline from "./vertical-timeline";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import CodeIcon from "@material-ui/icons/Code";
-import EditorGif from "./../assets/home/brandywine-editor.gif";
-import CmsGif from "./../assets/home/brandywine-cms.gif";
-import BlogGif from "./../assets/home/blog.gif";
-import ProjectConvolutionalPhoto from "./../assets/home/fully-convolutional.png";
+
+import EditorGif from "../../assets/home/brandywine-editor.gif";
+import CmsGif from "../../assets/home/brandywine-cms.gif";
+import BlogGif from "../../assets/home/blog.gif";
+import ProjectConvolutionalPhoto from "../../assets/home/fully-convolutional.png";
 
 const contentStyle = {
   background: "white",

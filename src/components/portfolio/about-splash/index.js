@@ -2,16 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import headshot from "./../assets/home/headshot.jpg";
-import bg_main from "./../assets/home/home-bg-main.jpg";
-import resume from "../assets/home/alec-ng-resume.pdf";
+import headshot from "../../../assets/home/headshot.jpg";
+import bg_main from "../../../assets/home/home-bg-main.jpg";
+import resume from "../../../assets/home/alec-ng-resume.pdf";
 
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import MailIcon from "@material-ui/icons/Mail";
 import WorkIcon from "@material-ui/icons/Work";
 import DescriptionOutlinedIcon from "@material-ui/icons/Description";
 
-import "./../pages/home.css";
+import "./styles.css";
 
 const LandingDiv = styled.div`
   height: 100vh;
@@ -28,8 +28,20 @@ const LandingDiv = styled.div`
   height: inherit;
 `;
 
+const FancyHr = styled.hr`
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+`;
+
 /**
  * Full page height splash component showing summary of myself
+ * Quick import from legacy site
  */
 export default function AboutSplash(props) {
   return (
@@ -74,7 +86,7 @@ export default function AboutSplash(props) {
               </div>
             </div>
             <div className="text-center">
-              <hr />
+              <FancyHr />
             </div>
             <div className="row">
               <div className="offset-sm-2 col-sm-4 col-xs-12 text-center p-0">

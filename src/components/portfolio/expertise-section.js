@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Chip from "@material-ui/core/Chip";
 
-import ReactLogo from "./../assets/home/react.png";
-import SalesforceLogo from "./../assets/home/salesforce.png";
+import ReactLogo from "../../assets/home/react.png";
+import SalesforceLogo from "../../assets/home/salesforce.png";
 
 const ImageOffset = "50px";
 

@@ -25,7 +25,7 @@ export default function usePostIndex(collection, firebase) {
           `Sorry, something went wrong with fetching this collection. Please refresh and try again.`
         );
         console.error(failure);
-        setPostIndex(null);
+        setPostIndex([]);
       })
       .finally(() => {
         setPostIndexPending(false);

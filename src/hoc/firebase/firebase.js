@@ -64,12 +64,6 @@ class Firebase {
   postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
   photographyIndex = () => this.db.doc(`${COLLECTION_PHOTOGRAPHY_INDEX}/root`);
   tripreportIndex = () => this.db.doc(`${COLLECTION_TRIPREPORT_INDEX}/root`);
-
-  batch = () => this.db.batch();
-  runTransaction = transactionCb => {
-    return this.db.runTransaction(transactionCb);
-  };
-  timestamp = () => this.fieldValue.serverTimestamp();
 }
 
 export default Firebase;

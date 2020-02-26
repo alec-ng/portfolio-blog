@@ -21,20 +21,28 @@ export function getInitialExpandedKeys(date, treeData) {
   }
 
   const [year, month] = date.split("-");
-  let yearNode = treeData.find(node => node.key === `year-${year}`);
+  const { yearKey, monthKey } = getDateNodeKeys(year, month);
+  let yearNode = treeData.find(node => node.key === yearKey);
   if (!yearNode) {
     return [];
   }
-  let monthNode = yearNode.children.find(
-    node => node.key === `month-${year}-${month}`
-  );
+  let monthNode = yearNode.children.find(node => node.key === monthKey);
   if (!monthNode) {
     return [];
   }
-
   return [yearNode.key, monthNode.key];
 }
 
+/**
+ * Given a mm and yyyy value, return back the keys to the corresponding rc-tree nodes
+ */
+const getYearKey = year => `year-${year}`;
+const getMonthKey = (year, month) => `year-${(year, month)}`;
+export function getDateNodeKeys(year, month) {
+  const yearKey = getYearKey(year);
+  const monthKey = getMonthKey(year, month);
+  return { yearKey, monthKey };
+}
 /**
  * Given the postIndex.index, returns an array of node objects to be used as treeData
  */
@@ -43,6 +51,8 @@ export function createTreeData(indexArr) {
   let keyData = getGroupedPostData(indexArr);
   let treeData = [];
   let sequentialData = [];
+  let yearKeys = [];
+  let monthKeys = [];
 
   function reverse(a, b) {
     return b - a;
@@ -54,19 +64,21 @@ export function createTreeData(indexArr) {
   sortedYears.forEach(year => {
     let months = [];
     let yearNode = {
-      key: `year-${year}`,
+      key: getYearKey(year),
       title: year.toString(),
       children: months
     };
+    yearKeys.push(yearNode.key);
 
     let sortedMonths = Object.keys(keyData[year]).sort(reverse);
     sortedMonths.forEach(month => {
       let posts = [];
       let monthNode = {
-        key: `month-${year}-${month}`,
+        key: getMonthKey(year, month),
         title: monthMap[month],
         children: posts
       };
+      monthKeys.push(monthNode.key);
 
       let sortedDays = Object.keys(keyData[year][month]).sort(reverse);
       sortedDays.forEach(day => {
@@ -87,10 +99,7 @@ export function createTreeData(indexArr) {
     treeData.push(yearNode);
   });
 
-  return {
-    treeData: treeData,
-    sequentialData: sequentialData
-  };
+  return { treeData, sequentialData, monthKeys, yearKeys };
 }
 
 // groups all posts by year, then by each year's month, then by each month's date

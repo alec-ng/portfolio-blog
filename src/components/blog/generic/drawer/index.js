@@ -7,56 +7,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-
-const drawerWidth = 315;
-const useStyles = makeStyles(theme => ({
-  colorPrimary: {
-    backgroundColor: "rgb(55, 58, 71)"
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: "rgb(255,69,0)"
-  },
-  toolbar: {
-    ...theme.mixins.toolbar
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: "#373a47",
-    "&::-webkit-scrollbar": {
-      width: "5px"
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "rgb(255, 69, 0)",
-      borderRadius: "5px"
-    },
-    "&::-webkit-scrollbar-track": {
-      opacity: "0",
-      margin: "5px 0"
-    }
-  },
-  paperAnchorDockedLeft: {
-    borderRight: "none"
-  },
-  content: {
-    flexGrow: 1,
-    position: "relative"
-  }
-}));
-
-const DrawerContainer = function(props) {
-  return (
-    <div
-      style={{
-        padding: "30px 10px",
-        color: "rgb(184, 183, 173)"
-      }}
-    >
-      {props.children}
-    </div>
-  );
-};
+import { useTheme } from "@material-ui/core/styles";
+import { DrawerContainer, useStyles } from "./styles";
 
 function HideOnScroll({ children }) {
   const trigger = useScrollTrigger();

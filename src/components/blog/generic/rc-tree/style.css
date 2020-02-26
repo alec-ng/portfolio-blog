@@ -5,6 +5,9 @@
 /**
  * Overwrite broken/confliting stlyes
  */
+.rc-tree {
+  padding: 0 0 0 4px;
+}
 .rc-tree li .rc-tree-node-content-wrapper {
   height: initial;
 }

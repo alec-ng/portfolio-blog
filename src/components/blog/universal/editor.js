@@ -1,7 +1,4 @@
 import React from "react";
-import LoadingOverlay from "./loading-overlay";
-import FancyHr from "./blog-post-hr";
-import EndContentNavigator from "./end-content-navigator";
 
 import { BrandywineEditor } from "react-brandywine-editor";
 import Image from "react-brandywine-editor/lib/plugins/image/";
@@ -23,25 +20,15 @@ const plugins = [
 ];
 
 /**
- * Renders an instance of scrapbook-editor. If no valid data is provided,
- * renders a loading overlay.
+ * readonly BrandywineEditor instance
  */
-export default function BlogContent(props) {
+export default function Editor({ pageData, postKey }) {
   return (
-    <>
-      <LoadingOverlay type="circular" visible={props.loading} />
-      {props.postData && (
-        <div className="mb-5">
-          <BrandywineEditor
-            readOnly={true}
-            pageData={props.postData}
-            plugins={plugins}
-            key={JSON.stringify(props.postData)}
-          />
-          <FancyHr />
-          <EndContentNavigator index={props.postIndex} />
-        </div>
-      )}
-    </>
+    <BrandywineEditor
+      readOnly={true}
+      pageData={pageData}
+      plugins={plugins}
+      key={postKey}
+    />
   );
 }

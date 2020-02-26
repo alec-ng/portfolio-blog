@@ -1,48 +1,27 @@
 import React from "react";
-import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
 
-import { Link } from "react-router-dom";
+import { StyledHeavyText } from "./styled-sidebar-elements";
 import {
   PATH_BLOG,
   COLLECTION_TRAVELS,
   COLLECTION_TRIPREPORTS
-} from "./../util/constants";
+} from "../../../util/constants";
 
 const DEFAULT_LINE_HEIGHT = "25px";
-
-const StyledStaticText = styled.b`
-  font-weight: 700;
-  color: rgb(255, 69, 0);
-`;
-
 const TravelText = (
   <>
-    {" "}
-    <PublicOutlinedIcon /> Travels{" "}
+    <PublicOutlinedIcon /> Travels
   </>
 );
 const TripreportsText = (
   <>
-    {" "}
-    <FilterHdrOutlinedIcon /> Trip Reports{" "}
+    <FilterHdrOutlinedIcon /> Trip Reports
   </>
 );
-
-function NavLink(props) {
-  return (
-    <>
-      {props.currentCollection === props.collection ? (
-        <StyledStaticText>{props.text}</StyledStaticText>
-      ) : (
-        <Link to={`${PATH_BLOG}/${props.collection}`}>{props.text}</Link>
-      )}
-    </>
-  );
-}
 
 /**
  * Renders a group of react-router-dom links depending on what
@@ -61,12 +40,25 @@ export default function NavLinkGroup(props) {
         text={TripreportsText}
       />
       <br />
-      <NavLink
+      {/* 25/02/20: disable until more content is */}
+      {/* <NavLink
         collection={COLLECTION_TRAVELS}
         currentCollection={props.currentCollection}
         text={TravelText}
       />
-      <br />
+      <br /> */}
     </div>
+  );
+}
+
+function NavLink(props) {
+  return (
+    <>
+      {props.currentCollection === props.collection ? (
+        <StyledHeavyText>{props.text}</StyledHeavyText>
+      ) : (
+        <Link to={`${PATH_BLOG}/${props.collection}`}>{props.text}</Link>
+      )}
+    </>
   );
 }
