@@ -23,15 +23,14 @@ export const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     backgroundColor: "#373a47",
     "&::-webkit-scrollbar": {
-      width: "5px"
+      width: "3px"
     },
     "&::-webkit-scrollbar-thumb": {
       backgroundColor: "rgb(255, 69, 0)",
       borderRadius: "5px"
     },
     "&::-webkit-scrollbar-track": {
-      opacity: "0",
-      margin: "5px 0"
+      opacity: "0"
     }
   },
   paperAnchorDockedLeft: {
