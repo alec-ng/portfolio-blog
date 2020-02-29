@@ -144,9 +144,6 @@ function getGroupedPostData(indexArr) {
   for (let year in keyData) {
     for (let month in keyData[year]) {
       for (let day in keyData[year][month]) {
-        if (keyData[year][month][day].length > 1) {
-          debugger;
-        }
         keyData[year][month][day].sort(titleSort);
       }
     }
