@@ -18,7 +18,7 @@ export function urlEncodeStr(str) {
     .trim()
     .toLowerCase()
     .replace(/ /g, "-")
-    .replace(/['']/g, "%27");
+    .replace(/[']/g, "_");
 }
 
 /**
@@ -31,7 +31,7 @@ export function urlDecodeStr(str) {
     .split("-")
     .map(str => {
       const uppercase = str.charAt(0).toUpperCase() + str.slice(1);
-      return uppercase.replace(/%27/g, `'`);
+      return uppercase.replace(/_/g, `'`);
     })
     .join(" ");
 }
