@@ -11,6 +11,21 @@ export const motion = {
   onLeaveStart: node => ({ height: node.offsetHeight })
 };
 
+const monthMap = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Aug",
+  "09": "Sep",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Dec"
+};
+
 /**
  * Given a date, verify that treeData has the appropriate year and month nodes
  * and if so, return their keys to be used as initially expanded nodes
@@ -102,9 +117,13 @@ export function createTreeData(indexArr) {
   return { treeData, sequentialData, monthKeys, yearKeys };
 }
 
-// groups all posts by year, then by each year's month, then by each month's date
+/**
+ * groups all posts by year, date, month, date and sorts by title
+ */
 function getGroupedPostData(indexArr) {
+  const titleSort = (a, b) => (a.title < b.title ? -1 : 1);
   let keyData = {}; // yy -> {mm -> {post}}
+
   indexArr.forEach(post => {
     let [year, month, day] = post.date.split("-"); // yyyy-mm-dd
     if (!keyData[year]) {
@@ -121,20 +140,13 @@ function getGroupedPostData(indexArr) {
       key: post.postDataId
     });
   });
+
+  for (let year in keyData) {
+    for (let month in keyData[year]) {
+      for (let day in keyData[year][month]) {
+        keyData[year][month][day].sort(titleSort);
+      }
+    }
+  }
   return keyData;
 }
-
-const monthMap = {
-  "01": "Jan",
-  "02": "Feb",
-  "03": "Mar",
-  "04": "Apr",
-  "05": "May",
-  "06": "Jun",
-  "07": "Jul",
-  "08": "Aug",
-  "09": "Sep",
-  "10": "Oct",
-  "11": "Nov",
-  "12": "Dec"
-};

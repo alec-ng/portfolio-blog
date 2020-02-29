@@ -10,27 +10,30 @@ export function getKeyFromIndex(postIndexElement) {
 }
 
 /**
- * ASSUMPTION: string only contains alphanumeric characters and spaces
- * returns back a version where all spaces are hyphens, and all lower case
+ * ASSUMPTION: string only contains alphanumeric characters, spaces, and apostrophes
+ * returns back a version that is lowercase, spaces->hyphens, apostrophes encoded
  */
 export function urlEncodeStr(str) {
   return str
     .trim()
     .toLowerCase()
-    .replace(/ /g, "-");
+    .replace(/ /g, "-")
+    .replace(/[']/g, "_");
 }
 
 /**
  * ASSUMPTION: string is the return value of urlEncodeStr() above
- * returns back a version where all hyphens are converted to spaces, and if the string has
- * multiple words, each word is capitalized
+ * returns back a version where all hyphens are converted to spaces, apostrophes decoded,
+ * and each word is capitalized
  */
 export function urlDecodeStr(str) {
-  const strList = str.split("-");
-  const capitalizedStrList = strList.map(
-    str => str.charAt(0).toUpperCase() + str.slice(1)
-  );
-  return capitalizedStrList.join(" ");
+  return str
+    .split("-")
+    .map(str => {
+      const uppercase = str.charAt(0).toUpperCase() + str.slice(1);
+      return uppercase.replace(/_/g, `'`);
+    })
+    .join(" ");
 }
 
 /**
