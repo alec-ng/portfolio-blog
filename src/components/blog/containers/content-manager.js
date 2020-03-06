@@ -55,7 +55,7 @@ function ContentManager({ posts, firebase }) {
     <>
       <LoadingOverlay type="circular" visible={postDataPending} />
       {postData && (
-        <div className="mb-5">
+        <div id="global-editor-container" className="mb-5">
           <Editor pageData={postData} postKey={postKey} />
           <FancyHr collection={collection} />
           <EndContentNavigator
