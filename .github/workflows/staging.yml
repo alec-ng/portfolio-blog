@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build, Deploy, Update PR
 
 on:
   push:
@@ -6,8 +6,19 @@ on:
       - staging
 
 jobs:
+  auto-pull-request:
+    name: Create/Update PR to Master
+    runs-on: ubuntu-latest
+    steps:
+      - name: pull-request-action
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_BRANCH: "master"
+          PULL_REQUEST_TITLE: "Staging Changes"
+          PULL_REQUEST_BODY: "Automated PR to merge changes to production from staging"
   main:
-    name: main
+    name: Build and Deploy
     runs-on: ubuntu-latest
     env:
       REACT_APP_ENV: production # readonly production data in sandbox

@@ -23,6 +23,8 @@ function ContentManager({ posts, firebase }) {
   const history = useHistory();
   const [prevPost, nextPost] = useSequentialPosts(postKey, posts);
   const { postData, postDataPending } = usePostData(firebase, posts, postKey);
+  const postsDoNotExist =
+    !postData && !postDataPending && (!posts || !posts.length);
 
   /**
    * Synchronize document title with post being shown
@@ -53,7 +55,7 @@ function ContentManager({ posts, firebase }) {
     <>
       <LoadingOverlay type="circular" visible={postDataPending} />
       {postData && (
-        <div className="mb-5">
+        <div id="global-editor-container" className="mb-5">
           <Editor pageData={postData} postKey={postKey} />
           <FancyHr collection={collection} />
           <EndContentNavigator
@@ -63,7 +65,7 @@ function ContentManager({ posts, firebase }) {
           />
         </div>
       )}
-      {!postData && !postDataPending && (
+      {postsDoNotExist && (
         <div className="text-center my-5 mx-3">
           <h1>There's nothing to see here!</h1>
           <h3>
