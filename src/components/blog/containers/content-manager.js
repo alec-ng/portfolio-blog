@@ -63,7 +63,7 @@ function ContentManager({ posts, firebase }) {
           />
         </div>
       )}
-      {!postData && !postDataPending && (
+      {!postData && !postDataPending && !posts && (
         <div className="text-center my-5 mx-3">
           <h1>There's nothing to see here!</h1>
           <h3>
