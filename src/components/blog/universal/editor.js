@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrandywineEditor } from "react-brandywine-editor";
+import { BrandywineReader } from "react-brandywine-editor/lib/read-mode/index";
 import Image from "react-brandywine-editor/lib/plugins/image/";
 import Markdown from "react-brandywine-editor/lib/plugins/markdown/";
 import CoverPhoto from "react-brandywine-editor/lib/plugins/cover-photo/";
@@ -24,11 +24,6 @@ const plugins = [
  */
 export default function Editor({ pageData, postKey }) {
   return (
-    <BrandywineEditor
-      readOnly={true}
-      pageData={pageData}
-      plugins={plugins}
-      key={postKey}
-    />
+    <BrandywineReader pageData={pageData} plugins={plugins} key={postKey} />
   );
 }
