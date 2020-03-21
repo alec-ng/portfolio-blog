@@ -7,7 +7,7 @@ import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
  */
 export default function TripReportData({ postMetadata }) {
   return (
-    <div className="brandywine-width_large mx-auto mb-4">
+    <div className="brandywine-width_large brandywine-responsive-x-padding mx-auto mb-4">
       <div>
         <span style={{ color: "rgb(255, 69, 0)" }}>
           <PublicOutlinedIcon />
