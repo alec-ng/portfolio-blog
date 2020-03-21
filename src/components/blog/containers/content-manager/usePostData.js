@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getKeyFromIndex } from "./../util/url-util";
+import { getKeyFromIndex } from "../../../../util/url-util";
 
 /**
  * Given the current collection of posts and a key of a specific post to show,

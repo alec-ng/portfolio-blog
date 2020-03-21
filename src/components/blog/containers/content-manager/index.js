@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import { withFirebase } from "../../../hoc/firebase";
+import { withFirebase } from "../../../../hoc/firebase";
 import { useHistory } from "react-router-dom";
-import useUrlState from "../../../hooks/useUrlState";
-import usePostData from "../../../hooks/usePostData";
-import usePostRedirect from "../../../hooks/usePostRedirect";
-import useSequentialPosts from "../../../hooks/useSequentialPosts";
-import { constructPath } from "../../../util/url-util";
+import useUrlState from "../../../../hooks/useUrlState";
+import usePostData from "./usePostData";
+import usePostRedirect from "./usePostRedirect";
+import useSequentialPosts from "./useSequentialPosts";
 
-import Editor from "../universal/editor";
-import FancyHr from "../universal/blog-post-hr";
-import EndContentNavigator from "../universal/end-content-navigator";
-import LoadingOverlay from "../generic/loading-overlay";
+import { constructPath } from "../../../../util/url-util";
+
+import Editor from "../../universal/editor";
+import FancyHr from "../../universal/blog-post-hr";
+import EndContentNavigator from "../../universal/end-content-navigator";
+import LoadingOverlay from "../../generic/loading-overlay";
 
 /**
  * Container for content concerning the current post

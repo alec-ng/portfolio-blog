@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { constructPath } from "../util/url-util";
+import { constructPath } from "../../../../util/url-util";
 import {
   collectionToDependenciesMap,
   collectionToFiltersMap
-} from "../util/post-filter";
+} from "../../../../util/post-filter";
 
 /**
  * Initiates a redirect if the url parameters provided do not correspond to valid filters
