@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import usePrevious from "./usePrevious";
-import { getKeyFromIndex, constructPath } from "./../util/url-util";
+import usePrevious from "../../../../hooks/usePrevious";
+import { getKeyFromIndex, constructPath } from "../../../../util/url-util";
 
 /**
  * Hook to decide whether or not the post specified by the URL is valid

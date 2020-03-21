@@ -21,11 +21,10 @@ function HideOnScroll({ children }) {
 
 export default function Drawer(props) {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(isMobile ? false : true);
+  const [open, setOpen] = React.useState(false);
 
   const openDrawer = () => {
     setOpen(true);

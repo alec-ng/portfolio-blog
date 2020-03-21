@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { createTreeData } from "../components/blog/generic/rc-tree/util";
-import { getKeyFromIndex } from "../util/url-util";
+import { createTreeData } from "../../generic/rc-tree/util";
+import { getKeyFromIndex } from "../../../../util/url-util";
 
 /**
  * Hook to determine the next/previous post relative to the current selectd post

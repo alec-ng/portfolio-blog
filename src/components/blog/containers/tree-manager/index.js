@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import useUrlState from "../../../hooks/useUrlState";
-import useTransformedIndexData from "../../../hooks/useTransformedIndexData";
-import {
-  getInitialExpandedKeys,
-  createTreeData
-} from "../generic/rc-tree/util";
-import { constructPath } from "../../../util/url-util";
+import useUrlState from "../../../../hooks/useUrlState";
+import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
+import useTreeData from "./useTreeData";
+
+import { getInitialExpandedKeys } from "../../generic/rc-tree/util";
+import { constructPath } from "../../../../util/url-util";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
-import { StyledSidebarButton } from "../universal/styled-sidebar-elements";
-
-import TreeView from "../generic/rc-tree";
+import { StyledSidebarButton } from "../../universal/styled-sidebar-elements";
+import TreeView from "../../generic/rc-tree";
 
 /**
  * treeview whose selected node is synchronized with the URL post-key
@@ -133,26 +131,4 @@ export default function TreeManager({ posts }) {
       />
     </>
   );
-}
-
-/**
- * Hook to generate rc-tree nodes based off of filtered post collection data
- */
-function useTreeData(posts) {
-  const [treeData, setTreeData] = useState(null);
-  const [yearKeys, setYearKeys] = useState(null);
-  const [monthKeys, setMonthKeys] = useState(null);
-
-  useEffect(() => {
-    if (!posts || posts.length === 0) {
-      setTreeData(null);
-      return;
-    }
-    const data = createTreeData(posts);
-    setTreeData(data.treeData);
-    setMonthKeys(data.monthKeys);
-    setYearKeys(data.yearKeys);
-  }, [posts]);
-
-  return { treeData, yearKeys, monthKeys };
 }

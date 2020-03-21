@@ -100,3 +100,6 @@ b {
 #global-editor-container .brandywine-responsive-caption {
   color: rgb(0, 0, 0);
 }
+#global-editor-container strong {
+  font-weight: 700;
+}

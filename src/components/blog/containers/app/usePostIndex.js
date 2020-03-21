@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { VALID_COLLECTIONS, getIndexRef } from "./../util/constants";
+import { VALID_COLLECTIONS, getIndexRef } from "../../../../util/constants";
 
 /**
  * Given the name of a collection of posts, fetch the index root document from firebase
