@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
+import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
 import useTreeData from "./useTreeData";
-import useTransformedIndexData from "./useTransformedIndexData";
 
 import { getInitialExpandedKeys } from "../../generic/rc-tree/util";
 import { constructPath } from "../../../../util/url-util";

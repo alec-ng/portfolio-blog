@@ -1,5 +1,5 @@
 import React from "react";
-
+import TripReportData from "./trip-report-data";
 import { BrandywineReader } from "react-brandywine-editor/lib/read-mode/index";
 import Image from "react-brandywine-editor/lib/plugins/image/";
 import Markdown from "react-brandywine-editor/lib/plugins/markdown/";
@@ -20,10 +20,21 @@ const plugins = [
 ];
 
 /**
- * readonly BrandywineEditor instance
+ * Renders page data in readonly BrandywineEditor instance and collection
+ * specific metadata
  */
-export default function Editor({ pageData, postKey }) {
+function Editor({ pageData, postMetadata }) {
   return (
-    <BrandywineReader pageData={pageData} plugins={plugins} key={postKey} />
+    <BrandywineReader
+      pageData={pageData}
+      plugins={plugins}
+      customContent={<TripReportData postMetadata={postMetadata} />}
+    />
   );
 }
+
+// Re-renders only when the pagedata changes to prevent flickering of pre-cached
+// post metadata
+const isEqual = (prevProps, nextProps) =>
+  prevProps.pageData === nextProps.pageData;
+export default React.memo(Editor, isEqual);

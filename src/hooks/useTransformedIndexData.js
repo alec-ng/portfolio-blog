@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getKeyFromIndex } from "../../../../util/url-util";
+import { getKeyFromIndex } from "../util/url-util";
 
 /**
  * Given the full collection of a particular grouping of posts, return back
