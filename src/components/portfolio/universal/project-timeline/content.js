@@ -93,7 +93,7 @@ export default [
         <p>
           Python script that identifies a human in an RGB image and segments the
           figure from the image background, using a trained convolutional neural
-          network
+          network.
         </p>
         <br />
         <img
