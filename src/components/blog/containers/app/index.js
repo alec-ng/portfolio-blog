@@ -12,6 +12,8 @@ import SidebarManager from "../sidebar-manager";
 import LoadingOverlay from "../../generic/loading-overlay";
 import ResponsiveDrawer from "../../generic/drawer";
 
+import Map from "../../universal/leaflet-map";
+
 /**
  * Top level container component for blog
  * Responsible for retrieving filtered subsets of a grouping's published posts
@@ -33,7 +35,7 @@ function Blog({ firebase }) {
       <LoadingOverlay type="linear" visible={postIndexPending} />
       <Fade in={!postIndexPending}>
         <div className="container-fluid p-0">
-          <ResponsiveDrawer content={<ContentManager posts={filteredPosts} />}>
+          <ResponsiveDrawer content={<Map />}>
             <SidebarManager
               posts={postIndex}
               pending={postIndexPending}
