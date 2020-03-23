@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import headshot from "../../../assets/home/headshot.jpg";
-import bg_main from "../../../assets/home/home-bg-main.jpg";
-import resume from "../../../assets/home/alec-ng-resume.pdf";
+import headshot from "../../../../assets/home/headshot.jpg";
+import bg_main from "../../../../assets/home/home-bg-main.jpg";
+import resume from "../../../../assets/home/alec-ng-resume.pdf";
 
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import MailIcon from "@material-ui/icons/Mail";
