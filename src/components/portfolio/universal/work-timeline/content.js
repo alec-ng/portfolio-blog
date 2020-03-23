@@ -1,36 +1,7 @@
 import React from "react";
-import VerticalTimeline from "./vertical-timeline";
-import WorkIcon from "@material-ui/icons/Work";
-import styled from "styled-components";
+import { UnorderedList, GroundswellLink } from "./styles";
 
-const UnorderedList = styled.ul`
-  color: #303e49;
-  padding-inline-start: 20px;
-  li {
-    margin-bottom: 10px;
-  }
-`;
-const contentStyle = {
-  background: "white",
-  color: "#ea5a4f"
-};
-const iconStyle = {
-  background: "#ea5a4f",
-  color: "#fff"
-};
-const icon = <WorkIcon />;
-
-const GroundswellLink = (
-  <a
-    href="https://gscloudsolutions.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Groundswell Cloud Solutions
-  </a>
-);
-
-const content = [
+export default [
   {
     data: (
       <>
@@ -150,14 +121,3 @@ const content = [
     dateLabel: "May 2015 - Dec 2015"
   }
 ];
-
-export default function WorkTimeline(props) {
-  return (
-    <VerticalTimeline
-      contentStyle={contentStyle}
-      iconStyle={iconStyle}
-      icon={icon}
-      content={content}
-    />
-  );
-}

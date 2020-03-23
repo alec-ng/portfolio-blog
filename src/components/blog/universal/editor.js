@@ -25,11 +25,13 @@ const plugins = [
  */
 function Editor({ pageData, postMetadata }) {
   return (
-    <BrandywineReader
-      pageData={pageData}
-      plugins={plugins}
-      customContent={<TripReportData postMetadata={postMetadata} />}
-    />
+    <article>
+      <BrandywineReader
+        pageData={pageData}
+        plugins={plugins}
+        customContent={<TripReportData postMetadata={postMetadata} />}
+      />
+    </article>
   );
 }
 
