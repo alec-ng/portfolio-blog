@@ -5,7 +5,7 @@ export const COLLECTION_TRAVELS = "travels";
 export const COLLECTION_TRIPREPORTS = "trip-reports";
 export const VALID_COLLECTIONS = [
   COLLECTION_TRIPREPORTS
-  // COLLECTION_TRAVELS, 25/02/20: disable until more content is
+  // COLLECTION_TRAVELS, disabled 25/02/20
 ];
 
 /**
@@ -29,4 +29,19 @@ export function getIndexRef(collection, firebase) {
   }
 }
 
+/**
+ * views
+ */
+export const APP_VIEW = {
+  post: "post",
+  map: "map"
+};
+
+/**
+ * url paths
+ */
 export const PATH_BLOG = "/blog";
+export const VIEW_PATHS = {
+  [APP_VIEW.post]: `${PATH_BLOG}/${COLLECTION_TRIPREPORTS}`,
+  [APP_VIEW.map]: `${PATH_BLOG}/${COLLECTION_TRIPREPORTS}/map`
+};

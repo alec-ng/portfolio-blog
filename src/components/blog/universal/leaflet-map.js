@@ -3,7 +3,6 @@ import { Map, TileLayer, Marker, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/dist/styles.min.css";
 
-// bigger the viewport, lesser the value of the minzoom
 const minZoom = (function() {
   const vw = Math.max(
     document.documentElement.clientWidth,
@@ -48,7 +47,6 @@ const posts = [
 
 export default function LeafletMap() {
   const mapRef = useRef();
-  const leaflet = mapRef.current && mapRef.current.leafletElement;
   const markers = posts.map(post => (
     <Marker position={post.position} onclick={onClick} data-id={post.id}>
       <Tooltip>{post.title}</Tooltip>
