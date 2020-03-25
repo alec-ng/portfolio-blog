@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
+import useUrlView from "../../../../hooks/useUrlView";
 import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
 import useTreeData from "./useTreeData";
 
 import { getInitialExpandedKeys } from "../../generic/rc-tree/util";
 import { constructPath } from "../../../../util/url-util";
+import { APP_VIEW } from "../../../../util/constants";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
@@ -17,8 +19,9 @@ import TreeView from "../../generic/rc-tree";
  */
 export default function TreeManager({ posts }) {
   const history = useHistory();
-  // read the current URL for global state data TODO: get filters here
   const { collection, postKey, postDate, filters } = useUrlState();
+  const view = useUrlView();
+
   // create utility data structures from collection data
   const { idToPostMap, keyToPostMap } = useTransformedIndexData(posts);
   // generate nodes to show in tree
@@ -65,6 +68,11 @@ export default function TreeManager({ posts }) {
    * effect logic to set selected key based on global URL changes
    */
   useEffect(() => {
+    // tree not active during map view
+    if (view === APP_VIEW.map) {
+      setSelectedKey(null);
+      return;
+    }
     // invalid URL supplied
     if (!postKey || !keyToPostMap || !keyToPostMap[postKey.toUpperCase()]) {
       return;
@@ -82,6 +90,7 @@ export default function TreeManager({ posts }) {
     postDate,
     treeData,
     expandedKeys,
+    view,
     minimize
   ]);
 
