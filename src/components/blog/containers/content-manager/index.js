@@ -11,7 +11,7 @@ export default function ContentManager({ filteredPosts }) {
     case APP_VIEW.post:
       return <PostView filteredPosts={filteredPosts} />;
     case APP_VIEW.map:
-      return <MapView />;
+      return <MapView filteredPosts={filteredPosts} />;
     default: {
       return null;
     }
