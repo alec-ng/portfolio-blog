@@ -33,7 +33,9 @@ function Blog({ firebase }) {
       <LoadingOverlay type="linear" visible={postIndexPending} />
       <Fade in={!postIndexPending}>
         <div className="container-fluid p-0">
-          <ResponsiveDrawer content={<ContentManager posts={filteredPosts} />}>
+          <ResponsiveDrawer
+            content={<ContentManager filteredPosts={filteredPosts} />}
+          >
             <SidebarManager
               posts={postIndex}
               pending={postIndexPending}

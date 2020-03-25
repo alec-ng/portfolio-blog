@@ -11,7 +11,33 @@ import {
   COLLECTION_TRIPREPORTS
 } from "../../../util/constants";
 
-const DEFAULT_LINE_HEIGHT = "25px";
+/**
+ * Renders a group of react-router-dom links depending on what
+ * page is being shown
+ */
+export default function NavLinkGroup(props) {
+  return (
+    <>
+      <Link to="/">
+        <PersonOutlineOutlinedIcon /> About
+      </Link>
+      <br />
+      <NavLink
+        collection={COLLECTION_TRIPREPORTS}
+        currentCollection={props.currentCollection}
+        text={TripreportsText}
+      />
+      {/* 25/02/20: disable until future content is done */}
+      {/* <NavLink
+        collection={COLLECTION_TRAVELS}
+        currentCollection={props.currentCollection}
+        text={TravelText}
+      />
+      <br /> */}
+    </>
+  );
+}
+
 const TravelText = (
   <>
     <PublicOutlinedIcon /> Travels
@@ -22,43 +48,12 @@ const TripreportsText = (
     <FilterHdrOutlinedIcon /> Trip Reports
   </>
 );
-
-/**
- * Renders a group of react-router-dom links depending on what
- * page is being shown
- */
-export default function NavLinkGroup(props) {
-  return (
-    <div style={{ lineHeight: DEFAULT_LINE_HEIGHT }}>
-      <Link to="/">
-        <PersonOutlineOutlinedIcon /> About
-      </Link>
-      <br />
-      <NavLink
-        collection={COLLECTION_TRIPREPORTS}
-        currentCollection={props.currentCollection}
-        text={TripreportsText}
-      />
-      <br />
-      {/* 25/02/20: disable until more content is */}
-      {/* <NavLink
-        collection={COLLECTION_TRAVELS}
-        currentCollection={props.currentCollection}
-        text={TravelText}
-      />
-      <br /> */}
-    </div>
-  );
-}
-
-function NavLink(props) {
-  return (
-    <>
-      {props.currentCollection === props.collection ? (
-        <StyledHeavyText>{props.text}</StyledHeavyText>
-      ) : (
-        <Link to={`${PATH_BLOG}/${props.collection}`}>{props.text}</Link>
-      )}
-    </>
-  );
-}
+const NavLink = props => (
+  <>
+    {props.currentCollection === props.collection ? (
+      <StyledHeavyText>{props.text}</StyledHeavyText>
+    ) : (
+      <Link to={`${PATH_BLOG}/${props.collection}`}>{props.text}</Link>
+    )}
+  </>
+);
