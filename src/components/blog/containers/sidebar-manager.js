@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import useUrlState from "../../../hooks/useUrlState";
 import useUrlView from "../../../hooks/useUrlView";
 import { trimFilters } from "../../../util/post-filter";
-import { VIEW_PATHS, APP_VIEW } from "../../../util/constants";
+import { APP_VIEW } from "../../../util/constants";
+import { constructMapPath } from "../../../util/url-util";
 
 import TuneOutlinedIcon from "@material-ui/icons/TuneOutlined";
 import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
@@ -49,7 +50,7 @@ export default function SidebarManager({ posts, filteredPosts, pending }) {
 
   function navigateToMapView() {
     if (view !== APP_VIEW.map) {
-      history.push(VIEW_PATHS.map);
+      history.push(constructMapPath(filters));
     }
   }
 

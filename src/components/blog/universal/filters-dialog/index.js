@@ -2,8 +2,9 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import DialogContainer from "./dialog-container";
 import TripReportForm from "../filter-forms/trip-reports";
+import { useUrlView } from "../../../../hooks";
 
-import { VIEW_PATHS } from "../../../../util/constants";
+import { VIEW_PATHS, APP_VIEW } from "../../../../util/constants";
 const queryString = require("query-string");
 
 /**
@@ -21,7 +22,11 @@ export default function FiltersDialog({
    * to root trip report
    */
   const history = useHistory();
+  const view = useUrlView();
 
+  /**
+   * stringifies the key value pairing of filters and pushes a new history state
+   */
   function applyFilters() {
     const queryStrFilters = Object.assign({}, chosenFilters);
     for (let key in queryStrFilters) {
@@ -29,8 +34,13 @@ export default function FiltersDialog({
         delete queryStrFilters[key];
       }
     }
+
     const queryStr = queryString.stringify(queryStrFilters);
-    history.push(`${VIEW_PATHS.post}?${queryStr}`);
+    const newUrl =
+      view === APP_VIEW.map
+        ? `${VIEW_PATHS.map}?${queryStr}`
+        : `${VIEW_PATHS.post}?${queryStr}`;
+    history.push(newUrl);
     close();
   }
 

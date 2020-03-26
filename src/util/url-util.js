@@ -1,4 +1,4 @@
-import { PATH_BLOG } from "./constants";
+import { PATH_BLOG, VIEW_PATHS } from "./constants";
 const queryString = require("query-string");
 
 /**
@@ -37,7 +37,18 @@ export function urlDecodeStr(str) {
 }
 
 /**
- * Returns a relative path to be used to navigate to with history()
+ * returns a relative path to the map view, preserving filters
+ */
+export function constructMapPath(filters) {
+  let url = VIEW_PATHS.map;
+  if (filters) {
+    url += `?${queryString.stringify(filters)}`;
+  }
+  return url;
+}
+
+/**
+ * Returns a relative path to a specific post
  */
 export function constructPath(collection, date, title, filters) {
   let path = `${PATH_BLOG}/${collection}/`;

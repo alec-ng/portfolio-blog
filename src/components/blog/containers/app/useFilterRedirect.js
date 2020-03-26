@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { constructPath } from "../../../../util/url-util";
+import useUrlView from "../../../../hooks/useUrlView";
+import { APP_VIEW } from "../../../../util/constants";
+import { constructPath, constructMapPath } from "../../../../util/url-util";
 import {
   collectionToDependenciesMap,
   collectionToFiltersMap
@@ -11,9 +13,12 @@ import {
  */
 export default function useFilterRedirect(filters, collection) {
   const history = useHistory();
+  const view = useUrlView();
 
   useEffect(() => {
-    if (!collection || !filters || !Object.keys(filters).length) {
+    const notLoaded = !collection;
+    const noFilters = !filters || !Object.keys(filters).length;
+    if (notLoaded || noFilters) {
       return;
     }
 
@@ -23,13 +28,16 @@ export default function useFilterRedirect(filters, collection) {
     const validFilters = collectionToFiltersMap[collection];
     const dependencyMap = collectionToDependenciesMap[collection];
     let validSubset = Object.assign({}, filters);
+
     for (let filter in validSubset) {
       if (!validSubset[filter] || validFilters.indexOf(filter) === -1) {
         // (1),(2)
         delete validSubset[filter];
         continue;
       }
+
       if (dependencyMap[filter]) {
+        // (3)
         const reducer = (isValid, depFilter) =>
           isValid && validSubset[depFilter];
         let areDepsMet = dependencyMap[filter].reduce(reducer, true);
@@ -41,7 +49,11 @@ export default function useFilterRedirect(filters, collection) {
 
     // if the valid subset is less than the original, do redirect using all valid filters
     if (Object.keys(validSubset).length !== Object.keys(filters).length) {
-      history.replace(constructPath(collection, null, null, validSubset));
+      const newPath =
+        view === APP_VIEW.map
+          ? constructMapPath(validSubset)
+          : constructPath(collection, null, null, validSubset);
+      history.replace(newPath);
     }
   }, [filters, collection, history]);
 }

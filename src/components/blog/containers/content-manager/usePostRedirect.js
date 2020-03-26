@@ -57,7 +57,6 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
 
     // all other cases, once the posts load, redirect
     if (postsExist) {
-      debugger;
       const { date, title } = posts.reduce(mostRecentDateReduce);
       history.replace(constructPath(collection, date, title, filters));
     }
