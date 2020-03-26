@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withFirebase } from "../../../../hoc/firebase";
 import useUrlState from "../../../../hooks/useUrlState";
 import usePostIndex from "./usePostIndex";
@@ -10,11 +10,15 @@ import Fade from "@material-ui/core/Fade";
 import ContentManager from "../content-manager";
 import SidebarManager from "../sidebar-manager";
 import LoadingOverlay from "../../generic/loading-overlay";
-import ResponsiveDrawer from "../../generic/drawer";
+
+import SwipeableDrawer from "../../universal/swipable-drawer";
+import AppBar, { useAppbarSpacerStyles } from "../../universal/appbar";
+
+import styled from "styled-components";
 
 /**
  * Top level container component for blog
- * Responsible for retrieving filtered subsets of a grouping's published posts
+ * High level layout & retrieves a grouping's published posts
  */
 function Blog({ firebase }) {
   // Initiate a redirect if the collection or filters are not valid
@@ -28,23 +32,50 @@ function Blog({ firebase }) {
   // Get a filtered subset if URL specifies any filters to apply
   const filteredPosts = usePostFilter(postIndex, filters, collection);
 
+  // controlled swipeable container
+  const [open, setOpen] = useState(false);
+  function openDrawer() {
+    setOpen(true);
+  }
+  function closeDrawer() {
+    setOpen(false);
+  }
+
+  const classes = useAppbarSpacerStyles();
+
   return (
     <>
       <LoadingOverlay type="linear" visible={postIndexPending} />
+
       <Fade in={!postIndexPending}>
         <div className="container-fluid p-0">
-          <ResponsiveDrawer
-            content={<ContentManager filteredPosts={filteredPosts} />}
+          <AppBar openDrawer={openDrawer} />
+
+          <SwipeableDrawer
+            open={open}
+            onClose={closeDrawer}
+            onOpen={openDrawer}
           >
             <SidebarManager
               posts={postIndex}
               pending={postIndexPending}
               filteredPosts={filteredPosts}
             />
-          </ResponsiveDrawer>
+          </SwipeableDrawer>
+
+          <ContentContainer>
+            <div className={classes.toolbar} />
+            <ContentManager filteredPosts={filteredPosts} />
+          </ContentContainer>
         </div>
       </Fade>
     </>
   );
 }
 export default withFirebase(Blog);
+
+const ContentContainer = styled.main`
+  flex-grow: 1;
+  position: relative;
+  height: 100%;
+`;

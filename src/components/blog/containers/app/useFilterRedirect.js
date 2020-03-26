@@ -55,5 +55,5 @@ export default function useFilterRedirect(filters, collection) {
           : constructPath(collection, null, null, validSubset);
       history.replace(newPath);
     }
-  }, [filters, collection, history]);
+  }, [filters, collection, history, view]);
 }
