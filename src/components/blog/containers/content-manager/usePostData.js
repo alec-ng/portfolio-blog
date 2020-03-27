@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getKeyFromIndex } from "../../../../util/url-util";
+import { PATH_BLOG } from "../../../../util/constants";
 
 /**
  * Given the current collection of posts and a key of a specific post to show,
@@ -14,7 +15,8 @@ export default function usePostData(firebase, postIndex, postKey) {
     if (!postKey || !postIndex) {
       return;
     }
-    let chosenPost = postIndex.find(
+
+    const chosenPost = postIndex.find(
       post => getKeyFromIndex(post).toUpperCase() === postKey.toUpperCase()
     );
     if (!chosenPost) {

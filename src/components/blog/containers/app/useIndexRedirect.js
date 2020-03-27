@@ -13,7 +13,7 @@ import {
 export default function useIndexRedirect(collection) {
   const history = useHistory();
   const location = useLocation();
-  const urlCollection = collection || getUrlState(location).urlCollection;
+  const urlCollection = collection || getUrlState(location).collection;
 
   useEffect(() => {
     if (VALID_COLLECTIONS.indexOf(urlCollection) === -1) {

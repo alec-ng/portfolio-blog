@@ -8,12 +8,18 @@ import { makeStyles } from "@material-ui/core/styles";
  */
 export default function StyledSwipeableDrawer({
   open,
-  onOpen,
-  onClose,
+  toggleDrawer,
   children
 }) {
   const classes = useStyles();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  function onOpen() {
+    toggleDrawer(true);
+  }
+  function onClose() {
+    toggleDrawer(false);
+  }
 
   return (
     <SwipeableDrawer

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { urlDecodeStr } from "../util/url-util";
+import useUrlView from "../hooks/useUrlView";
+import { APP_VIEW } from "../util/constants";
 const queryString = require("query-string");
 
 /**
@@ -9,24 +11,31 @@ const queryString = require("query-string");
  */
 export default function useUrlPath() {
   const [collection, setCollection] = useState(null);
+  const [filters, setFilters] = useState({});
+
+  // Post view specific
   const [postKey, setPostKey] = useState(null);
   const [postDate, setPostDate] = useState(null);
   const [postTitle, setPostTitle] = useState(null);
-  const [filters, setFilters] = useState({});
 
   const location = useLocation();
+  const view = useUrlView();
 
   useEffect(() => {
-    const { urlCollection, urlKey, date, originalTitle, filters } = getUrlState(
-      location
-    );
+    const urlState = getUrlState(location);
+    setCollection(urlState.collection);
+    setFilters(urlState.filters);
 
-    setCollection(urlCollection);
-    setPostKey(urlKey);
-    setPostDate(date);
-    setPostTitle(originalTitle);
-    setFilters(filters);
-  }, [location]);
+    if (view === APP_VIEW.post) {
+      setPostKey(urlState.key);
+      setPostDate(urlState.date);
+      setPostTitle(urlState.title);
+    } else {
+      setPostKey(null);
+      setPostDate(null);
+      setPostTitle(null);
+    }
+  }, [location, view]);
 
   return { collection, postKey, postDate, postTitle, filters };
 }
@@ -37,14 +46,14 @@ export default function useUrlPath() {
  */
 export function getUrlState(location) {
   // e.g. /blog/photography/2019-12-11/test-post?filter1=value&filter2=value
-  const [, , urlCollection, date, title] = location.pathname.split("/");
+  const [, , collection, date, urlTitle] = location.pathname.split("/");
 
-  let urlKey;
-  let originalTitle;
-  if (date && title) {
-    originalTitle = urlDecodeStr(title);
-    urlKey = `${date.trim()}-${originalTitle}`;
+  let key;
+  let title;
+  if (date && urlTitle) {
+    title = urlDecodeStr(urlTitle);
+    key = `${date.trim()}-${title}`;
   }
   const filters = queryString.parse(location.search);
-  return { urlCollection, urlKey, date, originalTitle, filters };
+  return { collection, key, date, title, filters };
 }

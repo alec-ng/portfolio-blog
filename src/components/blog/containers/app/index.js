@@ -1,47 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { withFirebase } from "../../../../hoc/firebase";
 import useUrlState from "../../../../hooks/useUrlState";
 import usePostIndex from "./usePostIndex";
 import useFilterRedirect from "./useFilterRedirect";
 import useIndexRedirect from "./useIndexRedirect";
 import usePostFilter from "./usePostFilter";
+import useUIState, {
+  SET_DRAWER_OPEN,
+  SET_FILTER_OPEN
+} from "../../../../contexts/ui-context";
 
 import Fade from "@material-ui/core/Fade";
 import ContentManager from "../content-manager";
 import SidebarManager from "../sidebar-manager";
+import FilterManager from "../filter-manager";
 import LoadingOverlay from "../../generic/loading-overlay";
 
 import SwipeableDrawer from "../../universal/swipable-drawer";
-import AppBar, { useAppbarSpacerStyles } from "../../universal/appbar";
-
-import styled from "styled-components";
+import AppBar, { appbarHeight } from "../../universal/appbar";
 
 /**
  * Top level container component for blog
  * High level layout & retrieves a grouping's published posts
  */
 function Blog({ firebase }) {
-  // Initiate a redirect if the collection or filters are not valid
+  /**
+   * Synchronize filters and published collection data
+   * Validate and redirect if needed
+   */
   const { collection, filters } = useUrlState();
   useIndexRedirect(collection);
   useFilterRedirect(filters, collection);
 
-  // Fetch a list containing all published posts of the specified collection
   const { postIndexPending, postIndex } = usePostIndex(collection, firebase);
-
-  // Get a filtered subset if URL specifies any filters to apply
   const filteredPosts = usePostFilter(postIndex, filters, collection);
 
-  // controlled swipeable container
-  const [open, setOpen] = useState(false);
-  function openDrawer() {
-    setOpen(true);
+  /**
+   * Global ui state controlled drawer
+   */
+  const [uiState, uiDispatch] = useUIState();
+  function toggleDrawer(open) {
+    uiDispatch({ type: SET_DRAWER_OPEN, val: open });
   }
-  function closeDrawer() {
-    setOpen(false);
+  function toggleFilter(open) {
+    uiDispatch({ type: SET_FILTER_OPEN, val: open });
   }
-
-  const classes = useAppbarSpacerStyles();
 
   return (
     <>
@@ -49,22 +52,31 @@ function Blog({ firebase }) {
 
       <Fade in={!postIndexPending}>
         <div className="container-fluid p-0">
-          <AppBar openDrawer={openDrawer} />
-
+          {/* Global UI Elements */}
           <SwipeableDrawer
-            open={open}
-            onClose={closeDrawer}
-            onOpen={openDrawer}
+            open={uiState.showDrawer}
+            toggleDrawer={toggleDrawer}
           >
             <SidebarManager
-              posts={postIndex}
+              toggleFilter={toggleFilter}
               pending={postIndexPending}
               filteredPosts={filteredPosts}
             />
           </SwipeableDrawer>
 
-          <div className={classes.toolbar} />
-          <ContentManager filteredPosts={filteredPosts} />
+          <FilterManager
+            posts={postIndex}
+            isOpen={uiState.showFilterDialog}
+            toggleFilter={toggleFilter}
+          />
+
+          {/* Visible Content */}
+          <AppBar toggleDrawer={toggleDrawer} />
+          <div style={{ paddingTop: appbarHeight }} />
+          <ContentManager
+            filteredPosts={filteredPosts}
+            toggleFilter={toggleFilter}
+          />
         </div>
       </Fade>
     </>

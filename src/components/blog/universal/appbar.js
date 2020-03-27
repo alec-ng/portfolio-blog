@@ -10,45 +10,49 @@ import { makeStyles } from "@material-ui/core/styles";
  * Blog app global app bar
  * Fixed, and hides on scroll
  */
-export default function BlogAppBar({ openDrawer }) {
-  const classes = useAppbarStyles();
+export default function BlogAppBar({ toggleDrawer }) {
+  function onIconClick() {
+    toggleDrawer(true);
+  }
 
+  const classes = useAppbarStyles();
   return (
     <HideOnScroll>
       <AppBar
         position="fixed"
         classes={{
+          root: classes.root,
           colorPrimary: classes.colorPrimary
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={openDrawer}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={onIconClick}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
       </AppBar>
     </HideOnScroll>
   );
 }
 
-export const useAppbarSpacerStyles = makeStyles(theme => ({
-  toolbar: {
-    ...theme.mixins.toolbar
-  }
-}));
+export const appbarHeight = "55px";
 
-const useAppbarStyles = makeStyles(theme => ({
+const useAppbarStyles = makeStyles(() => ({
+  root: {
+    height: appbarHeight,
+    display: "flex",
+    flexDirection: "row",
+    padding: "7px 25px"
+  },
   colorPrimary: {
     backgroundColor: "rgb(55, 58, 71)"
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: "10px",
     color: "rgb(255,69,0)"
   }
 }));
