@@ -63,19 +63,11 @@ function Blog({ firebase }) {
             />
           </SwipeableDrawer>
 
-          <ContentContainer>
-            <div className={classes.toolbar} />
-            <ContentManager filteredPosts={filteredPosts} />
-          </ContentContainer>
+          <div className={classes.toolbar} />
+          <ContentManager filteredPosts={filteredPosts} />
         </div>
       </Fade>
     </>
   );
 }
 export default withFirebase(Blog);
-
-const ContentContainer = styled.main`
-  flex-grow: 1;
-  position: relative;
-  height: 100%;
-`;

@@ -14,17 +14,9 @@ export default function ContentManager({ filteredPosts }) {
   const view = useUrlView();
 
   return (
-    <ContentContainer>
+    <main>
       {view === APP_VIEW.post && <PostView filteredPosts={filteredPosts} />}
       {view === APP_VIEW.map && <MapView filteredPosts={filteredPosts} />}
-    </ContentContainer>
+    </main>
   );
 }
-
-// ---------- STYLES
-
-const ContentContainer = styled.main`
-  flex-grow: 1;
-  position: relative;
-  height: 100%;
-`;
