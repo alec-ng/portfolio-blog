@@ -12,16 +12,37 @@ import { Map, TileLayer, Marker, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/dist/styles.min.css";
 
+const mockCoords = [
+  [49.3380843, -122.4778893],
+  [49.3767417, -123.3905933],
+  [49.6173254, -121.155712],
+  [22.41417, 114.24852],
+  [44.21371, 18.799537],
+  [45.18978, 19.371818],
+  [51.567965, 7.635721]
+];
+
+function getMockData(filteredPosts) {
+  if (!filteredPosts) {
+    return [];
+  }
+  return filteredPosts.map((post, i) =>
+    Object.assign({}, post, {
+      latlng: mockCoords[i % mockCoords.length]
+    })
+  );
+}
+
 const minZoom = (function() {
   const vw = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
   );
   if (vw > 1500) {
-    return 3;
+    return 2.5;
   }
   if (vw > 1200) {
-    return 2.5;
+    return 2;
   }
   return 1;
 })();
@@ -31,28 +52,28 @@ const init = {
   zoom: minZoom
 };
 
-const posts = [
-  {
-    latlng: [49.3380843, -122.4778893],
-    title: "Carousel Test",
-    date: "2020-01-16"
-  },
-  {
-    latlng: [49.3767417, -123.3905933],
-    title: "Embedded Video Test",
-    date: "2020-01-16"
-  },
-  {
-    latlng: [49.6173254, -121.155712],
-    title: "Image Test",
-    date: "2020-01-10"
-  },
-  {
-    latlng: [22.41417, 114.24852],
-    title: "Cover Photo Test",
-    date: "2020-01-07"
-  }
-];
+// const posts = [
+//   {
+//     latlng: [49.3380843, -122.4778893],
+//     title: "Carousel Test",
+//     date: "2020-01-16"
+//   },
+//   {
+//     latlng: [49.3767417, -123.3905933],
+//     title: "Embedded Video Test",
+//     date: "2020-01-16"
+//   },
+//   {
+//     latlng: [49.6173254, -121.155712],
+//     title: "Image Test",
+//     date: "2020-01-10"
+//   },
+//   {
+//     latlng: [22.41417, 114.24852],
+//     title: "Cover Photo Test",
+//     date: "2020-01-07"
+//   }
+// ];
 
 /**
  *
@@ -64,18 +85,8 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
   const mapRef = useRef();
   const history = useHistory();
   const { collection, filters } = useUrlState();
-  const { keyToPostMap } = useTransformedIndexData(posts);
-  const filtersPresent = filters && Object.keys(filters).length;
 
-  const markers = posts.map(post => {
-    const key = getKeyFromIndex(post);
-    return (
-      <Marker position={post.latlng} onclick={onClick} key={key} data-key={key}>
-        <Tooltip>{post.title}</Tooltip>
-      </Marker>
-    );
-  });
-
+  const { keyToPostMap } = useTransformedIndexData(filteredPosts);
   function onClick(e) {
     const key = e.sourceTarget.options["data-key"];
     const postToNavigate = keyToPostMap[key.toUpperCase()];
@@ -88,9 +99,19 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
     history.push(newUrl);
   }
 
+  const filtersPresent = filters && Object.keys(filters).length;
   function openFilters() {
     toggleFilter(true);
   }
+
+  const markers = getMockData(filteredPosts).map(post => {
+    const key = getKeyFromIndex(post);
+    return (
+      <Marker position={post.latlng} onclick={onClick} key={key} data-key={key}>
+        <Tooltip>{post.title}</Tooltip>
+      </Marker>
+    );
+  });
 
   return (
     <MapContainer>
@@ -104,14 +125,14 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
         minZoom={minZoom}
         zoomDelta={0.5}
         zoomSnap={0.5}
+        maxBoundsViscosity={1}
         maxBounds={[
-          [-90, -180],
+          [-65, -180],
           [90, 180]
         ]}
         style={MapStyles}
       >
         <TileLayer
-          noWrap={true}
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
