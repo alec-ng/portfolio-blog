@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
@@ -8,7 +8,8 @@ import { getKeyFromIndex, constructPath } from "../../../../util/url-util";
 import { appbarHeight } from "../../universal/appbar";
 
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
-import { Map, TileLayer, Marker, Tooltip } from "react-leaflet";
+import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
+import { Map, TileLayer, Marker, Tooltip, FeatureGroup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/dist/styles.min.css";
 
@@ -57,13 +58,42 @@ const init = {
  * @param {*} param0
  */
 export default function LeafletMap({ filteredPosts, toggleFilter }) {
-  document.title = "Map";
+  useEffect(() => {
+    document.title = "Map";
+  }, []);
 
+  /**
+   * Fit bounds when marker set changes
+   * https://stackoverflow.com/questions/50861984/how-do-you-call-fitbounds-when-using-leaflet-react
+   */
   const mapRef = useRef();
-  const history = useHistory();
-  const { collection, filters } = useUrlState();
+  const groupRef = useRef();
+  const memoZoomOut = useCallback(() => {
+    zoomOut();
+  }, []);
 
+  useEffect(() => {
+    memoZoomOut();
+  }, [filteredPosts, mapRef, groupRef, memoZoomOut]);
+
+  function zoomOut() {
+    if (!mapRef.current || !groupRef.current) {
+      return;
+    }
+    const map = mapRef.current.leafletElement;
+    const featureGroup = groupRef.current.leafletElement;
+    if (!featureGroup.getBounds().isValid()) {
+      return;
+    }
+    map.fitBounds(featureGroup.getBounds());
+  }
+
+  /**
+   * Navigate to clicked post
+   */
   const { keyToPostMap } = useTransformedIndexData(filteredPosts);
+  const { collection, filters } = useUrlState();
+  const history = useHistory();
   function onClick(e) {
     const key = e.sourceTarget.options["data-key"];
     const postToNavigate = keyToPostMap[key.toUpperCase()];
@@ -95,6 +125,9 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
       <FilterButton active={filtersPresent} onClick={openFilters} type="button">
         <SearchOutlinedIcon />
       </FilterButton>
+      <ZoomOutButton onClick={zoomOut} type="button">
+        <ZoomOutMapOutlinedIcon />
+      </ZoomOutButton>
       <Map
         ref={mapRef}
         center={init.position}
@@ -113,7 +146,9 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MarkerClusterGroup>{markers}</MarkerClusterGroup>
+        <FeatureGroup ref={groupRef}>
+          <MarkerClusterGroup>{markers}</MarkerClusterGroup>
+        </FeatureGroup>
       </Map>
     </MapContainer>
   );
@@ -129,7 +164,7 @@ const MapStyles = {
   height: `calc(100vh - ${appbarHeight})`
 };
 
-const FilterButton = styled.button`
+const BaseMapButton = styled.button`
   /* styles to match leaflet */
   background-color: white;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
@@ -150,13 +185,20 @@ const FilterButton = styled.button`
   border-radius: 5px;
   z-index: 401;
   position: absolute;
-  top: 70px;
-  left: 20px;
   text-align: center;
+  left: 20px;
 
   color: ${props => (props.active ? "rgb(255,69,0)" : "black")};
   box-shadow: ${props =>
     props.active
       ? "0 1px 5px rgba(255,69,0,0.65)"
       : "0 1px 5px rgba(0,0,0,0.65)"};
+`;
+
+const FilterButton = styled(BaseMapButton)`
+  top: 70px;
+`;
+
+const ZoomOutButton = styled(BaseMapButton)`
+  top: 105px;
 `;
