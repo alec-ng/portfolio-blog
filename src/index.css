@@ -103,3 +103,10 @@ b {
 #global-editor-container strong {
   font-weight: 700;
 }
+
+/**
+ * leaflet overrides
+ */
+#react-leaflet-container .leaflet-left .leaflet-control {
+  margin-left: 20px;
+}

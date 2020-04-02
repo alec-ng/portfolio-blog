@@ -52,35 +52,12 @@ const init = {
   zoom: minZoom
 };
 
-// const posts = [
-//   {
-//     latlng: [49.3380843, -122.4778893],
-//     title: "Carousel Test",
-//     date: "2020-01-16"
-//   },
-//   {
-//     latlng: [49.3767417, -123.3905933],
-//     title: "Embedded Video Test",
-//     date: "2020-01-16"
-//   },
-//   {
-//     latlng: [49.6173254, -121.155712],
-//     title: "Image Test",
-//     date: "2020-01-10"
-//   },
-//   {
-//     latlng: [22.41417, 114.24852],
-//     title: "Cover Photo Test",
-//     date: "2020-01-07"
-//   }
-// ];
-
 /**
  *
  * @param {*} param0
  */
 export default function LeafletMap({ filteredPosts, toggleFilter }) {
-  document.title = "Trip Reports";
+  document.title = "Map";
 
   const mapRef = useRef();
   const history = useHistory();
@@ -114,7 +91,7 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
   });
 
   return (
-    <MapContainer>
+    <MapContainer id="react-leaflet-container">
       <FilterButton active={filtersPresent} onClick={openFilters} type="button">
         <SearchOutlinedIcon />
       </FilterButton>
@@ -174,7 +151,7 @@ const FilterButton = styled.button`
   z-index: 401;
   position: absolute;
   top: 70px;
-  left: 10px;
+  left: 20px;
   text-align: center;
 
   color: ${props => (props.active ? "rgb(255,69,0)" : "black")};
