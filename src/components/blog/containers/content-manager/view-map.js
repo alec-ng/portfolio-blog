@@ -11,6 +11,7 @@ import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
 import { Map, TileLayer, Marker, Tooltip, FeatureGroup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
+import MaterialTooltip from "@material-ui/core/Tooltip";
 import "react-leaflet-markercluster/dist/styles.min.css";
 
 const mockCoords = [
@@ -122,12 +123,20 @@ export default function LeafletMap({ filteredPosts, toggleFilter }) {
 
   return (
     <MapContainer id="react-leaflet-container">
-      <FilterButton active={filtersPresent} onClick={openFilters} type="button">
-        <SearchOutlinedIcon />
-      </FilterButton>
-      <ZoomOutButton onClick={zoomOut} type="button">
-        <ZoomOutMapOutlinedIcon />
-      </ZoomOutButton>
+      <MaterialTooltip title="Search" placement="right">
+        <FilterButton
+          active={filtersPresent}
+          onClick={openFilters}
+          type="button"
+        >
+          <SearchOutlinedIcon />
+        </FilterButton>
+      </MaterialTooltip>
+      <MaterialTooltip title="Zoom to Fit" placement="right">
+        <ZoomOutButton onClick={zoomOut} type="button">
+          <ZoomOutMapOutlinedIcon />
+        </ZoomOutButton>
+      </MaterialTooltip>
       <Map
         ref={mapRef}
         center={init.position}
