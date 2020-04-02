@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { withFirebase } from "../../../../hoc/firebase";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
 import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
 import usePostData from "./usePostData";
 import usePostRedirect from "./usePostRedirect";
-import useSequentialPosts from "./useSequentialPosts";
+
+import { getOrderedPosts, usePostEffects, EmptyPostView } from "./util";
 
 import { constructPath } from "../../../../util/url-util";
 
@@ -15,7 +16,7 @@ import EndContentNavigator from "../../universal/end-content-navigator";
 import LoadingOverlay from "../../generic/loading-overlay";
 
 /**
- * Container for content concerning the current post
+ * Container for showing a specific post
  */
 function PostView({ filteredPosts, firebase }) {
   /**
@@ -25,28 +26,30 @@ function PostView({ filteredPosts, firebase }) {
   usePostRedirect(filteredPosts, collection, postKey, filters);
 
   /**
-   * Hooks to provide post data
+   * Fetch post data and determine what to render
    */
-  const [prevPost, nextPost] = useSequentialPosts(postKey, filteredPosts);
   const { postData, postDataPending } = usePostData(
     firebase,
     filteredPosts,
     postKey
   );
-  const { keyToPostMap } = useTransformedIndexData(filteredPosts);
-  const postMetadata =
-    postKey && keyToPostMap ? keyToPostMap[postKey.toUpperCase()] : null;
-  const postsDoNotExist =
-    !postData && !postDataPending && (!filteredPosts || !filteredPosts.length);
+  usePostEffects(postData, postTitle);
 
   /**
-   * Synchronize document title with post being shown
+   * Determine data to render
    */
-  useEffect(() => {
-    if (postData && postTitle) {
-      document.title = postTitle;
-    }
-  }, [postData, postTitle]);
+  const { keyToPostMap } = useTransformedIndexData(filteredPosts);
+
+  const [prevPost, nextPost] = useMemo(
+    () => getOrderedPosts(postKey, filteredPosts),
+    [postKey, filteredPosts]
+  );
+
+  const postMetadata =
+    postKey && keyToPostMap ? keyToPostMap[postKey.toUpperCase()] : null;
+
+  const postsDoNotExist =
+    !postData && !postDataPending && (!filteredPosts || !filteredPosts.length);
 
   /**
    * On prev/next post click, initiate URL change
@@ -56,21 +59,25 @@ function PostView({ filteredPosts, firebase }) {
   function onNavigationPostClick(e) {
     const newPostTreedata =
       e.currentTarget.dataset.direction === "previous" ? prevPost : nextPost;
+
     const newPost = filteredPosts.find(
       post => post.postDataId === newPostTreedata.key
     );
+
     const newUrl = constructPath(
       collection,
       newPost.date,
       newPost.title,
       filters
     );
+
     history.push(newUrl);
   }
 
   return (
     <>
       <LoadingOverlay type="circular" visible={postDataPending} />
+
       {postData && postMetadata && (
         <div id="global-editor-container" className="mb-5">
           <Editor pageData={postData} postMetadata={postMetadata} />
@@ -82,15 +89,9 @@ function PostView({ filteredPosts, firebase }) {
           />
         </div>
       )}
+
       {postsDoNotExist && <EmptyPostView />}
     </>
   );
 }
 export default withFirebase(PostView);
-
-const EmptyPostView = () => (
-  <div className="text-center my-5 mx-3">
-    <h1>There's nothing to see here!</h1>
-    <h3>Try adjusting the filters in the sidebar to be less restrictive.</h3>
-  </div>
-);

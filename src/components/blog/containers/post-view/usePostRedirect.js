@@ -12,22 +12,6 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
   const prevCollection = usePrevious(collection);
   const prevPosts = usePrevious(posts);
 
-  /**
-   * utility reducer to get the most recent post. if two posts have the same date,
-   * then get the one that comes first alphabetically
-   */
-  const mostRecentDateReduce = (a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    if (dateA > dateB) {
-      return a;
-    }
-    if (dateA === dateB) {
-      return a.title > b.title ? b : a;
-    }
-    return b;
-  };
-
   useEffect(() => {
     // don't run if the user changed the collection or there's not enough post
     // info retrieved yet
@@ -61,4 +45,20 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
       history.replace(constructPath(collection, date, title, filters));
     }
   }, [posts, prevPosts, collection, prevCollection, postKey, filters, history]);
+}
+
+/**
+ * reducer to get the most recent post. if two posts have the same date,
+ * then get the one that comes first alphabetically
+ */
+function mostRecentDateReduce(a, b) {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  if (dateA > dateB) {
+    return a;
+  }
+  if (dateA === dateB) {
+    return a.title > b.title ? b : a;
+  }
+  return b;
 }

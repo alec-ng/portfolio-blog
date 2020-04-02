@@ -1,8 +1,8 @@
 import React from "react";
-import useUrlView from "../../../../hooks/useUrlView";
-import { APP_VIEW } from "../../../../util/constants";
-import PostView from "./view-post";
-import MapView from "./view-map";
+import useUrlView from "../../../hooks/useUrlView";
+import { APP_VIEW } from "../../../util/constants";
+import PostView from "./post-view";
+import MapView from "./map-view";
 
 /**
  * Component switcher for different views

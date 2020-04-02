@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getKeyFromIndex } from "../../../../util/url-util";
-import { PATH_BLOG } from "../../../../util/constants";
 
 /**
  * Given the current collection of posts and a key of a specific post to show,
