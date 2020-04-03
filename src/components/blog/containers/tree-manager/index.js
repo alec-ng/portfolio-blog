@@ -45,12 +45,18 @@ export default function TreeManager({ posts }) {
   const [expandedKeys, setExpandedKeys] = useState([]);
 
   /**
-   * Remove all vals from expandedKeys except the ones to show the current post
+   * If in map view, collapses all nodes
+   * If in post view, collapses all ndoes except the ones to show the current post
    */
   const minimize = useCallback(() => {
     if (!treeData) {
       return;
     }
+    if (view === APP_VIEW.map) {
+      setExpandedKeys([]);
+      return;
+    }
+
     const [yearNodeKey, monthNodeKey] = getInitialExpandedKeys(
       postDate,
       treeData
@@ -62,7 +68,7 @@ export default function TreeManager({ posts }) {
     ) {
       setExpandedKeys([yearNodeKey, monthNodeKey]);
     }
-  }, [postDate, treeData, expandedKeys]);
+  }, [postDate, treeData, expandedKeys, view]);
 
   /**
    * effect logic to set selected key based on global URL changes
