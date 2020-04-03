@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
 import useUrlView from "../../../../hooks/useUrlView";
-import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
-import useTreeData from "./useTreeData";
+import { createTreeData } from "../../generic/rc-tree/util";
 
 import { getInitialExpandedKeys } from "../../generic/rc-tree/util";
 import { constructPath } from "../../../../util/url-util";
+import { getPostMappings } from "../../../../util/post-util";
 import { APP_VIEW } from "../../../../util/constants";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
@@ -22,10 +22,16 @@ export default function TreeManager({ posts }) {
   const { collection, postKey, postDate, filters } = useUrlState();
   const view = useUrlView();
 
-  // create utility data structures from collection data
-  const { idToPostMap, keyToPostMap } = useTransformedIndexData(posts);
-  // generate nodes to show in tree
-  const { treeData, monthKeys, yearKeys } = useTreeData(posts);
+  /**
+   * Memoized data structures based on posts provided
+   */
+  const { idToPostMap, keyToPostMap } = useMemo(() => getPostMappings(posts), [
+    posts
+  ]);
+  const { treeData, monthKeys, yearKeys } = useMemo(
+    () => (posts ? createTreeData(posts) : {}),
+    [posts]
+  );
 
   /**
    * Open all month and year nodes
