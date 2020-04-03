@@ -18,7 +18,7 @@ import { Marker, Tooltip } from "react-leaflet";
  * Renders a full screen leaflet map, transforming posts into map markers and providing
  * filter/zoomout custom controls
  */
-export default function MapView({ filteredPosts, toggleFilter }) {
+function MapView({ filteredPosts, toggleFilter }) {
   useEffect(() => {
     document.title = "Map";
   }, []);
@@ -28,13 +28,6 @@ export default function MapView({ filteredPosts, toggleFilter }) {
    */
   const mapRef = React.useRef();
   const groupRef = React.useRef();
-  const memoZoomOut = useCallback(() => {
-    zoomOut();
-  }, []);
-
-  useEffect(() => {
-    memoZoomOut();
-  }, [filteredPosts, mapRef, groupRef, memoZoomOut]);
 
   function zoomOut() {
     if (!mapRef.current || !groupRef.current) {
@@ -45,7 +38,9 @@ export default function MapView({ filteredPosts, toggleFilter }) {
     if (!featureGroup.getBounds().isValid()) {
       return;
     }
-    map.fitBounds(featureGroup.getBounds());
+
+    const markerBounds = featureGroup.getBounds();
+    map.fitBounds(markerBounds, { padding: [50, 50] });
   }
 
   /**
@@ -54,6 +49,7 @@ export default function MapView({ filteredPosts, toggleFilter }) {
   const { keyToPostMap } = useTransformedIndexData(filteredPosts);
   const { collection, filters } = useUrlState();
   const history = useHistory();
+
   function onClick(e) {
     const key = e.sourceTarget.options["data-key"];
     const postToNavigate = keyToPostMap[key.toUpperCase()];
@@ -87,7 +83,12 @@ export default function MapView({ filteredPosts, toggleFilter }) {
   });
 
   return (
-    <LeafletMap mapRef={mapRef} groupRef={groupRef} markers={markers}>
+    <LeafletMap
+      mapRef={mapRef}
+      groupRef={groupRef}
+      markers={markers}
+      onLoad={zoomOut}
+    >
       <MaterialTooltip title="Search" placement="right">
         <FilterButton
           active={filtersPresent}
@@ -107,14 +108,19 @@ export default function MapView({ filteredPosts, toggleFilter }) {
   );
 }
 
+const isEqual = (prev, next) => {
+  return prev.filteredPosts === next.filteredPosts;
+};
+export default React.memo(MapView, isEqual);
+
 const mockCoords = [
   [49.3380843, -122.4778893],
   [49.3767417, -123.3905933],
-  [49.6173254, -121.155712],
+  [61.6173254, -89.155712],
   [22.41417, 114.24852],
   [44.21371, 18.799537],
   [45.18978, 19.371818],
-  [51.567965, 7.635721]
+  [-42.747012, 171.540063]
 ];
 
 function getMockData(filteredPosts) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Map, TileLayer, FeatureGroup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/dist/styles.min.css";
@@ -23,34 +23,45 @@ const config = {
  * on marker change. Groups all markers together using MarkerClusterGroup
  *
  */
-const ReactLeaflet = ({ mapRef, groupRef, markers, children }) => (
-  <MapContainer id="react-leaflet-container">
-    {children}
-    <Map ref={mapRef} {...config}>
-      <TileLayer
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <FeatureGroup ref={groupRef}>
-        <MarkerClusterGroup>{markers}</MarkerClusterGroup>
-      </FeatureGroup>
-    </Map>
-  </MapContainer>
-);
+export default function ReactLeaflet({
+  mapRef,
+  groupRef,
+  markers,
+  onLoad,
+  children
+}) {
+  // Whenever set of markers change, fire initialization cb
+  useEffect(() => {
+    onLoad();
+  }, [onLoad, markers]);
 
-export default ReactLeaflet;
+  return (
+    <MapContainer id="react-leaflet-container">
+      {children}
+      <Map ref={mapRef} {...config}>
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <FeatureGroup ref={groupRef}>
+          <MarkerClusterGroup>{markers}</MarkerClusterGroup>
+        </FeatureGroup>
+      </Map>
+    </MapContainer>
+  );
+}
+
 export { FilterButton, ZoomOutButton } from "./styles";
 
-// -------------- UTIL
+// Min zoom should not be a non-integer, otherwise showing individual markers with
+// markerclusterer is broken
+// https://github.com/YUzhva/react-leaflet-markercluster/issues/93
 
 function getResponsiveMinZoom() {
   const vw = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
   );
-  if (vw > 1500) {
-    return 2.5;
-  }
   if (vw > 1200) {
     return 2;
   }
