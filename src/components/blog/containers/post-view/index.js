@@ -2,12 +2,12 @@ import React, { useMemo } from "react";
 import { withFirebase } from "../../../../hoc/firebase";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
-import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
 import usePostData from "./usePostData";
 import usePostRedirect from "./usePostRedirect";
 
 import { getOrderedPosts, usePostEffects, EmptyPostView } from "./util";
 
+import { getPostMappings } from "../../../../util/post-util";
 import { constructPath } from "../../../../util/url-util";
 
 import Editor from "../../universal/editor";
@@ -38,7 +38,9 @@ function PostView({ filteredPosts, firebase }) {
   /**
    * Determine data to render
    */
-  const { keyToPostMap } = useTransformedIndexData(filteredPosts);
+  const { keyToPostMap } = useMemo(() => getPostMappings(filteredPosts), [
+    filteredPosts
+  ]);
 
   const [prevPost, nextPost] = useMemo(
     () => getOrderedPosts(postKey, filteredPosts),
