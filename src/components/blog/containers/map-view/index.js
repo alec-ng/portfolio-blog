@@ -1,8 +1,8 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../../hooks/useUrlState";
-import useTransformedIndexData from "../../../../hooks/useTransformedIndexData";
+import { getPostMappings } from "../../../../util/post-util";
 import { getKeyFromIndex, constructPath } from "../../../../util/url-util";
 
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
@@ -46,7 +46,7 @@ function MapView({ filteredPosts, toggleFilter }) {
   /**
    * Navigate to clicked post
    */
-  const { keyToPostMap } = useTransformedIndexData(filteredPosts);
+  const { keyToPostMap } = getPostMappings(filteredPosts);
   const { collection, filters } = useUrlState();
   const history = useHistory();
 

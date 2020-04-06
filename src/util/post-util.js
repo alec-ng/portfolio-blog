@@ -1,5 +1,9 @@
 import { getKeyFromIndex } from "./url-util";
 
+/**
+ * Itereate over a set of published posts and return two mappings,
+ * one for db-id -> post metadata, and slug -> post metadata
+ */
 export function getPostMappings(publishedPosts) {
   if (!publishedPosts) {
     return {};
