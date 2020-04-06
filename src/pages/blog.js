@@ -1,6 +1,6 @@
 import React from "react";
 import Blog from "../blog/components/containers/app";
-import Firebase, { FirebaseContext } from "../blog/hoc/firebase";
+import { FirebaseProvider } from "../blog/contexts/firebase";
 import { UIStateProvider } from "../blog/contexts/ui-context";
 
 /**
@@ -8,10 +8,10 @@ import { UIStateProvider } from "../blog/contexts/ui-context";
  */
 export default function BlogPage() {
   return (
-    <FirebaseContext.Provider value={new Firebase()}>
+    <FirebaseProvider>
       <UIStateProvider>
         <Blog />
       </UIStateProvider>
-    </FirebaseContext.Provider>
+    </FirebaseProvider>
   );
 }

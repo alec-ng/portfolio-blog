@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { withFirebase } from "../../../hoc/firebase";
+import useFirebase from "../../../contexts/firebase";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../hooks/useUrlState";
 import usePostData from "./usePostData";
@@ -18,7 +18,7 @@ import LoadingOverlay from "../../generic/loading-overlay";
 /**
  * Container for showing a specific post
  */
-function PostView({ filteredPosts, firebase }) {
+export default function PostView({ filteredPosts }) {
   /**
    * Redirect if the URL doesn't refer to a valid post for the current filtered collection
    */
@@ -28,6 +28,7 @@ function PostView({ filteredPosts, firebase }) {
   /**
    * Fetch post data and determine what to render
    */
+  const firebase = useFirebase();
   const { postData, postDataPending } = usePostData(
     firebase,
     filteredPosts,
@@ -96,4 +97,3 @@ function PostView({ filteredPosts, firebase }) {
     </>
   );
 }
-export default withFirebase(PostView);

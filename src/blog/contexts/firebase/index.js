@@ -10,7 +10,7 @@ export default function useFirebase() {
   return React.useContext(FirebaseContext);
 }
 
-export function UIStateProvider({ children }) {
+export function FirebaseProvider({ children }) {
   const firebase = new Firebase();
   return (
     <FirebaseContext.Provider value={firebase}>

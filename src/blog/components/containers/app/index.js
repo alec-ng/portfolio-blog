@@ -1,5 +1,5 @@
 import React from "react";
-import { withFirebase } from "../../../hoc/firebase";
+import useFirebase from "../../../contexts/firebase";
 import useUrlState from "../../../hooks/useUrlState";
 import usePostIndex from "./usePostIndex";
 import useFilterRedirect from "./useFilterRedirect";
@@ -23,12 +23,13 @@ import AppBar, { appbarHeight } from "../../universal/appbar";
  * Top level container component for blog
  * High level layout & retrieves a grouping's published posts
  */
-function Blog({ firebase }) {
+export default function Blog() {
   /**
    * Synchronize filters and published collection data
    * Validate and redirect if needed
    */
   const { collection, filters } = useUrlState();
+  const firebase = useFirebase();
   useIndexRedirect(collection);
   useFilterRedirect(filters, collection);
 
@@ -82,4 +83,3 @@ function Blog({ firebase }) {
     </>
   );
 }
-export default withFirebase(Blog);
