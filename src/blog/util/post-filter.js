@@ -1,4 +1,5 @@
 import { COLLECTION_TRIPREPORTS, COLLECTION_TRAVELS } from "./constants";
+import { urlDecodeStr } from "./url-util";
 
 export const tripReportFilters = ["area", "region"];
 export const travelFilters = [];
@@ -16,13 +17,21 @@ export const collectionToFiltersMap = {
  * Given a list of posts, the current filters specified by the url state, and the
  * collection being shown, return a subset of posts that match the filter criteria
  */
-export function filterPosts(posts, filterMap, collection) {
-  if (!Object.keys(filterMap).length || !collection || !posts) {
+export function filterPosts(posts, filters, collection) {
+  if (!Object.keys(filters).length || !collection || !posts) {
     return posts;
   }
 
-  // get minimal subset of filters relevant for the collection
+  const filterMap = Object.keys(filters).reduce(
+    (curr, filter) =>
+      Object.assign({}, curr, {
+        [filter]: urlDecodeStr(filters[filter])
+      }),
+    {}
+  );
+
   const trimmedFilters = trimFilters(filterMap, collection);
+
   switch (collection) {
     case COLLECTION_TRIPREPORTS:
       return filterTripReports(posts, trimmedFilters);

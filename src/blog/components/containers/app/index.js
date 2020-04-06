@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useFirebase from "../../../contexts/firebase";
 import useUrlState from "../../../hooks/useUrlState";
 import usePostIndex from "./usePostIndex";
 import useFilterRedirect from "./useFilterRedirect";
 import useIndexRedirect from "./useIndexRedirect";
-import usePostFilter from "./usePostFilter";
+import { filterPosts } from "../../../util/post-filter";
 import useUIState, {
   SET_DRAWER_OPEN,
   SET_FILTER_OPEN
@@ -34,7 +34,10 @@ export default function Blog() {
   useFilterRedirect(filters, collection);
 
   const { postIndexPending, postIndex } = usePostIndex(collection, firebase);
-  const filteredPosts = usePostFilter(postIndex, filters, collection);
+  const filteredPosts = useMemo(
+    () => filterPosts(postIndex, filters, collection),
+    [postIndex, filters, collection]
+  );
 
   /**
    * Global ui state controlled drawer
