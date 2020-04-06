@@ -1,10 +1,10 @@
 import React from "react";
-import Blog from "../components/blog/containers/app";
-import Firebase, { FirebaseContext } from "../hoc/firebase";
-import { UIStateProvider } from "../contexts/ui-context";
+import Blog from "../blog/components/containers/app";
+import Firebase, { FirebaseContext } from "../blog/hoc/firebase";
+import { UIStateProvider } from "../blog/contexts/ui-context";
 
 /**
- * Renders blog app container component wrapped in firebase HOC
+ * Renders blog app container component wrapped in context providers
  */
 export default function BlogPage() {
   return (
