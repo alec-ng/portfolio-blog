@@ -5,25 +5,25 @@ import { getKeyFromIndex } from "../../../util/url-util";
  * Given the current collection of posts and a key of a specific post to show,
  * fetches the post from Firebase
  */
-export default function usePostData(firebase, postIndex, postKey) {
+export default function usePostData(firebase, publishedPosts, slug) {
   const [postDataPending, setPending] = useState(false);
   const [postData, setPostData] = useState(null);
 
   useEffect(() => {
-    // Determine whether there is a post in the URL, and if it's valid in the current collection
-    if (!postKey || !postIndex) {
+    setPostData(null);
+
+    // No need for callout if post doesn't exist
+    if (!slug || !publishedPosts) {
       return;
     }
-
-    const chosenPost = postIndex.find(
-      post => getKeyFromIndex(post).toUpperCase() === postKey.toUpperCase()
+    const chosenPost = publishedPosts.find(
+      post => getKeyFromIndex(post).toUpperCase() === slug.toUpperCase()
     );
     if (!chosenPost) {
       return;
     }
 
     setPending(true);
-    setPostData(null);
     firebase
       .singlePostData(chosenPost.postDataId)
       .get()
@@ -40,7 +40,7 @@ export default function usePostData(firebase, postIndex, postKey) {
       .finally(() => {
         setPending(false);
       });
-  }, [postKey, postIndex, firebase]);
+  }, [slug, publishedPosts, firebase]);
 
   return { postData, postDataPending };
 }
