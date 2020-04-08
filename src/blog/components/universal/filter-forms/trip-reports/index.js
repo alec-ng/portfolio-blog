@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
-import useRegionData from "./useRegionData";
-import useAreaData from "./useAreaData";
+import { getRegionData, getAreaData } from "./util";
 import ButtonGroupInput from "../../../generic/button-group-input";
 
 /**
@@ -9,8 +8,13 @@ import ButtonGroupInput from "../../../generic/button-group-input";
  * dependent on the area
  */
 export default function TripReportForm({ onInputChange, chosenValues, posts }) {
-  const [regionAreaMapping, regionVals] = useRegionData(posts);
-  const areaVals = useAreaData(regionAreaMapping, chosenValues);
+  const [regionAreaMapping, regionVals] = useMemo(() => getRegionData(posts), [
+    posts
+  ]);
+  const areaVals = useMemo(
+    () => getAreaData(regionAreaMapping, chosenValues.region),
+    [regionAreaMapping, chosenValues]
+  );
 
   /**
    * Button input click, set corresponding filter
