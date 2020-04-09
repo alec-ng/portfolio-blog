@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getKeyFromIndex } from "../../../util/url-util";
+import { getSlugFromPublishedPost } from "../../../util/url-util";
 
 /**
  * Given the current collection of posts and a key of a specific post to show,
@@ -17,7 +17,8 @@ export default function usePostData(firebase, publishedPosts, slug) {
       return;
     }
     const chosenPost = publishedPosts.find(
-      post => getKeyFromIndex(post).toUpperCase() === slug.toUpperCase()
+      post =>
+        getSlugFromPublishedPost(post).toUpperCase() === slug.toUpperCase()
     );
     if (!chosenPost) {
       return;

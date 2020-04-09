@@ -21,13 +21,13 @@ import TreeView from "../universal/rc-tree";
  */
 export default function TreeManager({ posts }) {
   const history = useHistory();
-  const { collection, postKey, postDate, filters } = useUrlState();
+  const { collection, slug, postDate, filters } = useUrlState();
   const view = useUrlView();
 
   /**
    * Memoized data structures based on posts provided
    */
-  const { idToPostMap, keyToPostMap } = useMemo(() => getPostMappings(posts), [
+  const { idToPostMap, slugToPostMap } = useMemo(() => getPostMappings(posts), [
     posts
   ]);
   const { treeData, monthKeys, yearKeys } = useMemo(
@@ -88,18 +88,18 @@ export default function TreeManager({ posts }) {
       return;
     }
     // invalid URL supplied
-    if (!postKey || !keyToPostMap || !keyToPostMap[postKey.toUpperCase()]) {
+    if (!slug || !slugToPostMap || !slugToPostMap[slug.toUpperCase()]) {
       return;
     }
     // Case where user was just interacting with tree but same post is being shown
-    const newKey = keyToPostMap[postKey.toUpperCase()].postDataId;
+    const newKey = slugToPostMap[slug.toUpperCase()].postDataId;
     if (newKey !== selectedKey) {
       setSelectedKey(newKey);
       minimize();
     }
   }, [
-    postKey,
-    keyToPostMap,
+    slug,
+    slugToPostMap,
     selectedKey,
     postDate,
     treeData,

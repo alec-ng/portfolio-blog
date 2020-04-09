@@ -5,7 +5,7 @@ const queryString = require("query-string");
  * Given an array element from postIndex.index, generate a key from its
  * date and title used for internal id purposes
  */
-export function getKeyFromIndex(postIndexElement) {
+export function getSlugFromPublishedPost(postIndexElement) {
   return `${postIndexElement.date}-${postIndexElement.title}`;
 }
 

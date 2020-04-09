@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import useFirebase from "../../../contexts/firebase";
 import useUrlState from "../../../hooks/useUrlState";
-import usePostIndex from "./usePostIndex";
+import usePublishedPosts from "./usePublishedPosts";
 import useFilterRedirect from "./useFilterRedirect";
 import useIndexRedirect from "./useIndexRedirect";
 import { filterPosts } from "../../../util/post-filter";
@@ -33,7 +33,10 @@ export default function Blog() {
   useIndexRedirect(collection);
   useFilterRedirect(filters, collection);
 
-  const { postIndexPending, postIndex } = usePostIndex(collection, firebase);
+  const { postIndexPending, postIndex } = usePublishedPosts(
+    collection,
+    firebase
+  );
   const filteredPosts = useMemo(
     () => filterPosts(postIndex, filters, collection),
     [postIndex, filters, collection]

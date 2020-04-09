@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import usePrevious from "../../../hooks/usePrevious";
-import { getKeyFromIndex, constructPath } from "../../../util/url-util";
+import {
+  getSlugFromPublishedPost,
+  constructPath
+} from "../../../util/url-util";
 
 /**
  * Hook to decide whether or not the post specified by the URL is valid
  * If not, redirect to the latest (chronological) post in the current collection
  */
-export default function usePostRedirect(posts, collection, postKey, filters) {
+export default function usePostRedirect(posts, collection, slug, filters) {
   const history = useHistory();
   const prevCollection = usePrevious(collection);
   const prevPosts = usePrevious(posts);
@@ -18,7 +21,7 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
     const postsExist = posts && posts.length;
     if (
       !collection ||
-      (!postsExist && !postKey) ||
+      (!postsExist && !slug) ||
       (prevCollection !== collection && prevCollection)
     ) {
       return;
@@ -29,10 +32,11 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
       return;
     }
 
-    // if a set of posts and a post key exists, check if the postkey exists
-    if (postsExist && postKey) {
+    // if a set of posts and a post key exists, check if the slug exists
+    if (postsExist && slug) {
       let chosenPost = posts.find(
-        post => getKeyFromIndex(post).toUpperCase() === postKey.toUpperCase()
+        post =>
+          getSlugFromPublishedPost(post).toUpperCase() === slug.toUpperCase()
       );
       if (chosenPost) {
         return;
@@ -44,7 +48,7 @@ export default function usePostRedirect(posts, collection, postKey, filters) {
       const { date, title } = posts.reduce(mostRecentDateReduce);
       history.replace(constructPath(collection, date, title, filters));
     }
-  }, [posts, prevPosts, collection, prevCollection, postKey, filters, history]);
+  }, [posts, prevPosts, collection, prevCollection, slug, filters, history]);
 }
 
 /**

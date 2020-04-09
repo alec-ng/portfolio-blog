@@ -14,7 +14,7 @@ export default function useUrlPath() {
   const [filters, setFilters] = useState({});
 
   // Post view specific
-  const [postKey, setPostKey] = useState(null);
+  const [slug, setslug] = useState(null);
   const [postDate, setPostDate] = useState(null);
   const [postTitle, setPostTitle] = useState(null);
 
@@ -27,17 +27,17 @@ export default function useUrlPath() {
     setFilters(urlState.filters);
 
     if (view === APP_VIEW.post) {
-      setPostKey(urlState.key);
+      setslug(urlState.key);
       setPostDate(urlState.date);
       setPostTitle(urlState.title);
     } else {
-      setPostKey(null);
+      setslug(null);
       setPostDate(null);
       setPostTitle(null);
     }
   }, [location, view]);
 
-  return { collection, postKey, postDate, postTitle, filters };
+  return { collection, slug, postDate, postTitle, filters };
 }
 
 /**

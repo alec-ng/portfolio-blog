@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useUrlState from "../../../hooks/useUrlState";
 import { getPostMappings } from "../../../util/post-util";
-import { getKeyFromIndex, constructPath } from "../../../util/url-util";
+import {
+  getSlugFromPublishedPost,
+  constructPath
+} from "../../../util/url-util";
 
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
@@ -46,13 +49,13 @@ function MapView({ filteredPosts, toggleFilter }) {
   /**
    * Navigate to clicked post
    */
-  const { keyToPostMap } = getPostMappings(filteredPosts);
+  const { slugToPostMap } = getPostMappings(filteredPosts);
   const { collection, filters } = useUrlState();
   const history = useHistory();
 
   function onClick(e) {
     const key = e.sourceTarget.options["data-key"];
-    const postToNavigate = keyToPostMap[key.toUpperCase()];
+    const postToNavigate = slugToPostMap[key.toUpperCase()];
     const newUrl = constructPath(
       collection,
       postToNavigate.date,
@@ -74,7 +77,7 @@ function MapView({ filteredPosts, toggleFilter }) {
    * Generate markers
    */
   const markers = getMockData(filteredPosts).map(post => {
-    const key = getKeyFromIndex(post);
+    const key = getSlugFromPublishedPost(post);
     return (
       <Marker position={post.latlng} onclick={onClick} key={key} data-key={key}>
         <Tooltip>{post.title}</Tooltip>

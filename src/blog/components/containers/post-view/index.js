@@ -22,8 +22,8 @@ export default function PostView({ filteredPosts }) {
   /**
    * Redirect if the URL doesn't refer to a valid post for the current filtered collection
    */
-  const { postKey, collection, postTitle, filters } = useUrlState();
-  usePostRedirect(filteredPosts, collection, postKey, filters);
+  const { slug, collection, postTitle, filters } = useUrlState();
+  usePostRedirect(filteredPosts, collection, slug, filters);
 
   /**
    * Fetch post data and determine what to render
@@ -32,24 +32,24 @@ export default function PostView({ filteredPosts }) {
   const { postData, postDataPending } = usePostData(
     firebase,
     filteredPosts,
-    postKey
+    slug
   );
   usePostEffects(postData, postTitle);
 
   /**
    * Determine data to render
    */
-  const { keyToPostMap } = useMemo(() => getPostMappings(filteredPosts), [
+  const { slugToPostMap } = useMemo(() => getPostMappings(filteredPosts), [
     filteredPosts
   ]);
 
   const [prevPost, nextPost] = useMemo(
-    () => getOrderedPosts(postKey, filteredPosts),
-    [postKey, filteredPosts]
+    () => getOrderedPosts(slug, filteredPosts),
+    [slug, filteredPosts]
   );
 
   const postMetadata =
-    postKey && keyToPostMap ? keyToPostMap[postKey.toUpperCase()] : null;
+    slug && slugToPostMap ? slugToPostMap[slug.toUpperCase()] : null;
 
   const postsDoNotExist =
     !postData && !postDataPending && (!filteredPosts || !filteredPosts.length);

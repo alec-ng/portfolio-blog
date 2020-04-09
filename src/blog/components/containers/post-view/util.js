@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createTreeData } from "../../universal/rc-tree/util";
-import { getKeyFromIndex } from "../../../util/url-util";
+import { getSlugFromPublishedPost } from "../../../util/url-util";
 
 /**
  * Given a slug, determines the "next" and "previous" post in chronological order
@@ -13,7 +13,7 @@ export function getOrderedPosts(slug, posts) {
   }
   // find the unique of the selected post
   const selectedPost = posts.find(
-    post => getKeyFromIndex(post).toUpperCase() === slug.toUpperCase()
+    post => getSlugFromPublishedPost(post).toUpperCase() === slug.toUpperCase()
   );
   if (!selectedPost) {
     return [null, null];
