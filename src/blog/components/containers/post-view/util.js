@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { createTreeData } from "../../generic/rc-tree/util";
+import { createTreeData } from "../../universal/rc-tree/util";
 import { getKeyFromIndex } from "../../../util/url-util";
 
 /**

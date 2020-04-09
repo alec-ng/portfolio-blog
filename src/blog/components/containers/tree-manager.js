@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import useUrlState from "../../../hooks/useUrlState";
-import useUrlView from "../../../hooks/useUrlView";
-import { createTreeData } from "../../generic/rc-tree/util";
+import useUrlState from "../../hooks/useUrlState";
+import useUrlView from "../../hooks/useUrlView";
 
-import { getInitialExpandedKeys } from "../../generic/rc-tree/util";
-import { constructPath } from "../../../util/url-util";
-import { getPostMappings } from "../../../util/post-util";
-import { APP_VIEW } from "../../../util/constants";
+import {
+  createTreeData,
+  getInitialExpandedKeys
+} from "../universal/rc-tree/util";
+import { constructPath } from "../../util/url-util";
+import { getPostMappings } from "../../util/post-util";
+import { APP_VIEW } from "../../util/constants";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
-import { StyledSidebarButton } from "../../universal/styled-sidebar-elements";
-import TreeView from "../../generic/rc-tree";
+import { StyledSidebarButton } from "../universal/styled-sidebar-elements";
+import TreeView from "../universal/rc-tree";
 
 /**
  * treeview whose selected node is synchronized with the URL post-key
