@@ -6,31 +6,31 @@ import { VALID_COLLECTIONS, getIndexRef } from "../../../util/constants";
  * which contains all published posts of that collection
  */
 export default function usePublishedPosts(collection, firebase) {
-  const [postIndexPending, setPostIndexPending] = useState(true);
-  const [postIndex, setPostIndex] = useState(null);
+  const [postsPending, setPostsPending] = useState(true);
+  const [publishedPosts, setPublishedPosts] = useState(null);
 
   useEffect(() => {
+    setPublishedPosts([]);
     if (!collection || VALID_COLLECTIONS.indexOf(collection) === -1) {
       return;
     }
 
-    setPostIndexPending(true);
+    setPostsPending(true);
     getIndexRef(collection, firebase)
       .get()
       .then(doc => {
-        setPostIndex(doc.data().index);
+        setPublishedPosts(doc.data().index);
       })
       .catch(failure => {
         alert(
           `Sorry, something went wrong with fetching this collection. Please refresh and try again.`
         );
         console.error(failure);
-        setPostIndex([]);
       })
       .finally(() => {
-        setPostIndexPending(false);
+        setPostsPending(false);
       });
   }, [collection, firebase]);
 
-  return { postIndexPending, postIndex };
+  return { postsPending, publishedPosts };
 }

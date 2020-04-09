@@ -59,11 +59,11 @@ export function getDateNodeKeys(year, month) {
   return { yearKey, monthKey };
 }
 /**
- * Given the postIndex.index, returns an array of node objects to be used as treeData
+ * Given a list of published posts, returns an array of node objects to be used as treeData
  */
-export function createTreeData(indexArr) {
+export function createTreeData(publishedPosts) {
   // Group all data by yyyy, mm, dd
-  let keyData = getGroupedPostData(indexArr);
+  let keyData = getGroupedPostData(publishedPosts);
   let treeData = [];
   let sequentialData = [];
   let yearKeys = [];
@@ -120,11 +120,11 @@ export function createTreeData(indexArr) {
 /**
  * groups all posts by year, date, month, date and sorts by title
  */
-function getGroupedPostData(indexArr) {
+function getGroupedPostData(publishedPosts) {
   const titleSort = (a, b) => (a.title < b.title ? -1 : 1);
   let keyData = {}; // yy -> {mm -> {post}}
 
-  indexArr.forEach(post => {
+  publishedPosts.forEach(post => {
     let [year, month, day] = post.date.split("-"); // yyyy-mm-dd
     if (!keyData[year]) {
       keyData[year] = {};

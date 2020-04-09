@@ -2,11 +2,10 @@ import { PATH_BLOG, VIEW_PATHS } from "./constants";
 const queryString = require("query-string");
 
 /**
- * Given an array element from postIndex.index, generate a key from its
- * date and title used for internal id purposes
+ * Given a published posts's metadata, generate a slug from its date and title
  */
-export function getSlugFromPublishedPost(postIndexElement) {
-  return `${postIndexElement.date}-${postIndexElement.title}`;
+export function getSlugFromPublishedPost(publishedPost) {
+  return `${publishedPost.date}-${publishedPost.title}`;
 }
 
 /**

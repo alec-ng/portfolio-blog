@@ -33,13 +33,13 @@ export default function Blog() {
   useIndexRedirect(collection);
   useFilterRedirect(filters, collection);
 
-  const { postIndexPending, postIndex } = usePublishedPosts(
+  const { postsPending, publishedPosts } = usePublishedPosts(
     collection,
     firebase
   );
   const filteredPosts = useMemo(
-    () => filterPosts(postIndex, filters, collection),
-    [postIndex, filters, collection]
+    () => filterPosts(publishedPosts, filters, collection),
+    [publishedPosts, filters, collection]
   );
 
   /**
@@ -55,9 +55,9 @@ export default function Blog() {
 
   return (
     <>
-      <LoadingOverlay type="linear" visible={postIndexPending} />
+      <LoadingOverlay type="linear" visible={postsPending} />
 
-      <Fade in={!postIndexPending}>
+      <Fade in={!postsPending}>
         <div className="container-fluid p-0">
           {/* Global UI Elements */}
           <SwipeableDrawer
@@ -66,13 +66,13 @@ export default function Blog() {
           >
             <SidebarManager
               toggleFilter={toggleFilter}
-              pending={postIndexPending}
+              pending={postsPending}
               filteredPosts={filteredPosts}
             />
           </SwipeableDrawer>
 
           <FilterManager
-            posts={postIndex}
+            posts={publishedPosts}
             isOpen={uiState.showFilterDialog}
             toggleFilter={toggleFilter}
           />
