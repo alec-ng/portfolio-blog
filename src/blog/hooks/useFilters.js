@@ -6,8 +6,8 @@ const queryString = require("query-string");
  * Key value pairing of location search url params
  */
 export default function useFilters() {
-  const [filters, setFilters] = useState({});
   const location = useLocation();
+  const [filters, setFilters] = useState(queryString.parse(location.search));
 
   useEffect(() => {
     setFilters(queryString.parse(location.search));
