@@ -1,3 +1,11 @@
 .custom-vert-timeline {
   max-width: 1600px;
 }
+
+.custom-vert-timeline .vertical-timeline-element-content {
+  box-shadow: 0 0 7px #ddd;
+}
+
+.custom-vert-timeline.vertical-timeline::before {
+  box-shadow: 0 0 15px #ddd;
+}

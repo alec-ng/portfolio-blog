@@ -7,21 +7,21 @@ import "react-vertical-timeline-component/style.min.css";
 import "./vertical-timeline-style.css";
 
 export default function VerticalTimelineComp(props) {
-  const timelineElements = props.content.map((timelineElement, index) => (
-    <VerticalTimelineElement
-      contentStyle={timelineElement.contentStyleOverride || props.contentStyle}
-      date={timelineElement.dateLabel}
-      iconStyle={timelineElement.iconStyleOverride || props.iconStyle}
-      icon={timelineElement.icon || props.icon}
-      key={index}
-    >
-      {timelineElement.data}
-    </VerticalTimelineElement>
-  ));
-
   return (
     <VerticalTimeline className="custom-vert-timeline">
-      {timelineElements}
+      {props.content.map((timelineElement, index) => (
+        <VerticalTimelineElement
+          contentStyle={
+            timelineElement.contentStyleOverride || props.contentStyle
+          }
+          date={timelineElement.dateLabel}
+          iconStyle={timelineElement.iconStyleOverride || props.iconStyle}
+          icon={timelineElement.icon || props.icon}
+          key={index}
+        >
+          {timelineElement.data}
+        </VerticalTimelineElement>
+      ))}
     </VerticalTimeline>
   );
 }
