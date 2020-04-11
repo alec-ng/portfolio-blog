@@ -1,36 +1,26 @@
-import React, { useEffect } from "react";
-import { createTreeData } from "../../universal/rc-tree/util";
-import { getSlugFromPublishedPost } from "../../../util/url-util";
+import { useEffect } from "react";
+import { urlDecodeStr } from "../../../util/url-util";
 
 /**
- * Given a slug, determines the "next" and "previous" post in chronological order
- * and returns their post metadata
- * Returns [prevPost, nextPost]
+ * Primary sort by date descending, secondary sort by title ascending
  */
-export function getOrderedPosts(slug, posts) {
-  if (!slug || !posts) {
-    return [null, null];
-  }
-  // find the unique of the selected post
-  const selectedPost = posts.find(
-    post => getSlugFromPublishedPost(post).toUpperCase() === slug.toUpperCase()
-  );
-  if (!selectedPost) {
-    return [null, null];
+export function getOrderedPosts(posts) {
+  if (!posts) {
+    return [];
   }
 
-  // find index of selected post in the sequential ordering of all posts
-  const sequentialTreeData = createTreeData(posts).sequentialData;
-  const currPostIndex = sequentialTreeData.findIndex(
-    post => selectedPost.postDataId === post.key
-  );
+  // dates: YYYY-MM-DD format, allowing string comparison
+  const sortOrder = (a, b) => {
+    if (a.date > b.date) {
+      return -1;
+    }
+    if (a.date < b.date) {
+      return 1;
+    }
+    return a.title < b.title ? -1 : 1;
+  };
 
-  const prevPostIndex =
-    currPostIndex !== 0 ? currPostIndex - 1 : sequentialTreeData.length - 1;
-  const nextPostIndex =
-    currPostIndex !== sequentialTreeData.length - 1 ? currPostIndex + 1 : 0;
-
-  return [sequentialTreeData[prevPostIndex], sequentialTreeData[nextPostIndex]];
+  return posts.sort(sortOrder);
 }
 
 /**
@@ -38,20 +28,11 @@ export function getOrderedPosts(slug, posts) {
  * - update the document title with the post title
  * - scroll to top of page
  */
-export function usePostEffects(postData, postTitle) {
+export function usePostEffects(postData, title) {
   useEffect(() => {
-    if (postData && postTitle) {
-      document.title = postTitle;
+    if (postData && title) {
+      document.title = urlDecodeStr(title);
       window.scrollTo(0, 0);
     }
-  }, [postData, postTitle]);
+  }, [postData, title]);
 }
-
-// ---------- MARKUP
-
-export const EmptyPostView = () => (
-  <div className="text-center my-5 mx-3">
-    <h1>There's nothing to see here!</h1>
-    <h3>Try adjusting the filters in the sidebar to be less restrictive.</h3>
-  </div>
-);

@@ -1,32 +1,20 @@
 import { useEffect, useState } from "react";
-import { getSlugFromPublishedPost } from "../../../util/url-util";
+import useFirebase from "../../../contexts/firebase";
 
 /**
- * Given the current collection of posts and a key of a specific post to show,
- * fetches the post from Firebase
+ * Retrieves post data for specified id
  */
-export default function usePostData(firebase, publishedPosts, slug) {
-  const [postDataPending, setPending] = useState(false);
+export default function usePostData(postDataId) {
+  const [postDataPending, setPending] = useState(true);
   const [postData, setPostData] = useState(null);
+  const firebase = useFirebase();
 
   useEffect(() => {
     setPostData(null);
-
-    // No need for callout if post doesn't exist
-    if (!slug || !publishedPosts) {
-      return;
-    }
-    const chosenPost = publishedPosts.find(
-      post =>
-        getSlugFromPublishedPost(post).toUpperCase() === slug.toUpperCase()
-    );
-    if (!chosenPost) {
-      return;
-    }
-
     setPending(true);
+
     firebase
-      .singlePostData(chosenPost.postDataId)
+      .singlePostData(postDataId)
       .get()
       .then(doc => {
         setPostData(doc.data());
@@ -41,7 +29,7 @@ export default function usePostData(firebase, publishedPosts, slug) {
       .finally(() => {
         setPending(false);
       });
-  }, [slug, publishedPosts, firebase]);
+  }, [postDataId, firebase]);
 
   return { postData, postDataPending };
 }

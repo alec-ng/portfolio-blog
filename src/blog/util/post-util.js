@@ -1,4 +1,4 @@
-import { getSlugFromPublishedPost } from "./url-util";
+import { getSlug } from "./url-util";
 
 /**
  * Itereate over a set of published posts and return two mappings,
@@ -12,7 +12,8 @@ export function getPostMappings(publishedPosts) {
   let slugToPostMap = {};
   publishedPosts.forEach(post => {
     idToPostMap[post.postDataId] = post;
-    slugToPostMap[getSlugFromPublishedPost(post).toUpperCase()] = post;
+    const slug = getSlug(post.title, post.date);
+    slugToPostMap[slug] = post;
   });
   return { idToPostMap, slugToPostMap };
 }

@@ -1,11 +1,9 @@
-import { PATH_BLOG, VIEW_PATHS } from "./constants";
-const queryString = require("query-string");
-
 /**
- * Given a published posts's metadata, generate a slug from its date and title
+ * Generates an all caps slug for case insensitive usage
  */
-export function getSlugFromPublishedPost(publishedPost) {
-  return `${publishedPost.date}-${publishedPost.title}`;
+export function getSlug(title, date) {
+  const encodedTitle = urlDecodeStr(title);
+  return `${date}-${encodedTitle}`.toUpperCase();
 }
 
 /**
@@ -36,26 +34,26 @@ export function urlDecodeStr(str) {
 }
 
 /**
- * returns a relative path to the map view, preserving filters
+ * Returns a relative path to match the "map" sub app route
  */
-export function constructMapPath(filters) {
-  let url = VIEW_PATHS.map;
-  if (filters) {
-    url += `?${queryString.stringify(filters)}`;
+export function constructMapPath(location) {
+  let mapUrl = "/blog/map";
+  if (location) {
+    mapUrl += location.search;
   }
-  return url;
+  return mapUrl;
 }
 
-/**
- * Returns a relative path to a specific post
+/*
+ * Returns a relative path to match the "view" sub app route
  */
-export function constructPath(collection, date, title, filters) {
-  let path = `${PATH_BLOG}/${collection}/`;
+export function constructViewPath(date, title, search) {
+  let viewUrl = "/blog/view/";
   if (date && title) {
-    path += `${date}/${urlEncodeStr(title)}`;
+    viewUrl += `${date}/${urlEncodeStr(title)}`;
   }
-  if (filters) {
-    path += `?${queryString.stringify(filters)}`;
+  if (search) {
+    viewUrl += search;
   }
-  return path;
+  return viewUrl;
 }

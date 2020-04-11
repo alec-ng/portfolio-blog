@@ -1,91 +1,81 @@
-import React, { useMemo } from "react";
-import useFirebase from "../../../contexts/firebase";
-import useUrlState from "../../../hooks/useUrlState";
+import React, { useCallback, useState } from "react";
 import usePublishedPosts from "./usePublishedPosts";
-import useFilterRedirect from "./useFilterRedirect";
-import useIndexRedirect from "./useIndexRedirect";
-import { filterPosts } from "../../../util/post-filter";
 import useUIState, {
   SET_DRAWER_OPEN,
   SET_FILTER_OPEN
 } from "../../../contexts/ui-context";
 
 import Fade from "@material-ui/core/Fade";
-import ContentManager from "../content-manager";
+import ViewRoutes from "../view-routes";
 import SidebarManager from "../sidebar-manager";
 import FilterManager from "../filter-manager";
 import LoadingOverlay from "../../generic/loading-overlay";
-
-import SwipeableDrawer from "../../universal/swipable-drawer";
-import AppBar, { appbarHeight } from "../../universal/appbar";
+import ViewRedirect from "../../universal/view-redirect";
+import SwipeableDrawer from "../../universal/layout/swipable-drawer";
+import AppBar, { appbarHeight } from "../../universal/layout/appbar";
 
 /**
  * Top level container component for blog
- * High level layout & retrieves a grouping's published posts
+ * - Layout
+ * - Retrieves all published post metadata
  */
 export default function Blog() {
-  /**
-   * Synchronize filters and published collection data
-   * Validate and redirect if needed
-   */
-  const { collection, filters } = useUrlState();
-  const firebase = useFirebase();
-  useIndexRedirect(collection);
-  useFilterRedirect(filters, collection);
+  const { postsPending, publishedPosts } = usePublishedPosts();
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
-  const { postsPending, publishedPosts } = usePublishedPosts(
-    collection,
-    firebase
-  );
-  const filteredPosts = useMemo(
-    () => filterPosts(publishedPosts, filters, collection),
-    [publishedPosts, filters, collection]
-  );
-
-  /**
-   * Global ui state controlled drawer
-   */
+  // Global ui state controlled drawer
   const [uiState, uiDispatch] = useUIState();
-  function toggleDrawer(open) {
-    uiDispatch({ type: SET_DRAWER_OPEN, val: open });
-  }
-  function toggleFilter(open) {
-    uiDispatch({ type: SET_FILTER_OPEN, val: open });
-  }
+  const toggleDrawer = useCallback(
+    open => {
+      uiDispatch({ type: SET_DRAWER_OPEN, val: open });
+    },
+    [uiDispatch]
+  );
+  const toggleFilter = useCallback(
+    open => {
+      uiDispatch({ type: SET_FILTER_OPEN, val: open });
+    },
+    [uiDispatch]
+  );
 
   return (
     <>
+      <ViewRedirect />
       <LoadingOverlay type="linear" visible={postsPending} />
 
-      <Fade in={!postsPending}>
-        <div className="container-fluid p-0">
-          {/* Global UI Elements */}
-          <SwipeableDrawer
-            open={uiState.showDrawer}
-            toggleDrawer={toggleDrawer}
-          >
-            <SidebarManager
+      {!postsPending && (
+        <Fade in={true}>
+          <div className="container-fluid p-0">
+            {/* Global UI Elements */}
+            <SwipeableDrawer
+              open={uiState.showDrawer}
+              toggleDrawer={toggleDrawer}
+            >
+              <SidebarManager
+                toggleFilter={toggleFilter}
+                toggleDrawer={toggleDrawer}
+                pending={postsPending}
+                filteredPosts={filteredPosts}
+              />
+            </SwipeableDrawer>
+
+            <FilterManager
+              publishedPosts={publishedPosts}
+              isOpen={uiState.showFilterDialog}
               toggleFilter={toggleFilter}
-              pending={postsPending}
-              filteredPosts={filteredPosts}
+              setFilteredPosts={setFilteredPosts}
             />
-          </SwipeableDrawer>
 
-          <FilterManager
-            posts={publishedPosts}
-            isOpen={uiState.showFilterDialog}
-            toggleFilter={toggleFilter}
-          />
-
-          {/* Visible Content */}
-          <AppBar toggleDrawer={toggleDrawer} />
-          <div style={{ paddingTop: appbarHeight }} />
-          <ContentManager
-            filteredPosts={filteredPosts}
-            toggleFilter={toggleFilter}
-          />
-        </div>
-      </Fade>
+            {/* Visible Content */}
+            <AppBar toggleDrawer={toggleDrawer} />
+            <div style={{ paddingTop: appbarHeight }} />
+            <ViewRoutes
+              filteredPosts={filteredPosts}
+              toggleFilter={toggleFilter}
+            />
+          </div>
+        </Fade>
+      )}
     </>
   );
 }

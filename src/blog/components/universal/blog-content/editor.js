@@ -23,13 +23,13 @@ const plugins = [
  * Renders page data in readonly BrandywineEditor instance and collection
  * specific metadata
  */
-function Editor({ pageData, postMetadata }) {
+function Editor({ pageData, metadata }) {
   return (
     <article>
       <BrandywineReader
         pageData={pageData}
         plugins={plugins}
-        customContent={<TripReportData postMetadata={postMetadata} />}
+        customContent={<TripReportData metadata={metadata} />}
       />
     </article>
   );

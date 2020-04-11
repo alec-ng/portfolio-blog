@@ -1,24 +1,12 @@
-import { COLLECTION_TRIPREPORTS, COLLECTION_TRAVELS } from "./constants";
 import { urlDecodeStr } from "./url-util";
 
-export const tripReportFilters = ["area", "region"];
-export const travelFilters = [];
-export const collectionToDependenciesMap = {
-  [COLLECTION_TRIPREPORTS]: {
-    area: ["region"]
-  }
-};
-export const collectionToFiltersMap = {
-  [COLLECTION_TRIPREPORTS]: tripReportFilters,
-  [COLLECTION_TRAVELS]: travelFilters
-};
+const VALID_FILTERS = ["area", "region"];
 
 /**
- * Given a list of posts, the current filters specified by the url state, and the
- * collection being shown, return a subset of posts that match the filter criteria
+ * Return a subset of posts that match only the valid filters provided
  */
-export function filterPosts(posts, filters, collection) {
-  if (!Object.keys(filters).length || !collection || !posts) {
+export function filterPosts(posts, filters) {
+  if (!Object.keys(filters).length || !posts) {
     return posts;
   }
 
@@ -30,28 +18,21 @@ export function filterPosts(posts, filters, collection) {
     {}
   );
 
-  const trimmedFilters = trimFilters(filterMap, collection);
-
-  switch (collection) {
-    case COLLECTION_TRIPREPORTS:
-      return filterTripReports(posts, trimmedFilters);
-    default:
-      return posts;
-  }
+  const trimmedFilters = trimFilters(filterMap);
+  return filterTripReports(posts, trimmedFilters);
 }
 
 /**
- * Given an object of filters from useUrlState(), return back the minimal set of keys relevant
- * to the specified collection
+ * Validates the input set of filters and returns back a subset
+ * only containing valid, non null entries
  */
-export function trimFilters(filterMap, collection) {
-  const filtersForCollection = collectionToFiltersMap[collection];
-  if (!filterMap || !filtersForCollection) {
+export function trimFilters(filterMap) {
+  if (!filterMap) {
     return {};
   }
   let trimmedFilters = Object.assign({}, filterMap);
   Object.keys(trimmedFilters).forEach(filter => {
-    if (!filterMap[filter] || filtersForCollection.indexOf(filter) === -1) {
+    if (!filterMap[filter] || VALID_FILTERS.indexOf(filter) === -1) {
       delete trimmedFilters.filter;
     }
   });
@@ -59,8 +40,8 @@ export function trimFilters(filterMap, collection) {
 }
 
 /**
- * Look for single match comparisons in each collection field
- * e.g. x === y
+ * Filters posts by using a simple, case-insensitive, trimmed
+ * comparison on each filter
  */
 function filterTripReports(posts, chosenFilters) {
   let subset = [];

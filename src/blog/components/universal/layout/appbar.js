@@ -2,19 +2,20 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import HideOnScroll from "../generic/hide-on-scroll";
+import HideOnScroll from "../../generic/hide-on-scroll";
 import { makeStyles } from "@material-ui/core/styles";
 
 /**
  * Blog app global app bar
  * Fixed, and hides on scroll
  */
-export default function BlogAppBar({ toggleDrawer }) {
+function BlogAppBar({ toggleDrawer }) {
   function onIconClick() {
     toggleDrawer(true);
   }
 
   const classes = useAppbarStyles();
+
   return (
     <HideOnScroll>
       <AppBar
@@ -37,6 +38,11 @@ export default function BlogAppBar({ toggleDrawer }) {
     </HideOnScroll>
   );
 }
+
+// Direct child of app.js, prevent rerender on context update
+export default React.memo(BlogAppBar);
+
+// ------------- STYLES
 
 export const appbarHeight = "55px";
 

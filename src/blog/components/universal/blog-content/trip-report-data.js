@@ -1,24 +1,24 @@
 import React from "react";
 import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
-import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
+import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 
 /**
  * Renderes readonly trip report metdata
  */
-export default function TripReportData({ postMetadata }) {
+export default function TripReportData({ metadata }) {
   return (
     <div className="brandywine-width_large brandywine-responsive-x-padding mx-auto mb-4">
       <div>
         <span style={{ color: "rgb(255, 69, 0)" }}>
           <PublicOutlinedIcon />
         </span>
-        &nbsp;{postMetadata.region}
+        &nbsp;{metadata.region}
       </div>
       <div>
         <span style={{ color: "rgb(255, 69, 0)" }}>
-          <MapOutlinedIcon />
+          <RoomOutlinedIcon />
         </span>
-        &nbsp;{postMetadata.area}
+        &nbsp;{metadata.area}
       </div>
     </div>
   );

@@ -1,28 +1,33 @@
 import React from "react";
 import switcherIcon from "./switcher";
 import "rc-tree/assets/index.css";
-import "./style.css";
+import "./overrides.css";
 import Tree from "rc-tree";
-import { motion } from "./util";
 
 /**
  * Renders a treeview that provides options for a initially selected post.
  */
-export default function Treeview(props) {
+export default function Treeview({
+  treeData,
+  expandedKeys,
+  selectedKeys,
+  onNodeSelect,
+  onExpand
+}) {
   return (
     <>
-      {props.treeData && props.treeData.length ? (
+      {treeData && treeData.length ? (
         <Tree
           checkable={false}
-          expandedKeys={props.expandedKeys}
-          selectedKeys={props.selectedKeys}
+          expandedKeys={expandedKeys}
+          selectedKeys={selectedKeys}
           motion={motion}
           switcherIcon={switcherIcon}
           showIcon={false}
           showLine={true}
-          onSelect={props.onNodeSelect}
-          onExpand={props.onExpand}
-          treeData={props.treeData}
+          onSelect={onNodeSelect}
+          onExpand={onExpand}
+          treeData={treeData}
         />
       ) : (
         <p>There are no posts to show.</p>
@@ -30,3 +35,16 @@ export default function Treeview(props) {
     </>
   );
 }
+
+// -------------- Animtations
+
+const onEnterActive = node => {
+  return { height: node.scrollHeight };
+};
+
+const motion = {
+  motionName: "node-motion",
+  motionAppear: false,
+  onEnterActive,
+  onLeaveStart: node => ({ height: node.offsetHeight })
+};

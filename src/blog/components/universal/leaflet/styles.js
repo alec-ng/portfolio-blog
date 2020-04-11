@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { appbarHeight } from "../../universal/appbar";
+import { appbarHeight } from "../layout/appbar";
 
 const BaseMapButton = styled.button`
   /* styles to match leaflet */

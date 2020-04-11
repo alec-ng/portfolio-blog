@@ -1,47 +1,57 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
-import useUrlState from "../../hooks/useUrlState";
-import useUrlView from "../../hooks/useUrlView";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
-import {
-  createTreeData,
-  getInitialExpandedKeys
-} from "../universal/rc-tree/util";
-import { constructPath } from "../../util/url-util";
+import { createTreeData, getDateNodeKeys } from "../universal/rc-tree/util";
+import { constructViewPath, getSlug } from "../../util/url-util";
 import { getPostMappings } from "../../util/post-util";
-import { APP_VIEW } from "../../util/constants";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
-import { StyledSidebarButton } from "../universal/styled-sidebar-elements";
+import { StyledSidebarButton } from "../universal/layout/styled-sidebar-elements";
 import TreeView from "../universal/rc-tree";
 
 /**
  * treeview whose selected node is synchronized with the URL post-key
  */
-export default function TreeManager({ posts }) {
-  const history = useHistory();
-  const { collection, slug, postDate, filters } = useUrlState();
-  const view = useUrlView();
+export default function TreeManager({ posts, closeDrawer }) {
+  const { view, date, title } = useParams();
+  const slug = view === "map" || !date || !title ? null : getSlug(title, date);
 
-  /**
-   * Memoized data structures based on posts provided
-   */
-  const { idToPostMap, slugToPostMap } = useMemo(() => getPostMappings(posts), [
-    posts
-  ]);
+  // Memoized shared data structures
+  const { slugToPostMap } = useMemo(() => getPostMappings(posts), [posts]);
+
   const { treeData, monthKeys, yearKeys } = useMemo(
     () => (posts ? createTreeData(posts) : {}),
     [posts]
   );
 
-  /**
-   * Open all month and year nodes
-   */
-  function expandAll() {
-    if (!treeData) {
+  // local state for active and expanded nodes
+  const [selectedKey, setSelectedKey] = useState(null);
+  const [expandedKeys, setExpandedKeys] = useState([]);
+
+  // collapses all nodes, except the dates needed to show the currne post, if any
+  const minimize = useCallback(() => {
+    if (view === "map" || !date) {
+      setExpandedKeys([]);
       return;
     }
+
+    const [year, month] = date.split("-");
+    const { yearKey, monthKey } = getDateNodeKeys(year, month);
+    setExpandedKeys([yearKey, monthKey]);
+  }, [date, view]);
+
+  // on post change, reset active and expanded nodes
+  useEffect(() => {
+    if (view === "map" || !slugToPostMap[slug]) {
+      setSelectedKey(null);
+    }
+    setSelectedKey(slug);
+    minimize();
+  }, [slug, view, minimize, slugToPostMap]);
+
+  // sets all date nodes as expanded
+  function expandAll() {
     const allNodesLen = monthKeys.length + yearKeys.length;
     if (expandedKeys.length === allNodesLen) {
       return;
@@ -49,86 +59,24 @@ export default function TreeManager({ posts }) {
     setExpandedKeys(monthKeys.concat(yearKeys));
   }
 
-  const [selectedKey, setSelectedKey] = useState(null);
-  const [expandedKeys, setExpandedKeys] = useState([]);
+  // Action on Node Click - if leaf, navigate to post view.
+  // If not a leaf, expand node's children
+  const history = useHistory();
+  const location = useLocation();
 
-  /**
-   * If in map view, collapses all nodes
-   * If in post view, collapses all ndoes except the ones to show the current post
-   */
-  const minimize = useCallback(() => {
-    if (!treeData) {
-      return;
-    }
-    if (view === APP_VIEW.map) {
-      setExpandedKeys([]);
-      return;
-    }
-
-    const [yearNodeKey, monthNodeKey] = getInitialExpandedKeys(
-      postDate,
-      treeData
-    );
-    if (
-      expandedKeys.length !== 2 ||
-      expandedKeys.indexOf(yearNodeKey) === -1 ||
-      expandedKeys.indexOf(monthNodeKey) === -1
-    ) {
-      setExpandedKeys([yearNodeKey, monthNodeKey]);
-    }
-  }, [postDate, treeData, expandedKeys, view]);
-
-  /**
-   * effect logic to set selected key based on global URL changes
-   */
-  useEffect(() => {
-    // tree not active during map view
-    if (view === APP_VIEW.map) {
-      setSelectedKey(null);
-      return;
-    }
-    // invalid URL supplied
-    if (!slug || !slugToPostMap || !slugToPostMap[slug.toUpperCase()]) {
-      return;
-    }
-    // Case where user was just interacting with tree but same post is being shown
-    const newKey = slugToPostMap[slug.toUpperCase()].postDataId;
-    if (newKey !== selectedKey) {
-      setSelectedKey(newKey);
-      minimize();
-    }
-  }, [
-    slug,
-    slugToPostMap,
-    selectedKey,
-    postDate,
-    treeData,
-    expandedKeys,
-    view,
-    minimize
-  ]);
-
-  /**
-   * If leaf, make callout to get chosen post
-   * If not a leaf, expand and show its children
-   */
   function onNodeSelect(selectedKeys, e) {
     if (e.node.isLeaf() && selectedKeys.length) {
-      const newPost = idToPostMap[selectedKeys[0]];
-      const newUrl = constructPath(
-        collection,
-        newPost.date,
-        newPost.title,
-        filters
-      );
-      history.push(newUrl);
-    } else {
-      setExpandedKeys(
-        e.node.props.expanded
-          ? expandedKeys.filter(k => k !== e.node.props.eventKey)
-          : expandedKeys.concat(e.node.props.eventKey)
-      );
+      const { date, title } = slugToPostMap[selectedKeys[0]];
+      history.push(constructViewPath(date, title, location.search));
+      closeDrawer(false);
+      return;
     }
+
+    setExpandedKeys(
+      e.node.props.expanded
+        ? expandedKeys.filter(k => k !== e.node.props.eventKey)
+        : expandedKeys.concat(e.node.props.eventKey)
+    );
   }
 
   function onExpand(expandedKeys) {

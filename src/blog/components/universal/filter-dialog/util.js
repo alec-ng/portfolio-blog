@@ -1,4 +1,4 @@
-import { urlEncodeStr } from "../../../../util/url-util";
+import { urlEncodeStr } from "../../../util/url-util";
 
 /**
  * From the given list of published posts, returns

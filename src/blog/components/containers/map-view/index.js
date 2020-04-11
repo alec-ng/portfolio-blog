@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
-
-import { useHistory } from "react-router-dom";
-import useUrlState from "../../../hooks/useUrlState";
+import { useHistory, useLocation } from "react-router-dom";
 import { getPostMappings } from "../../../util/post-util";
-import {
-  getSlugFromPublishedPost,
-  constructPath
-} from "../../../util/url-util";
+import { constructViewPath } from "../../../util/url-util";
+import useFilters from "../../../hooks/useFilters";
 
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
 import MaterialTooltip from "@material-ui/core/Tooltip";
+import { Marker, Tooltip } from "react-leaflet";
 import LeafletMap, {
   FilterButton,
   ZoomOutButton
 } from "../../universal/leaflet";
-import { Marker, Tooltip } from "react-leaflet";
 
 /**
  * Renders a full screen leaflet map, transforming posts into map markers and providing
@@ -26,9 +22,7 @@ function MapView({ filteredPosts, toggleFilter }) {
     document.title = "Map";
   }, []);
 
-  /**
-   * Fit bounds when marker set changes
-   */
+  // Fit bounds when marker set changes
   const mapRef = React.useRef();
   const groupRef = React.useRef();
 
@@ -46,40 +40,33 @@ function MapView({ filteredPosts, toggleFilter }) {
     map.fitBounds(markerBounds, { padding: [50, 50] });
   }
 
-  /**
-   * Navigate to clicked post
-   */
-  const { slugToPostMap } = getPostMappings(filteredPosts);
-  const { collection, filters } = useUrlState();
+  // Navigate to clicked post
+  const { idToPostMap } = getPostMappings(filteredPosts);
   const history = useHistory();
+  const location = useLocation();
 
   function onClick(e) {
-    const key = e.sourceTarget.options["data-key"];
-    const postToNavigate = slugToPostMap[key.toUpperCase()];
-    const newUrl = constructPath(
-      collection,
-      postToNavigate.date,
-      postToNavigate.title,
-      filters
-    );
-    history.push(newUrl);
+    const postDataId = e.sourceTarget.options["data-key"];
+    const { title, date } = idToPostMap[postDataId];
+    history.push(constructViewPath(date, title, location.search));
   }
 
-  /**
-   * Filter custom control
-   */
+  // Filter custom control
+  const filters = useFilters();
   const filtersPresent = filters && Object.keys(filters).length;
   function openFilters() {
     toggleFilter(true);
   }
 
-  /**
-   * Generate markers
-   */
+  // Generate markers
   const markers = getMockData(filteredPosts).map(post => {
-    const key = getSlugFromPublishedPost(post);
     return (
-      <Marker position={post.latlng} onclick={onClick} key={key} data-key={key}>
+      <Marker
+        position={post.latlng}
+        onclick={onClick}
+        key={post.postDataId}
+        data-key={post.postDataId}
+      >
         <Tooltip>{post.title}</Tooltip>
       </Marker>
     );

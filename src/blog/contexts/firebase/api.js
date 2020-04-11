@@ -38,16 +38,15 @@ export default class FirebaseAPI {
   cmsPosts = () => this.db.collection(`${COLLECTION_CMS_POST}`);
   singlePostData = id => this.db.doc(`${COLLECTION_POST_DATA}/${id}`);
   postData = () => this.db.collection(`${COLLECTION_POST_DATA}`);
-  photographyIndex = () => this.db.doc(`${COLLECTION_PHOTOGRAPHY_INDEX}/root`);
-  tripreportIndex = () => this.db.doc(`${COLLECTION_TRIPREPORT_INDEX}/root`);
+  publishedPostsMetadata = () =>
+    this.db.doc(`${COLLECTION_PUBLISHSED_POSTS}/root`);
 }
 
 // ----------- CONSTANTS
 const COLLECTION_CMS_POST = "cms-post";
 const COLLECTION_POST = "post";
 const COLLECTION_POST_DATA = "post-data";
-const COLLECTION_PHOTOGRAPHY_INDEX = "photography-index";
-const COLLECTION_TRIPREPORT_INDEX = "tripreports-index";
+const COLLECTION_PUBLISHSED_POSTS = "tripreports-index";
 
 // ------------ CONFIG
 

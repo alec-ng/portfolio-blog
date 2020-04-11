@@ -1,16 +1,21 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { getRegionData, getAreaData } from "./util";
-import ButtonGroupInput from "../../../generic/button-group-input";
+import ButtonGroupInput from "../../generic/button-group-input";
 
 /**
  * Form with two inputs (single select button groups), with region being
  * dependent on the area
  */
-export default function TripReportForm({ onInputChange, chosenValues, posts }) {
-  const [regionAreaMapping, regionVals] = useMemo(() => getRegionData(posts), [
-    posts
-  ]);
+export default function TripReportForm({
+  onInputChange,
+  chosenValues,
+  publishedPosts
+}) {
+  const [regionAreaMapping, regionVals] = useMemo(
+    () => getRegionData(publishedPosts),
+    [publishedPosts]
+  );
   const areaVals = useMemo(
     () => getAreaData(regionAreaMapping, chosenValues.region),
     [regionAreaMapping, chosenValues]

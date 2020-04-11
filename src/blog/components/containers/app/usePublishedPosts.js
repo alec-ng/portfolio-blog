@@ -1,36 +1,33 @@
 import { useEffect, useState } from "react";
-import { VALID_COLLECTIONS, getIndexRef } from "../../../util/constants";
+import useFirebase from "../../../contexts/firebase";
 
 /**
  * Given the name of a collection of posts, fetch the index root document from firebase
  * which contains all published posts of that collection
  */
-export default function usePublishedPosts(collection, firebase) {
+export default function usePublishedPosts() {
   const [postsPending, setPostsPending] = useState(true);
   const [publishedPosts, setPublishedPosts] = useState(null);
+  const firebase = useFirebase();
 
   useEffect(() => {
     setPublishedPosts([]);
-    if (!collection || VALID_COLLECTIONS.indexOf(collection) === -1) {
-      return;
-    }
-
     setPostsPending(true);
-    getIndexRef(collection, firebase)
+
+    firebase
+      .publishedPostsMetadata()
       .get()
       .then(doc => {
         setPublishedPosts(doc.data().index);
       })
       .catch(failure => {
-        alert(
-          `Sorry, something went wrong with fetching this collection. Please refresh and try again.`
-        );
+        alert(`Sorry, something went wrong! Please refresh and try again.`);
         console.error(failure);
       })
       .finally(() => {
         setPostsPending(false);
       });
-  }, [collection, firebase]);
+  }, [firebase]);
 
   return { postsPending, publishedPosts };
 }

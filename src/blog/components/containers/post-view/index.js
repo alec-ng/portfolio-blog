@@ -1,99 +1,86 @@
 import React, { useMemo } from "react";
-import useFirebase from "../../../contexts/firebase";
-import { useHistory } from "react-router-dom";
-import useUrlState from "../../../hooks/useUrlState";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import usePostData from "./usePostData";
-import usePostRedirect from "./usePostRedirect";
 
-import { getOrderedPosts, usePostEffects, EmptyPostView } from "./util";
-
+import { getOrderedPosts, usePostEffects } from "./util";
 import { getPostMappings } from "../../../util/post-util";
-import { constructPath } from "../../../util/url-util";
+import { constructViewPath, getSlug } from "../../../util/url-util";
 
-import Editor from "../../universal/editor";
-import FancyHr from "../../universal/blog-post-hr";
-import EndContentNavigator from "../../universal/end-content-navigator";
+import Fade from "@material-ui/core/Fade";
+import NotFound from "../../universal/not-found";
+import Editor from "../../universal/blog-content/editor";
+import Divider from "../../universal/blog-content/blog-post-hr";
+import EndContentNavigator from "../../universal/blog-content/end-content-navigator";
 import LoadingOverlay from "../../generic/loading-overlay";
 
 /**
  * Container for showing a specific post
+ * Validates and only renders content if slug is valid
  */
 export default function PostView({ filteredPosts }) {
-  /**
-   * Redirect if the URL doesn't refer to a valid post for the current filtered collection
-   */
-  const { slug, collection, postTitle, filters } = useUrlState();
-  usePostRedirect(filteredPosts, collection, slug, filters);
-
-  /**
-   * Fetch post data and determine what to render
-   */
-  const firebase = useFirebase();
-  const { postData, postDataPending } = usePostData(
-    firebase,
-    filteredPosts,
-    slug
-  );
-  usePostEffects(postData, postTitle);
-
-  /**
-   * Determine data to render
-   */
+  const { date, title } = useParams();
+  const slug = getSlug(title, date);
   const { slugToPostMap } = useMemo(() => getPostMappings(filteredPosts), [
     filteredPosts
   ]);
 
-  const [prevPost, nextPost] = useMemo(
-    () => getOrderedPosts(slug, filteredPosts),
-    [slug, filteredPosts]
+  return !filteredPosts || !slugToPostMap[slug] ? (
+    <NotFound />
+  ) : (
+    <PostContent
+      filteredPosts={filteredPosts}
+      title={title}
+      metadata={slugToPostMap[slug]}
+    />
   );
+}
 
-  const postMetadata =
-    slug && slugToPostMap ? slugToPostMap[slug.toUpperCase()] : null;
+/**
+ * Retrieves actual post data to show and renders the post and footer nav
+ */
+function PostContent({ filteredPosts, metadata, title }) {
+  // Fetch post data
+  const { postData, postDataPending } = usePostData(metadata.postDataId);
+  usePostEffects(postData, title);
 
-  const postsDoNotExist =
-    !postData && !postDataPending && (!filteredPosts || !filteredPosts.length);
+  // Sort posts to match ordering in sidebar tree
+  const orderedPosts = useMemo(() => getOrderedPosts(filteredPosts), [
+    filteredPosts
+  ]);
+  const currIndex = orderedPosts.findIndex(
+    post => post.postDataId === metadata.postDataId
+  );
+  const prevIndex = currIndex - 1 < 0 ? orderedPosts.length - 1 : currIndex - 1;
+  const nextIndex = currIndex + 1 >= orderedPosts.length ? 0 : currIndex + 1;
 
-  /**
-   * On prev/next post click, initiate URL change
-   */
+  // On prev/next post click, navigate to chosen post
   const history = useHistory();
+  const location = useLocation();
 
   function onNavigationPostClick(e) {
-    const newPostTreedata =
-      e.currentTarget.dataset.direction === "previous" ? prevPost : nextPost;
-
-    const newPost = filteredPosts.find(
-      post => post.postDataId === newPostTreedata.key
-    );
-
-    const newUrl = constructPath(
-      collection,
-      newPost.date,
-      newPost.title,
-      filters
-    );
-
-    history.push(newUrl);
+    const { title, date } =
+      e.currentTarget.dataset.direction === "previous"
+        ? orderedPosts[prevIndex]
+        : orderedPosts[nextIndex];
+    history.push(constructViewPath(date, title, location.search));
   }
 
   return (
     <>
       <LoadingOverlay type="circular" visible={postDataPending} />
-
-      {postData && postMetadata && (
-        <div id="global-editor-container" className="mb-5">
-          <Editor pageData={postData} postMetadata={postMetadata} />
-          <FancyHr collection={collection} />
-          <EndContentNavigator
-            onButtonClick={onNavigationPostClick}
-            prevPost={prevPost}
-            nextPost={nextPost}
-          />
-        </div>
+      {!postDataPending && (
+        <Fade in={true}>
+          <div id="global-editor-container" className="mb-5">
+            <Editor pageData={postData} metadata={metadata} />
+            <Divider />
+            <EndContentNavigator
+              onButtonClick={onNavigationPostClick}
+              prevPost={orderedPosts[prevIndex]}
+              nextPost={orderedPosts[nextIndex]}
+            />
+          </div>
+        </Fade>
       )}
-
-      {postsDoNotExist && <EmptyPostView />}
     </>
   );
 }
