@@ -7,7 +7,10 @@ import { getPostMappings } from "../../util/post-util";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
-import { StyledSidebarButton } from "../universal/layout/styled-sidebar-elements";
+import {
+  StyledSidebarButton,
+  PaddedContainer
+} from "../universal/layout/styled-sidebar-elements";
 import TreeView from "../universal/rc-tree";
 
 /**
@@ -93,13 +96,15 @@ export default function TreeManager({ posts, closeDrawer }) {
           <ArrowForwardOutlinedIcon /> Minimize
         </StyledSidebarButton>
       </div>
-      <TreeView
-        treeData={treeData}
-        onNodeSelect={onNodeSelect}
-        expandedKeys={expandedKeys}
-        selectedKeys={[selectedKey]}
-        onExpand={onExpand}
-      />
+      <PaddedContainer>
+        <TreeView
+          treeData={treeData}
+          onNodeSelect={onNodeSelect}
+          expandedKeys={expandedKeys}
+          selectedKeys={[selectedKey]}
+          onExpand={onExpand}
+        />
+      </PaddedContainer>
     </>
   );
 }
