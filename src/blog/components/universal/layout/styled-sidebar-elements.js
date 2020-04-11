@@ -7,30 +7,28 @@ export const Divider = styled.div`
   height: 1px;
   background-color: rgba(255, 255, 255, 0.1);
   width: 100%;
-  margin: 10px 0;
+  margin: 15px 0;
 `;
 
 export const StyledSidebarButton = styled.button`
-  font-weight: ${props => (props.active ? "700" : "100")};
-  color: rgb(255, 69, 0);
   width: 100%;
   text-align: left;
   background-color: rgba(55, 58, 71, 1);
   border: none;
   padding: ${horizPadding};
   height: 25px;
-  font-size: 12px;
+  font-size: 13px;
   display: block;
   cursor: pointer;
+  color: ${props => (props.active ? "rgb(255, 69, 0)" : "rgb(184, 183, 173)")};
+
+  & svg {
+    color: rgb(255, 69, 0);
+  }
   &:hover {
-    color: rgb(255, 125, 0);
+    color: rgb(255, 69, 0);
     background-color: rgba(255, 255, 255, 0.05);
   }
-`;
-
-export const PrimaryNavButton = styled(StyledSidebarButton)`
-  height: 28px;
-  font-size: 15px;
 `;
 
 export const StyledHeavyText = styled.b`

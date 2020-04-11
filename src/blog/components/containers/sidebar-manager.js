@@ -10,7 +10,7 @@ import TreeManager from "./tree-manager";
 import Spinner from "../generic/spinner";
 import {
   Divider,
-  PrimaryNavButton
+  StyledSidebarButton
 } from "../universal/layout/styled-sidebar-elements";
 
 /**
@@ -57,23 +57,19 @@ function SidebarManager({
         </div>
       ) : (
         <div>
-          <PrimaryNavButton type="button" onClick={navigateToHome}>
+          <StyledSidebarButton type="button" onClick={navigateToHome}>
             <EmojiPeopleOutlinedIcon /> About
-          </PrimaryNavButton>
-          <PrimaryNavButton
-            type="button"
-            onClick={navigateToMapView}
-            active={view === "map"}
-          >
+          </StyledSidebarButton>
+          <StyledSidebarButton type="button" onClick={navigateToMapView}>
             <MapOutlinedIcon /> Map
-          </PrimaryNavButton>
-          <PrimaryNavButton
+          </StyledSidebarButton>
+          <StyledSidebarButton
             type="button"
             onClick={openFilterDialog}
             active={Object.keys(filters).length > 0}
           >
             <SearchOutlinedIcon /> Search
-          </PrimaryNavButton>
+          </StyledSidebarButton>
 
           <Divider />
 

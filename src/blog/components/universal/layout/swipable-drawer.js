@@ -46,7 +46,7 @@ export default function StyledSwipeableDrawer({
 const drawerWidth = 325;
 
 const DrawerContainer = styled.div`
-  margin: 50px 0;
+  margin: 30px 0;
   color: rgb(184, 183, 173);
 `;
 
