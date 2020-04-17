@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const WhiteParagraph = styled.p`
-  font-size: 15px;
   line-height: 25px;
 `;
 const WhiteBtn = styled.button`

@@ -2,16 +2,18 @@
  * Global CSS styles applied to the entire app
  */
 
-html,
-body,
-.container-fluid,
-#root {
-  height: 100%;
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 100;
+  font-size: 14px;
+}
+
+body .container-fluid,
+#root {
+  font-family: "Open Sans", sans-serif;
+  height: 100%;
+  margin: 0;
   font-size: 1rem;
 }
 
@@ -85,13 +87,6 @@ b {
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-}
-
-/* External Monitors */
-@media (min-width: 1500px) {
-  html {
-    font-size: 1.2rem;
-  }
 }
 
 /**

@@ -17,7 +17,6 @@ export const StyledSidebarButton = styled.button`
   border: none;
   padding: ${horizPadding};
   height: 25px;
-  font-size: 13px;
   display: block;
   cursor: pointer;
   color: ${props => (props.active ? "rgb(255, 69, 0)" : "rgb(184, 183, 173)")};

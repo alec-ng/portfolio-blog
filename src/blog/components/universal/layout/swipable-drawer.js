@@ -52,6 +52,7 @@ const DrawerContainer = styled.div`
 
 const useStyles = makeStyles(() => ({
   drawerPaper: {
+    fontSize: "1rem",
     width: drawerWidth,
     backgroundColor: "#373a47",
     "&::-webkit-scrollbar": {
