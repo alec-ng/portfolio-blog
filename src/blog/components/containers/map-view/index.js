@@ -59,10 +59,10 @@ function MapView({ filteredPosts, toggleFilter }) {
   }
 
   // Generate markers
-  const markers = getMockData(filteredPosts).map(post => {
+  const markers = filteredPosts.map(post => {
     return (
       <Marker
-        position={post.latlng}
+        position={[post.lat, post.lng]}
         onclick={onClick}
         key={post.postDataId}
         data-key={post.postDataId}
@@ -102,24 +102,3 @@ const isEqual = (prev, next) => {
   return prev.filteredPosts === next.filteredPosts;
 };
 export default React.memo(MapView, isEqual);
-
-const mockCoords = [
-  [49.3380843, -122.4778893],
-  [49.3767417, -123.3905933],
-  [61.6173254, -89.155712],
-  [22.41417, 114.24852],
-  [44.21371, 18.799537],
-  [45.18978, 19.371818],
-  [-42.747012, 171.540063]
-];
-
-function getMockData(filteredPosts) {
-  if (!filteredPosts) {
-    return [];
-  }
-  return filteredPosts.map((post, i) =>
-    Object.assign({}, post, {
-      latlng: mockCoords[i % mockCoords.length]
-    })
-  );
-}
