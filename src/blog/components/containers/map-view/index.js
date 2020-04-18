@@ -62,7 +62,7 @@ function MapView({ filteredPosts, toggleFilter }) {
   const markers = filteredPosts.map(post => {
     // HOTFIX: until data is retroactively populated
     const latlng =
-      post.lat && post.lng ? [post.lat, post.lng] : [41.68331, 189.8597]; // middle of ocean
+      post.lat && post.lng ? [post.lat, post.lng] : [49.177407, -123.122667]; // middle of ocean
 
     return (
       <Marker
