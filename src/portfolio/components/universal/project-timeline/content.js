@@ -11,7 +11,7 @@ export default [
     data: (
       <>
         <Title>react-brandywine-editor</Title>
-        <h2>npm package / React Library</h2>
+        <h5>npm package / React Library</h5>
         <p>
           An open source WYSIWYG block editor for creating blogging content. Try
           out a
@@ -69,7 +69,7 @@ export default [
     data: (
       <>
         <Title>alecng.ca/blog</Title>
-        <h2>React Application</h2>
+        <h5>React Application</h5>
         <p>
           Personal blog where I write about my hikes and travels. See the live
           version <a href="/blog">here</a>.
@@ -89,7 +89,7 @@ export default [
     data: (
       <>
         <Title>fully-convolutional-network-semantic-segmentation</Title>
-        <h2>Computer Vision Script</h2>
+        <h5>Computer Vision Script</h5>
         <p>
           Python script that identifies a human in an RGB image and segments the
           figure from the image background, using a trained convolutional neural
