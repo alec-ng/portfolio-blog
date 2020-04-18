@@ -60,9 +60,13 @@ function MapView({ filteredPosts, toggleFilter }) {
 
   // Generate markers
   const markers = filteredPosts.map(post => {
+    // HOTFIX: until data is retroactively populated
+    const latlng =
+      post.lat && post.lng ? [post.lat, post.lng] : [41.68331, 189.8597]; // middle of ocean
+
     return (
       <Marker
-        position={[post.lat, post.lng]}
+        position={latlng}
         onclick={onClick}
         key={post.postDataId}
         data-key={post.postDataId}
