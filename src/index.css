@@ -94,6 +94,9 @@ b {
 /**
  * brandywine editor overrides
  */
+#global-editor-container {
+  padding-bottom: 30px;
+}
 #global-editor-container .brandywine-responsive-caption {
   color: rgb(0, 0, 0);
 }

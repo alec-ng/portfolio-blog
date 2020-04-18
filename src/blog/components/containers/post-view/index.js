@@ -70,7 +70,7 @@ function PostContent({ filteredPosts, metadata, title }) {
       <LoadingOverlay type="circular" visible={postDataPending} />
       {!postDataPending && (
         <Fade in={true}>
-          <div id="global-editor-container" className="mb-5">
+          <div id="global-editor-container">
             <Editor pageData={postData} metadata={metadata} />
             <Divider />
             <EndContentNavigator
