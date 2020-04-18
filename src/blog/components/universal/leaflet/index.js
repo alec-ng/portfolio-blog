@@ -7,11 +7,11 @@ import { MapContainer, MapStyles, ControlsContainer } from "./styles";
 const config = {
   maxBoundsViscosity: 1,
   maxBounds: [
-    [-65, -180],
+    [-90, -180],
     [90, 180]
   ],
-  zoomDelta: 0.5,
-  zoomSnap: 0.5,
+  zoomDelta: 1.5,
+  zoomSnap: 1.5,
   minZoom: getResponsiveMinZoom(),
   center: [20, 20],
   zoom: getResponsiveMinZoom(),
