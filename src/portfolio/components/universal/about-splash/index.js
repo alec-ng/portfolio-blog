@@ -14,7 +14,7 @@ import DescriptionOutlinedIcon from "@material-ui/icons/Description";
 import "./styles.css";
 
 const LandingDiv = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background: url(${bg_main}) no-repeat center center;
   -webkit-background-size: cover;

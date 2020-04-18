@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Map, TileLayer, FeatureGroup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/dist/styles.min.css";
-import { MapContainer, MapStyles } from "./styles";
+import { MapContainer, MapStyles, ControlsContainer } from "./styles";
 
 const config = {
   maxBoundsViscosity: 1,
@@ -37,7 +37,7 @@ export default function ReactLeaflet({
 
   return (
     <MapContainer id="react-leaflet-container">
-      {children}
+      <ControlsContainer>{children}</ControlsContainer>
       <Map ref={mapRef} {...config}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -34,7 +34,8 @@ export default function NotFound({ body }) {
 const Container = styled.div`
   display: flex;
   text-align: center;
-  height: 80vh;
+  height: 100%;
+  padding: 30px;
   justify-content: center;
   flex-direction: column;
 `;

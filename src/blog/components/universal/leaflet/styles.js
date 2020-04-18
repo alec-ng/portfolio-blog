@@ -41,9 +41,13 @@ export const ZoomOutButton = styled(BaseMapButton)`
 `;
 
 export const MapContainer = styled.div`
+  height: calc(100% - ${appbarHeight});
+`;
+
+export const ControlsContainer = styled.div`
   position: relative;
 `;
 
 export const MapStyles = {
-  height: `calc(100vh - ${appbarHeight})`
+  height: "100%"
 };

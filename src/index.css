@@ -7,9 +7,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 100;
   font-size: 14px;
+  height: 100%;
 }
 
-body .container-fluid,
+body,
+.container-fluid,
 #root {
   font-family: "Open Sans", sans-serif;
   height: 100%;
