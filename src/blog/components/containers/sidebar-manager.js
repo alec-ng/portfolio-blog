@@ -33,8 +33,8 @@ function SidebarManager({
   function navigateToMapView() {
     if (view !== "map") {
       history.push(constructMapPath(location));
-      toggleDrawer(false);
     }
+    toggleDrawer(false);
   }
 
   function navigateToHome() {
