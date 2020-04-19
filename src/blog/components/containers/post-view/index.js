@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import usePostData from "./usePostData";
+import usePrevious from "../../../hooks/usePrevious";
 
 import { getOrderedPosts, usePostEffects } from "./util";
 import { getPostMappings } from "../../../util/post-util";
@@ -47,9 +48,9 @@ function PostContent({ filteredPosts, metadata, title }) {
   const orderedPosts = useMemo(() => getOrderedPosts(filteredPosts), [
     filteredPosts
   ]);
-  const currIndex = orderedPosts.findIndex(
-    post => post.postDataId === metadata.postDataId
-  );
+  const prevId = usePrevious(metadata.postDataId);
+  const currIndex = orderedPosts.findIndex(post => post.postDataId === prevId);
+
   const prevIndex = currIndex - 1 < 0 ? orderedPosts.length - 1 : currIndex - 1;
   const nextIndex = currIndex + 1 >= orderedPosts.length ? 0 : currIndex + 1;
 
