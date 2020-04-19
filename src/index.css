@@ -2,16 +2,20 @@
  * Global CSS styles applied to the entire app
  */
 
-html,
-body,
-.container-fluid,
-#root {
-  height: 100%;
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 100;
+  font-size: 14px;
+  height: 100%;
+}
+
+body,
+.container-fluid,
+#root {
+  font-family: "Open Sans", sans-serif;
+  height: 100%;
+  margin: 0;
   font-size: 1rem;
 }
 
@@ -87,19 +91,47 @@ b {
 @media (min-width: 1200px) {
 }
 
-/* External Monitors */
-@media (min-width: 1500px) {
-  html {
-    font-size: 1.2rem;
-  }
-}
-
 /**
  * brandywine editor overrides
  */
+#global-editor-container {
+  padding-bottom: 30px;
+}
 #global-editor-container .brandywine-responsive-caption {
   color: rgb(0, 0, 0);
 }
 #global-editor-container strong {
   font-weight: 700;
+}
+
+/**
+ * leaflet overrides
+ */
+#react-leaflet-container .leaflet-left .leaflet-control {
+  margin-left: 20px;
+}
+
+/* Touch controls should have same styles  as normal click controls */
+#react-leaflet-container .leaflet-touch .leaflet-bar a {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+}
+#react-leaflet-container .leaflet-touch .leaflet-control-zoom-in,
+.leaflet-touch .leaflet-control-zoom-out {
+  font-size: 18px;
+}
+#react-leaflet-container .leaflet-touch .leaflet-bar a:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+#react-leaflet-container .leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+#react-leaflet-container .leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: none;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
 }
