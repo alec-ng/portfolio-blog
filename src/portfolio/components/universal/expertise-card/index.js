@@ -13,12 +13,11 @@ export default function ExpertiseSection() {
             <section className="mt-3">
               <h4>Front-end</h4>
               <PrimaryChip label="React" />
-              <PrimaryChip label="ES6 JavaScript" />
+              <PrimaryChip label="JavaScript" />
               <PrimaryChip label="Redux" />
               <PrimaryChip label="Node.js" />
+              <PrimaryChip label="SASS" />
               <PrimaryChip label="Jest" />
-              <PrimaryChip label="Enzyme" />
-              <PrimaryChip label="HTML5 / CSS3" />
               <PrimaryChip label="Webpack" />
             </section>
             <section className="mt-3">
@@ -27,7 +26,6 @@ export default function ExpertiseSection() {
               <PrimaryChip label="SQL" />
               <PrimaryChip label="NoSQL Databases" />
               <PrimaryChip label="Relational Database Design" />
-              <PrimaryChip label="Salesforce Apex (Java-inspired OOP language)" />
             </section>
             <section className="mt-3">
               <h4>Software Practices</h4>
@@ -36,18 +34,6 @@ export default function ExpertiseSection() {
               <PrimaryChip label="Git" />
               <PrimaryChip label="Open Source" />
               <PrimaryChip label="TDD/BDD" />
-            </section>
-            <section className="mt-3">
-              <h4>Salesforce</h4>
-              <PrimaryChip label="Certified Platform Developer I" />
-              <PrimaryChip label="Certified Administrator" />
-              <PrimaryChip label="Aura Components" />
-              <PrimaryChip label="LWC" />
-              <PrimaryChip label="Apex" />
-              <PrimaryChip label="SFDX" />
-              <PrimaryChip label="SOQL" />
-              <PrimaryChip label="Community Cloud" />
-              <PrimaryChip label="Service Cloud" />
             </section>
           </div>
         </Card>

@@ -6,7 +6,7 @@ export default [
     data: (
       <>
         <h3>Senior Technical Consultant</h3>
-        <h2>{GroundswellLink}</h2>
+        <h5>{GroundswellLink}</h5>
         <UnorderedList>
           <li>
             Facilitated the technical architecture of a SaaS application
@@ -37,7 +37,7 @@ export default [
     data: (
       <>
         <h3>Technical Consultant</h3>
-        <h2>{GroundswellLink}</h2>
+        <h5>{GroundswellLink}</h5>
         <UnorderedList>
           <li>
             Fostered a 1.5 year long relationship with a client where I led the
@@ -75,7 +75,7 @@ export default [
     data: (
       <>
         <h3>Software Engineer Co-op</h3>
-        <h2>{GroundswellLink}</h2>
+        <h5>{GroundswellLink}</h5>
         <UnorderedList>
           <li>
             Published a Salesforce managed package written in JavaScript that
@@ -96,7 +96,7 @@ export default [
     data: (
       <>
         <h3>.NET Developer Co-op</h3>
-        <h2>
+        <h5>
           <a
             href="https://www.avanti.com/"
             target="_blank"
@@ -104,7 +104,7 @@ export default [
           >
             Avanti Commerce
           </a>
-        </h2>
+        </h5>
         <UnorderedList>
           <li>
             Optimized an internal PDF exporting tool by converting it from a
