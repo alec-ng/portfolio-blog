@@ -98,10 +98,22 @@ b {
   padding-bottom: 30px;
 }
 #global-editor-container .brandywine-responsive-caption {
-  color: rgb(0, 0, 0);
+  color: rgba(0, 0, 0, 0.7);
 }
 #global-editor-container strong {
   font-weight: 700;
+}
+#global-editor-container .brandywine-width_large {
+  max-width: 850px;
+}
+
+@media (min-width: 768px) {
+  #global-editor-container .brandywine-width_medium {
+    max-width: 600px;
+  }
+  #global-editor-container .brandywine-width_small {
+    max-width: 500px;
+  }
 }
 
 /**

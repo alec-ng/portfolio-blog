@@ -9,3 +9,17 @@
 .custom-vert-timeline.vertical-timeline::before {
   box-shadow: 0 0 15px #ddd;
 }
+
+.custom-vert-timeline .vertical-timeline-element-content p {
+  font-size: 1rem;
+  font-weight: 100;
+}
+
+@media (max-width: 1169px) {
+  .custom-vert-timeline span.vertical-timeline-element-date {
+    padding: 0;
+  }
+}
+.custom-vert-timeline span.vertical-timeline-element-date {
+  font-size: 1rem;
+}

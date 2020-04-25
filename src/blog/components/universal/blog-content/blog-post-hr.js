@@ -18,7 +18,6 @@ const LineContainer = styled.div`
   height: 1px;
   border: 1px solid #373a47;
   border-collapse: collapse;
-  width: 60%;
   margin: 75px auto 0 auto;
 `;
 const IconContainer = styled.span`

@@ -73,12 +73,14 @@ function PostContent({ filteredPosts, metadata, title }) {
         <Fade in={true}>
           <div id="global-editor-container">
             <Editor pageData={postData} metadata={metadata} />
-            <Divider />
-            <EndContentNavigator
-              onButtonClick={onNavigationPostClick}
-              prevPost={orderedPosts[prevIndex]}
-              nextPost={orderedPosts[nextIndex]}
-            />
+            <div className="brandywine-width_large brandywine-responsive-x-padding mx-auto">
+              <Divider />
+              <EndContentNavigator
+                onButtonClick={onNavigationPostClick}
+                prevPost={orderedPosts[prevIndex]}
+                nextPost={orderedPosts[nextIndex]}
+              />
+            </div>
           </div>
         </Fade>
       )}

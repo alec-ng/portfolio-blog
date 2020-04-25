@@ -48,7 +48,7 @@ export default [
     data: (
       <>
         <Title>react-brandywine-cms</Title>
-        <h2>React Application</h2>
+        <h5>React Application</h5>
         <p>
           A custom CMS application created to manage my blog. Content is created
           with react-brandywine-editor and data stored in a NoSQL Firebase

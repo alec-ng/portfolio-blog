@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 export const UnorderedList = styled.ul`
   color: #303e49;
+  margin: 1rem 0;
   padding-inline-start: 20px;
   li {
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
   }
 `;
 
