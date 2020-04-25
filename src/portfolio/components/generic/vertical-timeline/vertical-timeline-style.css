@@ -14,3 +14,12 @@
   font-size: 1rem;
   font-weight: 100;
 }
+
+@media (max-width: 1169px) {
+  .custom-vert-timeline span.vertical-timeline-element-date {
+    padding: 0;
+  }
+}
+.custom-vert-timeline span.vertical-timeline-element-date {
+  font-size: 1rem;
+}
