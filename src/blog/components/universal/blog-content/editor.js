@@ -22,6 +22,7 @@ const plugins = [
 /**
  * Renders page data in readonly BrandywineEditor instance and collection
  * specific metadata
+ * See index.css for brandywine css overrides + customizztion
  */
 function Editor({ pageData, metadata }) {
   return (

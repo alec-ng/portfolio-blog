@@ -1,9 +1,46 @@
 import React from "react";
 import styled from "styled-components";
 
+/**
+ * Renders buttons to navigate to the next/previous posts (relative to the current post)
+ */
+export default function EndContentNavigator({
+  onButtonClick,
+  prevPost,
+  nextPost
+}) {
+  return (
+    <Container>
+      <div className="row text-center">
+        <div className="col">
+          <ButtonLink
+            type="button"
+            data-direction="previous"
+            onClick={onButtonClick}
+          >
+            <h6 className="text-muted">Previous</h6>
+            <h4>{prevPost.title}</h4>
+          </ButtonLink>
+        </div>
+        <div className="col">
+          <ButtonLink
+            type="button"
+            data-diretion="next"
+            onClick={onButtonClick}
+          >
+            <h6 className="text-muted">Next</h6>
+            <h4>{nextPost.title}</h4>
+          </ButtonLink>
+        </div>
+      </div>
+    </Container>
+  );
+}
+
+// ------- STYLES
+
 const Container = styled.div`
   margin: 25px auto 0 auto;
-  width: 60%;
 `;
 
 const ButtonLink = styled.button`
@@ -29,39 +66,3 @@ const ButtonLink = styled.button`
     left: 0;
   }
 `;
-
-/**
- * Renders buttons to navigate to the next/previous posts (relative to the current post)
- */
-export default function EndContentNavigator({
-  onButtonClick,
-  prevPost,
-  nextPost
-}) {
-  return (
-    <Container>
-      <div className="row text-center">
-        <div className="col">
-          <ButtonLink
-            type="button"
-            data-direction="previous"
-            onClick={onButtonClick}
-          >
-            <h6 className="text-muted">Previous</h6>
-            <h3>{prevPost.title}</h3>
-          </ButtonLink>
-        </div>
-        <div className="col">
-          <ButtonLink
-            type="button"
-            data-diretion="next"
-            onClick={onButtonClick}
-          >
-            <h6 className="text-muted">Next</h6>
-            <h3>{nextPost.title}</h3>
-          </ButtonLink>
-        </div>
-      </div>
-    </Container>
-  );
-}
