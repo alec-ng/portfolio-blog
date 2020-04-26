@@ -19,7 +19,7 @@ export default function EndContentNavigator({
             onClick={onButtonClick}
           >
             <h6 className="text-muted">Previous</h6>
-            <h4>{prevPost.title}</h4>
+            <h5>{prevPost.title}</h5>
           </ButtonLink>
         </div>
         <div className="col">
@@ -29,7 +29,7 @@ export default function EndContentNavigator({
             onClick={onButtonClick}
           >
             <h6 className="text-muted">Next</h6>
-            <h4>{nextPost.title}</h4>
+            <h5>{nextPost.title}</h5>
           </ButtonLink>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function EndContentNavigator({
 // ------- STYLES
 
 const Container = styled.div`
-  margin: 25px auto 0 auto;
+  margin: 2rem auto 0 auto;
 `;
 
 const ButtonLink = styled.button`

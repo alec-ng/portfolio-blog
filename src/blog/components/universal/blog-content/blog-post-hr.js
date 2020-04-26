@@ -16,7 +16,7 @@ const LineContainer = styled.div`
   position: relative;
   overflow: visible;
   height: 1px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.45);
   border-collapse: collapse;
   margin: 5rem auto 0 auto;
 `;
