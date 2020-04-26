@@ -16,9 +16,9 @@ const LineContainer = styled.div`
   position: relative;
   overflow: visible;
   height: 1px;
-  border: 1px solid #373a47;
+  border: 1px solid rgba(0, 0, 0, 0.25);
   border-collapse: collapse;
-  margin: 75px auto 0 auto;
+  margin: 5rem auto 0 auto;
 `;
 const IconContainer = styled.span`
   position: absolute;
