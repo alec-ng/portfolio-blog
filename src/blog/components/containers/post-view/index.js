@@ -51,8 +51,9 @@ function PostContent({ filteredPosts, metadata, title }) {
   const prevId = usePrevious(metadata.postDataId);
   const currIndex = orderedPosts.findIndex(post => post.postDataId === prevId);
 
-  const prevIndex = currIndex - 1 < 0 ? orderedPosts.length - 1 : currIndex - 1;
-  const nextIndex = currIndex + 1 >= orderedPosts.length ? 0 : currIndex + 1;
+  // "prev" implies an older opst, and "next" implies a more recent one
+  const prevIndex = currIndex + 1 >= orderedPosts.length ? 0 : currIndex + 1;
+  const nextIndex = currIndex - 1 < 0 ? orderedPosts.length - 1 : currIndex - 1;
 
   // On prev/next post click, navigate to chosen post
   const history = useHistory();
