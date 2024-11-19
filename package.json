@@ -6,7 +6,7 @@
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "bootstrap": "^4.4.1",
-    "firebase": "^7.2.1",
+    "firebase": "^10.9.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
     "query-strings": "0.0.1",
