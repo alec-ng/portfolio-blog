@@ -4,12 +4,10 @@ import styled from "styled-components";
 
 import headshot from "../../../../assets/home/headshot.jpg";
 import bg_main from "../../../../assets/home/home-bg-main.jpg";
-import resume from "../../../../assets/home/alec-ng-resume.pdf";
 
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import MailIcon from "@material-ui/icons/Mail";
 import WorkIcon from "@material-ui/icons/Work";
-import DescriptionOutlinedIcon from "@material-ui/icons/Description";
 
 import "./styles.css";
 
@@ -75,11 +73,6 @@ export default function AboutSplash(props) {
                     href="https://www.linkedin.com/in/alecng"
                   >
                     &nbsp;&nbsp;LinkedIn
-                  </a>
-                  <br />
-                  <DescriptionOutlinedIcon />
-                  <a target="_blank" rel="noopener noreferrer" href={resume}>
-                    &nbsp;&nbsp;Resume
                   </a>
                 </div>
               </div>
