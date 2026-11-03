@@ -23,10 +23,18 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      # This browser-only build does not use the legacy native grpc module.
       - name: Install Dependencies
-        run: npm install
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Build
         run: npm run build
+        env:
+          # react-scripts 3 uses Webpack 4, which needs the legacy OpenSSL provider.
+          NODE_OPTIONS: --openssl-legacy-provider
       - name: Use production project
         uses: w9jds/firebase-action@master
         with:
