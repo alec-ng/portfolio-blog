@@ -24,11 +24,13 @@ export default function TextActionContainer(props) {
           <WhiteParagraph>{props.text}</WhiteParagraph>
         </div>
       </div>
-      <div className="text-center">
-        <a href={props.linkPath} rel="noopener noreferrer" target="_blank">
-          <WhiteBtn type="button">{props.linkText}</WhiteBtn>
-        </a>
-      </div>
+      {props.linkPath && props.linkText && (
+        <div className="text-center">
+          <a href={props.linkPath} rel="noopener noreferrer" target="_blank">
+            <WhiteBtn type="button">{props.linkText}</WhiteBtn>
+          </a>
+        </div>
+      )}
     </>
   );
 }
