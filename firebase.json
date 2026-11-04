@@ -11,6 +11,18 @@
       "headers": [
         {"source": "/service-worker.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
       ],
+      "redirects": [
+        {
+          "source": "/",
+          "destination": "https://www.linkedin.com/in/alecng",
+          "type": 301
+        },
+        {
+          "source": "/index.html",
+          "destination": "https://www.linkedin.com/in/alecng",
+          "type": 301
+        }
+      ],
       "rewrites": [
         {
           "source": "**",
@@ -28,6 +40,18 @@
       ],
       "headers": [
         {"source": "/service-worker.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
+      ],
+      "redirects": [
+        {
+          "source": "/",
+          "destination": "https://www.linkedin.com/in/alecng",
+          "type": 301
+        },
+        {
+          "source": "/index.html",
+          "destination": "https://www.linkedin.com/in/alecng",
+          "type": 301
+        }
       ],
       "rewrites": [
         {
